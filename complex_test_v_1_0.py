@@ -17,7 +17,7 @@ driver.maximize_window()
 # Добавляем action
 action = action_chains.ActionChains(driver)
 #
-wait = WebDriverWait(driver, 20)
+wait = WebDriverWait(driver, 60)
 # Заходим на сайт
 driver.get(site_url)
 # Вводим логин
@@ -48,27 +48,78 @@ search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % contract_type_name))).click()
 # Проставляем дату документа
 today = date.today()
+today = today.strftime("%d.%m.%Y")
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, doc_date_input_xpath)))
-search_element.send_keys(str(today.strftime("%d.%m.%Y")))
+search_element.send_keys(str(today))
 search_element.send_keys(Keys.RETURN)
 # Ждём пока не появятся комментарии. Служит обозначением, что внутреннее тестирование началось
 search_element = wait.until(
 	EC.visibility_of_any_elements_located((By.ID, comment_div_id)))
+# Берём ID документа
+url = driver.current_url
+hash_tag = url[url.find('#') + 1:]
+params = dict(x.split('=') for x in hash_tag.split('&'))
+doc_id = params['id']
+# ID документа созданного по шаблону (060 + ID документа)
+barcode_template_doc = "060" + doc_id
+#
+reg_num = driver.find_element_by_id('regNum')
+reg_num = reg_num.get_attribute('innerHTML')
+reg_num = reg_num.strip()
 # Переходим в раздел с переданным значением
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, contracts_file_button_xpath))).click()
 # Нажимаем клавишу Добавить
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, contracts_add_button_xpath))).click()
+time.sleep(1)
 # Нажимаем на клавишу По шаблону
 search_element = wait.until(
-	EC.visibility_of_element_located((By.XPATH, contracts_template_xpath)))
+	EC.element_to_be_clickable((By.XPATH, contracts_template_xpath)))
 search_element.click()
 # Выбераем шаблон
 search_element = wait.until(
 	EC.visibility_of_element_located((By.XPATH, create_template_xpath)))
 search_element.click()
+# Закрываем просмоторщик созданного файла
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_viewer_xpath))).click()
+# Закрываем договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.ID, ok_button_id))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, barcode_xpath))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, archive_xpath))).click()
+#
+time.sleep(1)
+search_element = driver.find_element_by_id('barcode')
+#
+search_element.send_keys(barcode_folder_name)
+search_element.send_keys(Keys.RETURN)
+time.sleep(1)
+search_element.send_keys(barcode_template_doc)
+search_element.send_keys(Keys.RETURN)
+#
+time.sleep(1)
+# search_element = wait.until(
+#	EC.invisibility_of_element_located((By.XPATH, loading_xpath)))
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, archive_table_include_xpath))
+)
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, remove_radiobutton_xpath))).click()
+#
+search_element = driver.find_element_by_id('barcode')
+search_element.send_keys(barcode_template_doc)
+search_element.send_keys(Keys.RETURN)
+#
+# search_element = driver.find_element_by_xpath("//div[text()='%s от %s']" % reg_num % str(today)).click()
 # Закрыть Хром
 time.sleep(sleep_time)
 driver.close()
