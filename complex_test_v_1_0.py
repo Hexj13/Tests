@@ -16,7 +16,7 @@ driver = webdriver.Chrome()
 driver.maximize_window()
 # Добавляем action
 action = action_chains.ActionChains(driver)
-#
+# Установим тайм для драйвера
 wait = WebDriverWait(driver, 60)
 # Заходим на сайт
 driver.get(site_url)
@@ -88,38 +88,61 @@ search_element = wait.until(
 # Закрываем договор
 search_element = wait.until(
 	EC.element_to_be_clickable((By.ID, ok_button_id))).click()
-#
+# Открываем подменю "Штрих-кода"
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, barcode_xpath))).click()
-#
+# Нажимаем Архив
+time.sleep(1)
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, archive_xpath))).click()
-#
+# Находим поле ввода
 time.sleep(1)
 search_element = driver.find_element_by_id('barcode')
-#
+# Вводим данные
 search_element.send_keys(barcode_folder_name)
 search_element.send_keys(Keys.RETURN)
 time.sleep(1)
 search_element.send_keys(barcode_template_doc)
 search_element.send_keys(Keys.RETURN)
-#
+# Спим (необходимо)
 time.sleep(1)
 # search_element = wait.until(
 #	EC.invisibility_of_element_located((By.XPATH, loading_xpath)))
 #
+# Проверка на наличие файлов
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, archive_table_include_xpath))
 )
-#
+# Переключаемся на извлечение
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, remove_radiobutton_xpath))).click()
-#
+# Извлекаем
 search_element = driver.find_element_by_id('barcode')
 search_element.send_keys(barcode_template_doc)
 search_element.send_keys(Keys.RETURN)
+# Переходим в Договоры
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, contracts_xpath))).click()
+# Спим
+time.sleep(3)
+# Переходим в договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, contracts_table_xpath))).click()
+action.double_click().perform()
+# Нажимаем кнопку с группой
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, test_group_button_xpath))).click()
+# Нажимаем Делегировать
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delegation_button_xpath))).click()
+# Нажимаем Сотрудник
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, employee_button_xpath))).click()
+# Выбераем сотрудника
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delegation_member_xpath))).click()
+action.double_click().perform()  # Двойной клик
 #
-# search_element = driver.find_element_by_xpath("//div[text()='%s от %s']" % reg_num % str(today)).click()
 # Закрыть Хром
 time.sleep(sleep_time)
 driver.close()
