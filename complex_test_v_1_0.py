@@ -142,7 +142,30 @@ search_element = wait.until(
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, delegation_member_xpath))).click()
 action.double_click().perform()  # Двойной клик
+# Закрываем окно с выбором сотрудников
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, close_button_xpath))).click()
+# Нажимаем кнопку добавления контрагента
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, linkage_button_xpath))).click()
 #
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, employee_contragent_add_xpath))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, customer_contragent_add_xpath))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, flexbby_contragent_add_xpath))).click()
+action.double_click().perform()  # Двойной клик
+#
+#  Нажимаем кнопку Удалить договор
+time.sleep(15)
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_contract_xpath))).click()
+# Нажимаем Enter
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_delete_contract_xpath))).click()
 # Закрыть Хром
 time.sleep(sleep_time)
 driver.close()
