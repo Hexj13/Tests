@@ -45,6 +45,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-/configs
 .idea
-complex testing/complex_test_config.py
+complex_testing/content_config.py
+entity_testing/content_config.pyc
+entity_testing/content_config.py
+*.log
+*.pyc

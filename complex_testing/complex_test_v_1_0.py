@@ -9,7 +9,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from configs.complex_test_config import *
+from elements_config import *
+from content_config import *
 
 # Откроем Хром
 driver = webdriver.Chrome()
