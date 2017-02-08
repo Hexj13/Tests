@@ -60,14 +60,7 @@ contracts_template_xpath = "//div[@class='qx-menu-border']//div[text()='По ш�
 #
 create_template_xpath = "//div[text()='Тест шаблон (1)']"
 #
-# ok_button_viewer = ".//div[contains(text(), 'OK') and not(ancestor::div[contains(@style,'display:none')])and not(" \
-#                    "ancestor::div[contains(@style,'display: none') and not(ancestor::div[contains(@id,'okb')])])] "
-#
 ok_button_viewer_xpath = "//div[@class='qx-window']//div[text()='OK']"
-#
-# table_config_button_xpath = ".//img[@src = 'resource/webclient/images/table/table_config.png' and not(
-# ancestor::img[" \ "contains(@style,'display:none')])and not(ancestor::img[contains(@style,'display: " \ "none')])] "
-# loading_xpath = "div[text()='Передача данных']"
 #
 remove_radiobutton_xpath = "//div[@id='_removeDocument']//div[@class='qx-radiobutton']"
 #
@@ -100,8 +93,5 @@ flexbby_contragent_add_xpath = "//div[@class = 'qooxdoo-table-cell' and(text()='
                                "ancestor::div[contains(@style," \
                                "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
-# delete_contragent_button_xpath = "//div[@id = 'delete-button' and not(ancestor::div[contains(@style," \
-#                                  "'display:none')]) and " \
-#                                  "not(ancestor::div[contains(@style,'display: none')])]"
 delete_contragent_button_xpath = "//div[@class = 'qx-strip-dialog-container-underline' and not(ancestor::div[" \
                                  "contains(@style,'display: none')])][1]//div[@id = 'delete-button']"

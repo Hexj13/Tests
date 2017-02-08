@@ -51,3 +51,4 @@ entity_testing/content_config.pyc
 entity_testing/content_config.py
 *.log
 *.pyc
+screens/

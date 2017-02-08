@@ -108,9 +108,6 @@ search_element.send_keys(barcode_template_doc)
 search_element.send_keys(Keys.RETURN)
 # Спим (необходимо)
 time.sleep(1)
-# search_element = wait.until(
-#	EC.invisibility_of_element_located((By.XPATH, loading_xpath)))
-#
 # Проверка на наличие файлов
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, archive_table_include_xpath))
@@ -163,8 +160,10 @@ search_element = wait.until(
 # Выбираем Юр. Лицо
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, flexbby_contragent_add_xpath))).click()
+time.sleep(1)
 action.send_keys(Keys.RETURN).perform()  # Enter
-time.sleep(3)
+#TODO: Сделать проверку на инвизибл перед нажатием "удалить" !!!
+time.sleep(10)
 # Удаляем контрагента
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, delete_contragent_button_xpath))).click()
@@ -176,7 +175,7 @@ search_element = wait.until(
 time.sleep(15)
 # Делаем скриншот
 scr_name = today + "_" + "docID" + doc_id + "_" + "complex" + "_" + "test" + ".png"
-driver.save_screenshot('C:\Users\Operator\Desktop\Work\Tests\Screen\\%s' % scr_name)
+driver.save_screenshot('C:\Users\Operator\Desktop\Testing\Tests\screens\\%s' % scr_name)
 # Удаить договор
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, delete_contract_xpath))).click()
