@@ -16,9 +16,9 @@ ten_sec = 10
 """"XPATH"""
 
 """КНОПКИ"""
-
 #
-overall_button_xpath = "//div[contains(text(),'Общее')and not(ancestor::div[contains(@style," \
+overall_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Общее')and not(" \
+                       "ancestor::div[contains(@style," \
                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 contracts_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Договоры')and " \
@@ -32,6 +32,15 @@ accounts_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']/
 orders_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Заказы')and " \
                       "not(ancestor::div[contains(@style," \
                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+sales_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Продажи')and not(" \
+                     "ancestor::div[contains(@style," \
+                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+matching_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text()," \
+                        "'Согласование')and not(" \
+                        "ancestor::div[contains(@style," \
+                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 employees_button_xpath = "//div[contains(text(),'Сотрудники')and not(ancestor::div[contains(@style," \
                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
@@ -59,12 +68,15 @@ activity_type_button_xpath = "//div[@id = 'CompanyActivityType_objectID'and not(
 employee_delete_button_xpath = "//div[@class = 'qx-button-common-border-middle' and not(ancestor::div[contains(@style," \
                                "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[" \
                                "contains(text(), 'Удалить')] "
+#
+account_doc_select_button_xpath = "//div[@id = 'parentID']//div[2]"
+#
 """ИНПУТЫ"""
 #
 doc_date_input_xpath = "//div[@id='docDate']//input"
 #
-contracts_type_input_xpath = ".//div[@id='documentTypeID' and not(ancestor::div[contains(@style,'display:none')])and " \
-                             "not(ancestor::div[contains(@style,'display: none')])]//input "
+doc_type_input_xpath = ".//div[@id='documentTypeID' and not(ancestor::div[contains(@style,'display:none')])and " \
+                       "not(ancestor::div[contains(@style,'display: none')])]//input "
 #
 account_type_input_xpath = ".//div[@id='planTypeID' and not(ancestor::div[contains(@style,'display:none')])and " \
                            "not(ancestor::div[contains(@style,'display: none')])]//input"
@@ -104,6 +116,7 @@ code_activity_type_input_xpath = "//input[@id = 'code' and not(ancestor::div[con
 #
 name_activity_type_input_xpath = "//input[@id = 'name' and not(ancestor::div[contains(@style," \
                                  "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
 
 """ОСТАЛЬНОЕ"""
 #
@@ -118,7 +131,9 @@ proposed_address_div_xpath = "//div[@id = 'proposed_addresses' and not(ancestor:
 #
 popup_menu_select_xpath = "//div[@class='qx-popup' and not(ancestor::div[contains(@style," \
                           "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text()='%s']"
-
+#
+select_document_account_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
+                                "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 """БАНКОВСКИЕ РЕКВИЗИТЫ XPATH"""
 
 add_bank_button_xpath = "//div[@class = 'qx-button-leading-border-left' and not(ancestor::div[contains(@style," \
