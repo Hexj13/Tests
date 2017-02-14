@@ -16,14 +16,31 @@ ten_sec = 10
 """"XPATH"""
 
 """КНОПКИ"""
+activity_add_button_xpath = "//div[@id = 'addActivity' and not(ancestor::div[contains(@style,'display:none')])and not(" \
+                            "ancestor::div[contains(@style,'display: none')])]"
 #
 overall_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Общее')and not(" \
                        "ancestor::div[contains(@style," \
                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
+add_tag_button_xpath = "//div[@id = 'addTag'and not(ancestor::div[contains(@style," \
+                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+params_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Параметры')and not(" \
+                      "ancestor::div[contains(@style," \
+                      "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
 contracts_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Договоры')and " \
                          "not(ancestor::div[contains(@style," \
                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+structure_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Структура')and " \
+                         "not(ancestor::div[contains(@style," \
+                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+files_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Файлы')and " \
+                     "not(ancestor::div[contains(@style," \
+                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 accounts_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Счета')and " \
                         "not(ancestor::div[contains(@style," \
@@ -50,13 +67,16 @@ entity_menu_button_xpath = "//div[text() = 'Юр. лица']"
 add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[contains(@style,'display:none')])and not(" \
                    "ancestor::div[contains(@style,'display: none')])]"
 #
-delete_button_xpath = "//div[@id = 'deleteb' and not(ancestor::div[contains(@style," \
-                      "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+delete_entity_button_xpath = "//div[@id = 'deleteb' and not(ancestor::div[contains(@style," \
+                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 ok_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
 #
 ok_button_xpath = "//div[@id = 'okb' and not(ancestor::div[contains(@style," \
                   "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+ok_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \
+                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 recvisits_button_xpath = "//div[contains(text(),'Реквизиты')and not(ancestor::div[contains(@style," \
                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
@@ -65,12 +85,26 @@ activity_type_button_xpath = "//div[@id = 'CompanyActivityType_objectID'and not(
                              "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@class = " \
                              "'qx-button-common-border']"
 #
-employee_delete_button_xpath = "//div[@class = 'qx-button-common-border-middle' and not(ancestor::div[contains(@style," \
-                               "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[" \
-                               "contains(text(), 'Удалить')] "
+delete_button_xpath = "//div[@class = 'qx-button-common-border-middle' and not(ancestor::div[contains(@style," \
+                      "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[" \
+                      "contains(text(), 'Удалить')] "
 #
 account_doc_select_button_xpath = "//div[@id = 'parentID']//div[2]"
 #
+close_window_button_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
+                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[" \
+                            "@id='close'] "
+#
+add_comment_button_xpath = "//div[@id = 'newCommentButton' and not(ancestor::div[contains(@style," \
+                           "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+save_comment_button_xpath = "//div[@id = 'saveComment' and not(ancestor::div[contains(@style," \
+                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+add_file_button_xpath = "//div[@id = 'addFileButton' and not(ancestor::div[contains(@style," \
+                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+
 """ИНПУТЫ"""
 #
 doc_date_input_xpath = "//div[@id='docDate']//input"
@@ -99,6 +133,12 @@ deactivateDate_input_xpath = "//div[@id = 'deactivateDate' and not(ancestor::div
 comment_input_xpath = "//input[@id = 'comment' and not(ancestor::div[contains(@style," \
                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
+structure_name_input_xpath = "//input[@id = 'name' and not(ancestor::div[contains(@style," \
+                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+file_name_input_xpath = "//input[@id = 'name' and not(ancestor::div[contains(@style," \
+                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
 okpo_input_xpath = "//input[@id = 'okpo' and not(ancestor::div[contains(@style," \
                    "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
@@ -119,6 +159,17 @@ name_activity_type_input_xpath = "//input[@id = 'name' and not(ancestor::div[con
 #
 
 """ОСТАЛЬНОЕ"""
+empty_table_xpath = "//div[@class = 'qooxdoo-table-cell' and (contains(@style," \
+                    "'background:  url('resource/webclient/images/table/pencil_selected.png')'))and not(" \
+                    "ancestor::div[contains(@style," \
+                    "'display:none')])and not(ancestor::div[contains(@style,'display: none')]) and (text() = '')]"
+#
+comment_textarea_xpath = "//textarea[@id = 'commentInput' and not(ancestor::div[contains(@style," \
+                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+selected_tag_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
+                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@class = " \
+                     "'qooxdoo-table-cell']//span[text() = '%s'] "
 #
 employee_table_xpath = "//parent::div[@class = 'qooxdoo-table-cell' and not(ancestor::div[contains(@style," \
                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
@@ -132,8 +183,13 @@ proposed_address_div_xpath = "//div[@id = 'proposed_addresses' and not(ancestor:
 popup_menu_select_xpath = "//div[@class='qx-popup' and not(ancestor::div[contains(@style," \
                           "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text()='%s']"
 #
-select_document_account_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
-                                "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+select_row_in_table_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
+                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+#
+add_folder_button_xpath = "//div[@class = 'qx-menu-border' and not(ancestor::div[contains(@style," \
+                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
+                          "'Папку'] "
+#
 """БАНКОВСКИЕ РЕКВИЗИТЫ XPATH"""
 
 add_bank_button_xpath = "//div[@class = 'qx-button-leading-border-left' and not(ancestor::div[contains(@style," \

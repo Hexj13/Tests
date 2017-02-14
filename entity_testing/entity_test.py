@@ -76,6 +76,75 @@ search_element.clear()
 search_element.send_keys(tomorrow_str)
 # Проставляем комментарий
 search_element = driver.find_element_by_xpath(comment_input_xpath).send_keys(comment_text)
+# Добавляем тег
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_tag_button_xpath))).click()
+# Выбираем тег
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, selected_tag_xpath % tag_name))).click()
+action.send_keys(Keys.RETURN).perform()
+# Закрываем окно с тегами
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, close_window_button_xpath))).click()
+time.sleep(two_sec)
+# Нажимаем кнопку Добавить Комментарий
+search_element = driver.find_element_by_xpath(add_comment_button_xpath).click()
+# Находим поле и вводим текст
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, comment_textarea_xpath))).click()
+action.send_keys(comment_text).perform()
+# Нажимаем Сохранить
+search_element = driver.find_element_by_xpath(save_comment_button_xpath).click()
+# Спим
+time.sleep(two_sec)
+# Нажимаем Добавить Автивность
+search_element = driver.find_element_by_xpath(activity_add_button_xpath).click()
+# Находим поле Типа активности
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, doc_type_input_xpath)))
+# Вводим в поле текст
+activity_type_text = unicode(activity_type_text.decode("utf-8"))
+search_element.send_keys(activity_type_text)
+# Находим и нажимаем в списке нужный тип активности
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % activity_type_text))).click()
+time.sleep(two_sec)
+
+""""""
+# # Переходим в Параметры
+# search_element = wait.until(
+# 	EC.element_to_be_clickable((By.XPATH, params_button_xpath))).click()
+# # Нажимаем на поле значения
+# search_element = wait.until(
+# 	EC.element_to_be_clickable((By.XPATH, empty_table_xpath))).click()
+# # Вводим в поле текст
+# params_text = unicode(params_text.decode("utf-8"))
+# action.send_keys(params_text)
+# # Находим и нажимаем в списке нужный тип параметра
+# search_element = wait.until(
+# 	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % params_text))).click()
+#
+""""""
+# Нажимаем Структура
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, structure_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
+# Декод
+structure_name = unicode(structure_name.decode("utf-8"))
+# Вводим название Структуры
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, structure_name_input_xpath))).send_keys(structure_name)
+# Спим
+time.sleep(two_sec)
+# Нажимаем Ок
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
 
 """"РЕКВИЗИТЫ"""
 # Проверяем на отсутвие shadow
@@ -223,7 +292,7 @@ search_element = driver.find_element_by_xpath(account_doc_select_button_xpath).c
 time.sleep(two_sec)
 # Выбираем договор
 search_element = wait.until(
-	EC.element_to_be_clickable((By.XPATH, select_document_account_xpath))).click()
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
 action.send_keys(Keys.RETURN).perform()
 # Спим
 time.sleep(three_sec)
@@ -278,10 +347,86 @@ search_element = wait.until(
 # Спим
 time.sleep(three_sec)
 
+"""ФАЙЛЫ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, files_button_xpath))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_file_button_xpath))).click()
+#
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_folder_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
+# Вводим название Структуры
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, file_name_input_xpath))).send_keys(structure_name)
+# Спим
+time.sleep(two_sec)
+# Нажимаем Ок
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_id_window_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
+
 """УДАЛЕНИЕ ССЫЛОК"""
 # Проверяем на отсутвие shadow
 search_element = wait.until(
 	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Удаляем Договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, contracts_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Заказ
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, orders_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Счёт
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, accounts_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Продажу
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, sales_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Согласование
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, matching_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
 # Прохоим в Общее
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, overall_button_xpath))).click()
@@ -292,7 +437,22 @@ search_element = wait.until(
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, employee_table_xpath))).click()
 # Нажимаем Удалить
-search_element = driver.find_element_by_xpath(employee_delete_button_xpath).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+# Нажимаем ОК
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+# Спим
+time.sleep(two_sec)
+# Проходим в Структуру
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, structure_button_xpath))).click()
+# Выбираем структуру ссылающегося на док
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, employee_table_xpath))).click()
+# Нажимаем Удалить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
 # Нажимаем ОК
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
@@ -306,7 +466,7 @@ driver.save_screenshot('C:\Users\Operator\Desktop\Testing\Tests\screens\\%s' % s
 time.sleep(two_sec)
 # Удаить договор
 search_element = wait.until(
-	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+	EC.element_to_be_clickable((By.XPATH, delete_entity_button_xpath))).click()
 # Нажимаем Enter
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
