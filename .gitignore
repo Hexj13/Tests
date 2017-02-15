@@ -46,8 +46,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .idea
-entity_testing/accounts_content_config.py
-entity_testing/accounts_content_config.pyc
+accounts_testing/accounts_content_config.py
+accounts_testing/accounts_content_config.pyc
 complex_testing/complex_content_config.py
 complex_testing/complex_content_config.pyc
 contacts/contacts_content_config.py

@@ -33,7 +33,7 @@ search_element = driver.find_element_by_id(submit_button_id)
 search_element.click()
 # Проваливаемся на сайт
 time.sleep(two_sec)
-# Находим в меню Юр. лица
+# Находим в меню Физ. лица
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, contacts_menu_button_xpath))).click()
 # Добавить
@@ -48,6 +48,7 @@ tomorrow_str = tomorrow.strftime("%d.%m.%Y")
 # Birthday date
 birthday = today - datetime.timedelta(days=2)
 birthday_str = birthday.strftime("%d.%m.%Y")
+
 
 """ОБЩЕЕ"""
 # Проверяем на отсутвие shadow
@@ -146,6 +147,11 @@ action.send_keys(Keys.RETURN).perform()
 # Нажимаем ОК
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, ok_id_window_button_xpath))).click()
+# Берём ID документа
+url = driver.current_url
+hash_tag = url[url.find('#') + 1:]
+params = dict(x.split('=') for x in hash_tag.split('&'))
+doc_id = params['id']
 
 """ДОПОЛНИТЕЛЬНО"""
 # Проверяем на отсутвие shadow
@@ -255,3 +261,235 @@ search_element = driver.find_element_by_xpath(deactivateDate_bank_xpath).send_ke
 search_element = driver.find_element_by_xpath(text_comment_bank_xpath).send_keys(comment_text)
 # Нажимаем ОК
 search_element = driver.find_element_by_xpath(ok_button_window_xpath).click()
+
+"""ДОГОРОВЫ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Договоры в меню
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, contracts_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Находим поле Типа документа
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, doc_type_input_xpath)))
+# Вводим в поле текст
+contract_type_name = unicode(contracts_type_name.decode("utf-8"))
+search_element.send_keys(contract_type_name)
+# Находим и нажимаем в списке нужный тип документа
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % contract_type_name))).click()
+# Проставляем дату документа
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, doc_date_input_xpath)))
+search_element.send_keys(today_str)
+search_element.send_keys(Keys.RETURN)
+# Спим
+time.sleep(five_sec)
+# Закрываем договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+time.sleep(three_sec)
+
+"""ЗАКАЗЫ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Заказы в меню
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, orders_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Проставляем дату документа
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, doc_date_input_xpath)))
+search_element.send_keys(today_str)
+search_element.send_keys(Keys.RETURN)
+# Спим
+time.sleep(five_sec)
+# Закрываем заказ
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+time.sleep(three_sec)
+
+"""СЧЕТА"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Счета в меню
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, accounts_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Находим поле Типа счёта
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, account_type_input_xpath)))
+# Вводим в поле текст
+account_type_name = unicode(account_type_name.decode("utf-8"))
+search_element.send_keys(account_type_name)
+# Находим и нажимаем в списке нужный тип счёта
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % account_type_name))).click()
+# Нажимаем на кнопку для выбора договора
+search_element = driver.find_element_by_xpath(account_doc_select_button_xpath).click()
+#
+time.sleep(two_sec)
+# Выбираем договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+action.send_keys(Keys.RETURN).perform()
+# Спим
+time.sleep(three_sec)
+# Закрываем счёт
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+# Спим
+time.sleep(three_sec)
+
+"""ПРОДАЖИ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Продажи в меню
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, sales_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Находим поле Типа продажи
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, doc_type_input_xpath)))
+# Вводим в поле текст
+sales_type_name = unicode(sales_type_name.decode("utf-8"))
+search_element.send_keys(sales_type_name)
+# Находим и нажимаем в списке нужный тип продажи
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % sales_type_name))).click()
+# Спим
+time.sleep(three_sec)
+# Закрываем продажи
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+# Спим
+time.sleep(three_sec)
+
+"""СОГЛАСОВАНИЕ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Согласование в меню
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, matching_button_xpath))).click()
+# Нажимаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_button_xpath))).click()
+# Спим
+time.sleep(four_sec)
+# Закрываем продажи
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_xpath))).click()
+# Спим
+time.sleep(three_sec)
+
+"""ФАЙЛЫ"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Нажимаем Файлы
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, files_button_xpath))).click()
+# Нажиаем Добавить
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_file_button_xpath))).click()
+# Добавить Папку
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, add_folder_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
+# Вводим название Папки
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, file_name_input_xpath))).send_keys(structure_name)
+# Спим
+time.sleep(two_sec)
+# Нажимаем Ок
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_id_window_button_xpath))).click()
+# Спим
+time.sleep(two_sec)
+
+"""УДАЛЕНИЕ ССЫЛОК"""
+# Проверяем на отсутвие shadow
+search_element = wait.until(
+	EC.invisibility_of_element_located((By.ID, shadow_id)))
+# Удаляем Договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, contracts_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Заказ
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, orders_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Счёт
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, accounts_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Продажу
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, sales_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Удаляем Согласование
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, matching_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, select_row_in_table_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_button_xpath))).click()
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+time.sleep(four_sec)
+# Прохоим в Общее
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, overall_button_xpath))).click()
+
+"""Delete&Screen&Close"""
+# Делаем скриншот
+scr_name = today_str + "_" + "docID" + doc_id + "_" + "entity" + "_" + "test" + ".png"
+driver.save_screenshot('C:\Users\Operator\Desktop\Testing\Tests\screens\\%s' % scr_name)
+time.sleep(two_sec)
+# Удаить договор
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, delete_entity_button_xpath))).click()
+# Нажимаем Enter
+search_element = wait.until(
+	EC.element_to_be_clickable((By.XPATH, ok_button_window_xpath))).click()
+# Закрыть Хром
+time.sleep(two_sec)
+driver.close()

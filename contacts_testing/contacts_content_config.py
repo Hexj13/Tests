@@ -38,7 +38,14 @@ issuer_text = 'UVD'
 issuerCode_text = '155'
 #
 adrr_text = 'ул.Лобанка 97'
-
+#
+contracts_type_name = 'Продажа (универсальный)'
+#
+account_type_name = 'Доход'
+#
+sales_type_name = 'Продажа'
+#
+structure_name = 'Test Name'
 
 """"БАНКОВСКИЕ РЕКВИЗИТЫ"""
 bik_number_text = '044525225'
