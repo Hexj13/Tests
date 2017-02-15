@@ -8,8 +8,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from elements_config import *
-from content_config import *
+from accounts_elements_config import *
+from accounts_content_config import *
 
 # Устанавливаем драйвер
 driver = webdriver.Chrome()
@@ -110,7 +110,7 @@ search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, popup_menu_select_xpath % activity_type_text))).click()
 time.sleep(two_sec)
 
-""""""
+""" TODO: Добавление парамов в ОБЩЕМ!!!  """
 # # Переходим в Параметры
 # search_element = wait.until(
 # 	EC.element_to_be_clickable((By.XPATH, params_button_xpath))).click()
@@ -351,18 +351,18 @@ time.sleep(three_sec)
 # Проверяем на отсутвие shadow
 search_element = wait.until(
 	EC.invisibility_of_element_located((By.ID, shadow_id)))
-#
+# Нажимаем Файлы
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, files_button_xpath))).click()
-#
+# Нажиаем Добавить
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, add_file_button_xpath))).click()
-#
+# Добавить Папку
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, add_folder_button_xpath))).click()
 # Спим
 time.sleep(two_sec)
-# Вводим название Структуры
+# Вводим название Папки
 search_element = wait.until(
 	EC.element_to_be_clickable((By.XPATH, file_name_input_xpath))).send_keys(structure_name)
 # Спим
