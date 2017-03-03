@@ -245,7 +245,8 @@ class AccountsTesting(unittest.TestCase):
 		search_element = wait.until(
 			EC.element_to_be_clickable((By.XPATH, proposed_address_div_xpath)))
 		search_element.click()
-		print("Choose first address to activate Google Maps ----> " + TextColors.OKGREEN + "OK" + TextColors.ENDC, flush=True)
+		print("Choose first address to activate Google Maps ----> " + TextColors.OKGREEN + "OK" + TextColors.ENDC,
+		      flush=True)
 		# Спим
 		time.sleep(SleepSeconds.TWO)
 		# Нажимаем Добавить вид активности

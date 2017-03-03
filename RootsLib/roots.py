@@ -26,7 +26,6 @@ class TextColors:
 	UNDERLINE = '\033[4m'
 
 
-
 """BUTTONS XPATH"""
 #
 contacts_menu_button_xpath = "//div[text() = 'Физ. лица']"
@@ -113,8 +112,8 @@ files_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//di
                      "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 additionally_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Дополнительно')and " \
-                     "not(ancestor::div[contains(@style," \
-                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+                            "not(ancestor::div[contains(@style," \
+                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 accounts_button_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'Счета')and " \
                         "not(ancestor::div[contains(@style," \
@@ -142,7 +141,7 @@ add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[conta
                    "ancestor::div[contains(@style,'display: none')])]"
 #
 delete_button_id_xpath = "//div[@id = 'deleteb' and not(ancestor::div[contains(@style," \
-                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 ok_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
 #
