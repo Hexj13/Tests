@@ -54,3 +54,5 @@ activities_content_config.py
 content.py
 *.pyc
 Screenshots/
+RootsLib/__pycache__/
+__pycache__/
