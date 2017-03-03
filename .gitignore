@@ -46,12 +46,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .idea
-accounts_testing/accounts_content_config.py
-accounts_testing/accounts_content_config.pyc
-complex_testing/complex_content_config.py
-complex_testing/complex_content_config.pyc
-contacts/contacts_content_config.py
-contacts/contacts_content_config.pyc
+contacts_content_config.py
+complex_content_config.py
+accounts_content_config.py
+activities_content_config.py
 *.log
+content.py
 *.pyc
 screens/
