@@ -5,9 +5,9 @@ from RootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
-class ActivitiesTesting(unittest.TestCase):
+class RequestsTesting(unittest.TestCase):
 	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'ActivitiesTesting' START" + TextColors.ENDC, flush=True)
+	print(TextColors.HEADER + "Test 'RequestsTesting' START" + TextColors.ENDC, flush=True)
 	print("----------------------------------------", flush=True)
 	print("----------------------------------------", flush=True)
 
@@ -20,44 +20,33 @@ class ActivitiesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-	def test_activities(self):
+	def test_requests(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_activities START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_requests START" + TextColors.ENDC, flush=True)
+		print("", flush=True)
 		# Проваливаемся на сайт
 		time.sleep(SleepSeconds.TWO)
-		# Находим в меню Активности
-		self.toolkit.clickByXPATH(menu_button_xpath % 'Активности')
+		# Находим в меню Заявки
+		self.toolkit.clickByXPATH(menu_button_xpath % 'Заявки')
 		printOk("Activities button find&click")
 		# Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button find&click")
 		time.sleep(SleepSeconds.TWO)
+		print("", flush=True)
 		print("----------------------------------------", flush=True)
 
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Вводим в поле типа Активности текст
-		activities_type_name_u = str(activities_activity_type_name)
-		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
-		# Находим и нажимаем в списке нужный тип документа
-		self.toolkit.clickInPopupMenu(activities_type_name_u)
-		printOk("Choose activity type")
-		# Проставляем дату диактивации
+		# Добавляем Тег
+		self.toolkit.addTag('Срочно')
+		# Вводим дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		# Вводим Описание
+		# Описание
 		self.toolkit.fillAttributes(subject=test_text)
 		# Комментарий
 		self.toolkit.addComment()
-		# Выбор Ответственного
-		self.toolkit.chooseReferenceInWindow('responsibleID', 'Генеральный директор')
-		time.sleep(SleepSeconds.ONE)
-		# Добавляем тег
-		self.toolkit.addTag(activities_tag_name)
-		# Добавляем Связь
-		self.toolkit.addLinkage('Компания', 'Флексби Солюшнс')
-		self.toolkit.clickByID('close')
-		time.sleep(SleepSeconds.TWO)
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -65,26 +54,7 @@ class ActivitiesTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Нажимаем Участники
-		self.toolkit.clickTab('Участники')
-		printOk("Members button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByXPATH(add_button_xpath)
-		printOk("Add button click")
-		# Нажимаем Инициатор
-		self.toolkit.clickByXPATH(qx_menu_menu_select_xpath % 'Инициатор')
-		# Нажимаем Должность
-		self.toolkit.clickByXPATH(qx_menu_menu_select_xpath % 'Сотрудник')
-		printOk("Position button click")
-		# Выбираем Генерального директора
-		self.toolkit.clickByXPATH(cell_in_table_xpath % 'Генеральный директор')
-		self.toolkit.clickByID('choose')
-		printOk("Choose director")
-		# Нажимаем закрыть окно
-		self.toolkit.clickByID('close')
-		printOk("Close window")
-		# Спим
-		time.sleep(SleepSeconds.TWO)
+		self.toolkit.addMembers()
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -101,6 +71,7 @@ class ActivitiesTesting(unittest.TestCase):
 		# Спим
 		time.sleep(SleepSeconds.TWO)
 		# Вводим тип Активности
+		activities_type_name_u = str(activities_activity_type_name)
 		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
 		time.sleep(SleepSeconds.THREE)
 		# Выбираем тип Активности
@@ -123,20 +94,6 @@ class ActivitiesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "FILES PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-		"""УДАЛЕНИЕ ССЫЛОК"""
-		print(TextColors.WARNING + "DELETE LINKS START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("Shadow delete")
-		# Удаляем Активность
-		self.toolkit.deleteObj('Активности')
-		time.sleep(SleepSeconds.TWO)
-		printOk("Delete activity")
-		print("", flush=True)
-		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-
 		"""Delete&Close"""
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
@@ -146,21 +103,19 @@ class ActivitiesTesting(unittest.TestCase):
 		# Нажимаем Enter
 		self.toolkit.clickByXPATH(ok_button_window_xpath)
 		printOk("ENTER click")
-		# Sleep
 		time.sleep(SleepSeconds.FIVE)
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_activities END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_requests END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
-		print("", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ActivitiesTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'RequestsTesting' FINISH" + TextColors.ENDC, flush=True)
 
 
 if __name__ == '__main__':
