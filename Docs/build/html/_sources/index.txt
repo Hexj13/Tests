@@ -1,0 +1,17 @@
+.. Flexbby Testing documentation master file, created by
+   sphinx-quickstart on Wed Mar 22 13:20:43 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+Flexbby Testing
+===========================================
+Данная документация написана для быстрого понимания принципов работы *RootLib*, которая используется для тестирования
+платформы Flexbby.
+
+
+* :ref:`search`
+
