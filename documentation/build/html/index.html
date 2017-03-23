@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Общее &#8212; Документация Flexbby Testing 1.1</title>
+    <title>Тестирование &#8212; Документация Flexbby Testing 1</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.1',
+        VERSION:     '1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -25,7 +25,6 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
    
@@ -44,22 +43,22 @@
           <div class="body" role="main">
             
   <div class="section" id="id1">
-<h1>Общее<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+<h1>Тестирование<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="figure align-right">
 <img alt="_images/logo.png" src="_images/logo.png" />
 </div>
-<p>Даннаая инструкция направлена на быстрое понимание принципов работы с библитекой <strong>RootLib</strong>,
+<p>Данная инструкция направлена на быстрое понимание принципов работы с библитекой <strong>RootLib</strong>,
 структуры теста и необходимых инструменов для комфортной работы.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Вы можите воспользоваться Поиском для быстрого поиска информации</p>
+<p class="last">Вы можите воспользоваться быстрым Поиском в боковом меню или просто нажать Ctrl+F и ввести искомую информацию.</p>
 </div>
 </div>
 <div class="section" id="id2">
 <h1>Структура<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="id3">
 <h2>Инструменты<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для тестирования платфомы <strong>Flexbby</strong> используется связка Python 3 + Selenuim.</p>
+<p>Для тестирования платфомы <strong>Flexbby</strong> используется связка Python 3 + Selenium.</p>
 <ul class="simple">
 <li><a class="reference external" href="https://wombat.org.ua/AByteOfPython/toc.html#">Документация Python 3 на русском языке</a></li>
 <li><a class="reference external" href="http://selenium2.ru/docs.html">Документация Selenium на русском языке</a></li>
@@ -72,7 +71,7 @@
 <p>Имя теста должно содержать всю необходимую информацию:</p>
 <ul class="simple">
 <li>Имя тестируемого объекта.</li>
-<li>Если имя теста состоит из нескольких слов, то эти слова должны быль заделены знаком &#8220;_&#8221;.</li>
+<li>Если имя теста состоит из нескольких слов, то они должны быль заделены знаком &#8220;_&#8221;.</li>
 <li>Суфикс _testing.py в конце имени теста.</li>
 <li>Имя теста не должно содержать знаков верхнего регистра.</li>
 </ul>
@@ -81,8 +80,8 @@
 <p class="last">Если тестируется вложенный объект бокового меню, то имя теста должно содержать префикс с именем родителя.</p>
 </div>
 </div>
-<div class="section" id="rootlib">
-<h2>Структура библиотеки RootLib<a class="headerlink" href="#rootlib" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="rootslib">
+<h2>Структура библиотеки RootsLib<a class="headerlink" href="#rootslib" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Данная библиотека создана для того, чтобы сэкономить время на разработку новых тестов. Библиотека может подвергаться изменениям после согласования с ведущим тестировщиком.</p>
 <p>Библиотека имеет название коренной папки RootsLib.</p>
 <p>Состоит из:</p>
@@ -97,8 +96,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="rootslib">
-<h1><strong>RootsLib</strong>. Описание<a class="headerlink" href="#rootslib" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="id5">
+<h1><strong>RootsLib</strong>. Описание<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h1>
 <p>Внутри данной библиотеки файл <strong>roots.py</strong> является основным - содержит все необходимые классы, функции, xpath элементов.</p>
 <div class="admonition important">
 <p class="first admonition-title">Важно</p>
@@ -430,7 +429,7 @@
 </div>
 <div class="section" id="addlinkage">
 <h3>addLinkage<a class="headerlink" href="#addlinkage" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Данная функция используется для добавления связи в документ в системе Flexbby.</p>
+<p>Данная функция используется для добавления связи в документ внутри системы Flexbby.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addLinkage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_group_name</span><span class="p">,</span> <span class="n">customer_name</span><span class="p">):</span>
         <span class="c1"># Нажимаем +</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s2">&quot;linkageID_linkages&quot;</span><span class="p">,</span> <span class="s2">&quot;//div[@id = &#39;linkageID_selectButton&#39;]&quot;</span><span class="p">)</span>
@@ -564,7 +563,7 @@
 <h3>deleteObj<a class="headerlink" href="#deleteobj" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Удаляет сслыку на объект в преданном разделе.</p>
 <p>Достаточно просто передать имя раздела.</p>
-<p>Функция сама перейдёт в райздел, найдёт ссылку, нажмёт кнопку &#8220;Удалить&#8221; и нажмёт &#8220;ОК&#8221;</p>
+<p>Функция сама перейдёт в райздел, найдёт ссылку, нажмёт кнопки &#8220;Удалить&#8221; и &#8220;ОК&#8221;</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deleteObj</span><span class="p">(</span><span class="n">obj_name</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -573,8 +572,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>XPATH<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h2>XPATH<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В вышеприведенных функциях используются различные заготовки xpath элементов.</p>
 <p>Вот самые важные из них:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">attribute_xpath</span> <span class="o">=</span> <span class="s2">&quot;{parent}//*[@id = &#39;{id}&#39; and not(ancestor::div[contains(@style,&quot;</span> \
@@ -628,14 +627,14 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Оглавление</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Общее</a></li>
+<li><a class="reference internal" href="#">Тестирование</a></li>
 <li><a class="reference internal" href="#id2">Структура</a><ul>
 <li><a class="reference internal" href="#id3">Инструменты</a></li>
 <li><a class="reference internal" href="#id4">Структура тестов</a></li>
-<li><a class="reference internal" href="#rootlib">Структура библиотеки RootLib</a></li>
+<li><a class="reference internal" href="#rootslib">Структура библиотеки RootsLib</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rootslib"><strong>RootsLib</strong>. Описание</a><ul>
+<li><a class="reference internal" href="#id5"><strong>RootsLib</strong>. Описание</a><ul>
 <li><a class="reference internal" href="#printok">printOk</a></li>
 <li><a class="reference internal" href="#takedate">TakeDate</a></li>
 <li><a class="reference internal" href="#sleepseconds">SleepSeconds</a></li>
@@ -669,7 +668,7 @@
 <li><a class="reference internal" href="#deleteobj">deleteObj</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id5">XPATH</a></li>
+<li><a class="reference internal" href="#id6">XPATH</a></li>
 </ul>
 </li>
 </ul>
@@ -702,7 +701,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Vladimir Lapchinsky|HexJ13.
+      &copy;2017, Vladimir Lapchisnky|HexJ13.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
