@@ -4,7 +4,6 @@ from RootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
-
 class AccountsTesting(unittest.TestCase):
 	print("----------------------------------------", flush=True)
 	print(TextColors.HEADER + "Test 'AccountsTesting' START" + TextColors.ENDC, flush=True)
@@ -107,8 +106,9 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.fillAttributes(foreignLegalShortName=foreign_short_name_text)
 		# Вводим Полное имя
 		self.toolkit.fillAttributes(foreignLegalName=foreign_name_text)
-		# Enter по адресу
+		# Клик по адресу
 		self.toolkit.clickByID('streetAddress')
+		# Клик по городу, чтобы снять фокус и сгенерилась ссылка Google Maps
 		self.toolkit.clickByID('city')
 		printOk("Press ENTER on address")
 		# Выбираем первый выпавший адрес для активации Google Maps
@@ -366,7 +366,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'AccountsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'AccountsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

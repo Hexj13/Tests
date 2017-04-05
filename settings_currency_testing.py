@@ -73,6 +73,7 @@ class CurrencyTesting(unittest.TestCase):
 		# Click OK
 		self.toolkit.clickByXPATH(ok_button_window_xpath)
 		printOk('Click OK')
+		time.sleep(SleepSeconds.THREE)
 		print("", flush=True)
 		print(TextColors.WARNING + "test_currency END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -82,7 +83,7 @@ class CurrencyTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'CurrencyTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'CurrencyTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

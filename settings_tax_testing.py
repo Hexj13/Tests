@@ -67,6 +67,7 @@ class TaxTesting(unittest.TestCase):
 		# Click OK
 		self.toolkit.clickByXPATH(ok_button_window_xpath)
 		printOk('Click OK')
+		time.sleep(SleepSeconds.THREE)
 		print("", flush=True)
 		print(TextColors.WARNING + "test_tax END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -76,7 +77,7 @@ class TaxTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'TaxTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'TaxTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

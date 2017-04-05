@@ -70,6 +70,7 @@ class FilesTesting(unittest.TestCase):
 		# Click OK
 		self.toolkit.clickByXPATH(ok_button_window_xpath)
 		printOk('Click OK')
+		time.sleep(SleepSeconds.THREE)
 		print("", flush=True)
 		print(TextColors.WARNING + "test_files END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -79,7 +80,7 @@ class FilesTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'FilesTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'FilesTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

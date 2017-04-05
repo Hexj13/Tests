@@ -21,7 +21,7 @@ class ComplexTesting(unittest.TestCase):
 
 	def test_complex(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_activities START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_complex START" + TextColors.ENDC, flush=True)
 		# Проваливаемся на сайт
 		time.sleep(SleepSeconds.TWO)
 		# Переходим в Договоры
@@ -171,7 +171,7 @@ class ComplexTesting(unittest.TestCase):
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_activities END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_complex END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print("", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
@@ -180,7 +180,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ComplexTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'ComplexTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

@@ -99,7 +99,7 @@ class ActivitiesTesting(unittest.TestCase):
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
 		# Вводим тип Активности
 		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
 		time.sleep(SleepSeconds.THREE)
@@ -160,7 +160,7 @@ class ActivitiesTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ActivitiesTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'ActivitiesTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

@@ -46,7 +46,7 @@ class ContractsTesting(unittest.TestCase):
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu(contract_type_name)
 		printOk("Choose type")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
 		# Добавляем тег
@@ -63,6 +63,7 @@ class ContractsTesting(unittest.TestCase):
 		signer_name_u = str(signer_name)
 		# Вводим подписанта
 		self.toolkit.fillAttributes(signerID=signer_position_name_u)
+		time.sleep(SleepSeconds.TWO)
 		# Выбираем подписанта
 		self.toolkit.clickInPopupMenu(signer_name_u)
 		printOk("Choose signer")
@@ -299,7 +300,7 @@ class ContractsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

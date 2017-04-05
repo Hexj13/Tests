@@ -22,7 +22,7 @@ class ContactsTesting(unittest.TestCase):
 
 	def test_contacts(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_activities START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_contacts START" + TextColors.ENDC, flush=True)
 		# Проваливаемся на сайт
 		time.sleep(SleepSeconds.TWO)
 		# Находим в меню Физ. лица
@@ -360,7 +360,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContactsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'ContactsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

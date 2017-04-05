@@ -1,4 +1,5 @@
 # coding=utf-8
+# noinspection PyUnresolvedReferences
 import unittest
 
 from RootsLib.roots import *
@@ -39,6 +40,13 @@ class RequestsTesting(unittest.TestCase):
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
+		# Находим поле Типа документа и Вводим тип
+		contract_type_name = str(contracts_type_name)
+		self.toolkit.fillAttributes(documentTypeID='Запрос справки')
+		# Находим и нажимаем в списке нужный тип документа
+		self.toolkit.clickInPopupMenu('Запрос справки')
+		printOk("Choose type")
+		time.sleep(SleepSeconds.THREE)
 		# Добавляем Тег
 		self.toolkit.addTag('Срочно')
 		# Вводим дату диактивации
@@ -115,7 +123,7 @@ class RequestsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'RequestsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'RequestsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

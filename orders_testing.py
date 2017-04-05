@@ -39,7 +39,7 @@ class OrdersTesting(unittest.TestCase):
 		"""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
 		# Добавляем тег
@@ -119,11 +119,17 @@ class OrdersTesting(unittest.TestCase):
 		# Вводим Статью бюджета
 		payment_plan_name_u = str(payment_plan_name)
 		self.toolkit.fillAttributes(planTypeID=payment_plan_name_u)
+		time.sleep(SleepSeconds.ONE)
 		self.toolkit.clickInPopupMenu(payment_plan_name_u)
 		printOk("Enter payment plan")
+		time.sleep(SleepSeconds.TWO)
+		# Проставляем ставку налога
+		self.toolkit.clickByID('taxClassID', "//div")
+		time.sleep(SleepSeconds.ONE)
+		self.toolkit.clickInPopupMenu('НДС 18%')
 		time.sleep(SleepSeconds.ONE)
 		# Вводим Итого
-		self.toolkit.fillAttributes(cost=payment_cost_name)
+		self.toolkit.fillAttributes("//div[@class='qx-window']", "", cost=payment_cost_name)
 		# Спим
 		time.sleep(SleepSeconds.TWO)
 		# Нажимаем ОК
@@ -231,7 +237,7 @@ class OrdersTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'OrdersTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'OrdersTesting' FINISH" + TextColors.ENDC, flush=True, end="")
 
 
 if __name__ == '__main__':

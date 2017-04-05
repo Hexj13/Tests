@@ -10,18 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
 from RootsLib.content import *
-
-
-# default_driver = webdriver.Chrome
-#
-#
-# def getWebDriver():
-# 	return default_driver()
-#
-#
-# def setWebDriverFirefox():
-# 	global default_driver
-# 	default_driver = webdriver.Firefox
+from RootsLib.xpath import *
 
 
 class UITestToolkit(object):
@@ -36,6 +25,17 @@ class UITestToolkit(object):
 	def visibilityOfAnyElem(self, docID):
 		self.wait.until(EC.visibility_of_any_elements_located((By.ID, docID)))
 
+	# TODO : Добавить в документацию
+	def click_arrow_down(self, value):
+		i = value
+		while i != 0:
+			self.action.send_keys(Keys.ARROW_DOWN)
+			self.action.perform()
+			time.sleep(SleepSeconds.ONE)
+			i -= 1
+		time.sleep(SleepSeconds.ONE)
+
+	# TODO: Добавить в документацию
 	def findElement(self, text):
 		self.driver.find_element_by_xpath(cell_in_table_xpath % text).location_once_scrolled_into_view()
 
@@ -78,8 +78,8 @@ class UITestToolkit(object):
 	def clickInWindowByIDKey(self, element_id, child_xpath=''):
 		self.clickByXPATH(window_attribute_xpath.format(id=element_id, child=child_xpath))
 
-	def clickInPopupMenu(self, element_name):
-		self.clickByXPATH(popup_menu_select_xpath % element_name)
+	def clickInPopupMenu(self, text):
+		self.clickByXPATH(popup_menu_select_xpath % text)
 		time.sleep(SleepSeconds.ONE)
 
 	def clearByID(self, element_id, child_xpath='', parent_xpath=''):
@@ -110,6 +110,7 @@ class UITestToolkit(object):
 		time.sleep(SleepSeconds.TWO)
 		# Выбираем договор
 		self.clickByXPATH(reference_obj_xpath.format(text=text))
+		time.sleep(SleepSeconds.ONE)
 		self.clickByID('choose')
 		printOk("Choose contract")
 
@@ -122,6 +123,7 @@ class UITestToolkit(object):
 		self.fillAttributes(password=password)
 		self.clickByID('enter')
 		printOk("Submit button click")
+		time.sleep(SleepSeconds.EIGHT)
 		print("", flush=True)
 		print(TextColors.WARNING + "login FINISH" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -133,9 +135,10 @@ class UITestToolkit(object):
 		if type(customer_group_name) == str:
 			customer_group_name = (customer_group_name,)
 		for x in customer_group_name:
-			# Нажимаем Заказчик
+			# Нажимаем customer_group_name
 			self.clickByXPATH(qxmenu_button_xpath % x)
 			printOk("{} click".format(x))
+			time.sleep(SleepSeconds.ONE)
 		# Нажимаем на контрагента в таблице
 		self.clickByXPATH(cell_in_table_xpath % customer_name)
 		printOk("Customer name click")
@@ -144,6 +147,37 @@ class UITestToolkit(object):
 		printOk("Choose button click")
 		time.sleep(SleepSeconds.FOUR)
 		"""Закрытие таблицы проиходит автоматом"""
+
+	def fillParameter(self, param_name, input_text):
+		param_line = self.driver.find_element_by_xpath(
+			"//div[@id='DocumentParameterValue_objectID']//parent::div[@class='qx-table-row']//span[text()='%s']" % param_name
+		).find_element_by_xpath('../../..')
+		printOk("Find target row with name = " + TextColors.HEADER + param_name + TextColors.ENDC)
+		rows = param_line.find_elements_by_xpath('../*')
+		indexOfTarget = rows.index(param_line) + 1
+		printOk("Index of target = " + TextColors.HEADER + str(indexOfTarget) + TextColors.ENDC)
+		time.sleep(SleepSeconds.ONE)
+		value_clm = "//div[@id='DocumentParameterValue_objectID']/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[%s]/div[1]" % indexOfTarget  # <---- %s передавать indexOfTarget
+		time.sleep(SleepSeconds.ONE)
+		self.clickByXPATH(value_clm)
+		printOk("Click on 'Value' column")
+		time.sleep(SleepSeconds.ONE)
+		self.driver.find_element_by_xpath(
+			"//div[@id='DocumentParameterValue_objectID']//div[@class='qx-table-scroller-focus-indicator']//input").send_keys(
+			input_text)
+		printOk('Send keys')
+		time.sleep(SleepSeconds.TWO)
+		self.action.send_keys(Keys.ENTER)
+		printOk('Enter click')
+		# Нажимаем кнопку Добавить Комментарий
+		self.clickByID('newCommentButton')
+		printOk("Add Comment button click")
+		# Вводим первый комментарий
+		self.fillAttributes(commentInput='Параметр ' + param_name + ' был заполнен')
+		# Нажимаем Сохранить
+		self.clickByID('saveComment')
+		printOk("Save button click")
+		time.sleep(SleepSeconds.ONE)
 
 	def addBankAccount(self):
 		self.createSimpleObject(
@@ -210,6 +244,7 @@ class UITestToolkit(object):
 		# Нажимаем Добавить
 		self.clickByID('BankAccount_objectID', '//div[@id="new"]')
 		printOk("Add button click")
+		self.fillAttributes(bik=kwargs.pop('bik'))
 		self.fillAttributes(**kwargs)
 		# Нажимаем ОК
 		time.sleep(SleepSeconds.ONE)
@@ -238,9 +273,11 @@ class UITestToolkit(object):
 		# Нажимаем Файлы
 		self.clickTab('Файлы')
 		printOk("Files button click")
+		time.sleep(SleepSeconds.TWO)
 		# Нажиаем Добавить
 		self.clickByXPATH(add_file_button_xpath)
 		printOk("Add button click")
+		time.sleep(SleepSeconds.ONE)
 		# Добавить Папку
 		self.clickByXPATH(add_folder_button_xpath)
 		printOk("Add folder button click")
@@ -249,10 +286,10 @@ class UITestToolkit(object):
 		# Стрингуем название
 		folder_test_name_u = str(folder_test_name)
 		# Вводим название Папки
-		self.fillAttributes(name=folder_test_name_u)
+		self.fillAttributes("//div[@class='qx-window']", name=folder_test_name_u)
 		printOk("Enter folder name")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.ONE)
 		# Нажимаем Ок
 		self.clickByXPATH(ok_id_window_button_xpath)
 		printOk("OK button click")
@@ -263,8 +300,10 @@ class UITestToolkit(object):
 		# Нажимаем Добавить Автивность
 		self.clickByID('addActivity')
 		printOk("'Add activity' button click")
+		time.sleep(SleepSeconds.TWO)
 		# Находим поле Типа активности
 		self.fillAttributes("//div[@id='Activity_objectID']", documentTypeID='Встреча')
+		time.sleep(SleepSeconds.ONE)
 		# Находим и нажимаем в списке нужный тип активности
 		self.clickInPopupMenu('Встреча')
 		printOk("Choose activity type")
@@ -314,13 +353,16 @@ class UITestToolkit(object):
 		# Нажимаем Файлы
 		self.clickTab('Файлы')
 		printOk("Files button click")
+		time.sleep(SleepSeconds.TWO)
 		# Нажиаем Добавить
 		self.clickByXPATH(add_file_button_xpath)
 		printOk("Add button click")
+		time.sleep(SleepSeconds.ONE)
 		# Добавить Папку
 		self.clickByXPATH(qxmenu_button_xpath % "По шаблону")
 		printOk("Add template button click")
-		# Стрингуем название
+		time.sleep(SleepSeconds.ONE)
+		# Click in popup menu
 		self.clickByXPATH(qxmenu_button_xpath % template_name)
 		printOk("Add template button click")
 		time.sleep(SleepSeconds.TEN)
@@ -346,7 +388,7 @@ class UITestToolkit(object):
 		print("----------------------------------------", flush=True)
 		print(TextColors.WARNING + "UITestToolkit init START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.driver = webdriver.Chrome()
+		self.driver = webdriver.Firefox()
 		printOk("Webdriver init")
 		self.driver.maximize_window()
 		printOk("Maximaze window")
@@ -400,110 +442,3 @@ class TextColors:
 	ENDC = '\033[0m'
 	BOLD = '\033[1m'
 	UNDERLINE = '\033[4m'
-
-
-"""BUTTONS XPATH"""
-
-#
-comment_button_xpath = "//div[@id='Comment_objectID' and not(ancestor::div[contains(@style," \
-                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@id='visiblePart']//a[text()='%s']"
-#
-menu_button_xpath = "//div[@class='qx-mainmenu']//div[text()= '%s']"
-#
-to_matching_button_xpath = "//div[@class='qx-button-common-border' and not(ancestor::div[contains(@style," \
-                           "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
-                           "'Отправить на согласование' ] "
-#
-add_button_element_xpath = ".//div[.='Добавить' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-                           "ancestor::div[contains(@style,'display: none')])] "
-#
-tab_xpath = "//div[@class = 'qx-flexbby-tabview-button-underlined']//div[contains(text(),'{name}')and " \
-            "not(ancestor::div[contains(@style," \
-            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
-#
-add_file_button_xpath = "//div[@class = 'qx-button-common-border-left' and not(ancestor::div[contains(@style," \
-                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
-                        "'Добавить'] "
-#
-add_folder_button_xpath = "//div[@class = 'qx-menu-border' and not(ancestor::div[contains(@style," \
-                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
-                          "'Папку'] "
-#
-add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-                   "ancestor::div[contains(@style,'display: none')])]"
-#
-ok_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
-#
-pencil_window_xpath = "//div[@class = 'qx-window']//div[@class = 'qooxdoo-table-cell' and (text()='карандаш')]"
-#
-ok_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \
-                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
-#
-test_group_button_xpath = "//div[text() = 'Тест-группа']"
-#
-delegation_button_xpath = "//div[contains(text(), 'Делегировать')]"
-#
-group_button_xpath = "//div[text()='Группа' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-                     "ancestor::div[contains(@style,'display: none')])]"
-#
-delete_contragent_button_xpath = "//div[@class = 'qx-strip-dialog-container-underline' and not(ancestor::div[" \
-                                 "contains(@style,'display: none')])][1]//div[@id = 'delete-button']"
-#
-attribute_xpath = "{parent}//*[@id = '{id}' and not(ancestor::div[contains(@style," \
-                  "'display:none')])and not(ancestor::div[contains(@style,'display: none')])and not(div[contains(@style," \
-                  "'display:none')])and not(div[contains(@style,'display: none')])]{child}"
-#
-attribute_child_xpath = "//*[@id = '{id}' and not(ancestor::div[contains(@style," \
-                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])and not(div[contains(@style," \
-                        "'display:none')])and not(div[contains(@style,'display: none')])]{child}"
-#
-window_attribute_xpath = "//div[@class = 'qx-window']//*[@id = '{id}' and not(ancestor::div[contains(@style," \
-                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])and not(div[contains(@style," \
-                         "'display:none')])and not(div[contains(@style,'display: none')])]{child}"
-#
-employee_contragent_add_xpath = "//div[@class = 'qx-menu-border']//div[text() = 'Заказчик']"
-#
-qxmenu_button_xpath = "//div[@class = 'qx-menu-border']//div[text() = '%s']"
-#
-archive_table_include_xpath = ".//div[@class='qooxdoo-table-cell' and (contains(text(), 'Комплексное тестирование')) " \
-                              "and not(ancestor::div[contains(" \
-                              "@style," \
-                              "'display:none')])and not(ancestor::div[contains(@style,'display: none')])] "
-#
-selected_tag_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@class = " \
-                     "'qooxdoo-table-cell']//span[text() = '%s'] "
-#
-employee_table_xpath = "//parent::div[@class = 'qooxdoo-table-cell' and not(ancestor::div[contains(@style," \
-                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
-#
-company_window_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])][2]"
-#
-popup_menu_select_xpath = "//div[@class='qx-popup' and not(contains(@style," \
-                          "'display:none'))and not(contains(@style,'display: none'))]//div[text()='%s']"
-#
-select_row_in_table_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
-                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
-#
-qx_menu_menu_select_xpath = "//div[@class='qx-menu-border' and not(ancestor::div[contains(@style," \
-                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text(" \
-                            ")='%s'] "
-#
-delegation_group_xpath = "//div[text()='Логистика' and not(ancestor::div[contains(@style," \
-                         "'display:none')])and not(" \
-                         "ancestor::div[contains(@style,'display: none')])]"
-#
-contracts_template_xpath = "//div[@class='qx-menu-border']//div[text()='По шаблону']"
-#
-contracts_table_xpath = ".//div[contains(text(), 'Комплексное тестирование') and not(ancestor::div[contains(@style," \
-                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])] "
-#
-cell_in_table_xpath = "//div[@class = 'qooxdoo-table-cell' and(text()='%s') and not(" \
-                      "ancestor::div[contains(@style," \
-                      "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
-#
-reference_obj_xpath = "//div[@class='qx-window'and not(div[contains(@style, 'display:none')])and not(div[contains(@style,'display: none')])]//div[@class = 'qooxdoo-table-cell' and(text()='{text}')]"
-#
-dialog_attribute_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//*[@id = '{id}']"
