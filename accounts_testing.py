@@ -37,6 +37,7 @@ class AccountsTesting(unittest.TestCase):
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
+		time.sleep(SleepSeconds.THREE)
 		# Вводим ИНН
 		self.toolkit.fillAttributes(inn=inn)
 		# Нажимаем кнопку
@@ -149,17 +150,18 @@ class AccountsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(SleepSeconds.SEVEN)
 		# Находим поле Типа документа и Вводим тип
 		contract_type_name = str(contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu(contract_type_name)
 		printOk("Choose type")
+		time.sleep(SleepSeconds.FOUR)
 		# Спим
 		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
+		self.toolkit.clickByID('processID.stateID')
 		# Спим
 		time.sleep(SleepSeconds.FIVE)
 		# Закрываем договор
@@ -295,6 +297,7 @@ class AccountsTesting(unittest.TestCase):
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
+		time.sleep(SleepSeconds.ONE)
 		# Удаляем Договор
 		self.toolkit.deleteObj('Договоры')
 		printOk("Delete Contract")
@@ -361,6 +364,7 @@ class AccountsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_accounts END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()

@@ -1,16 +1,18 @@
 # coding=utf-8
 import datetime
 import time
+import os
+
+from RootsLib.content import *
+from RootsLib.xpath import *
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common import action_chains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
-
-from RootsLib.content import *
-from RootsLib.xpath import *
 
 
 class UITestToolkit(object):
@@ -70,6 +72,7 @@ class UITestToolkit(object):
 		time.sleep(SleepSeconds.ONE)
 
 	def clickTab(self, name):
+		time.sleep(SleepSeconds.TWO)
 		self.clickByXPATH(tab_xpath.format(name=name))
 
 	def clickByID(self, element_id, child_xpath='', parent_xpath=''):
@@ -79,6 +82,7 @@ class UITestToolkit(object):
 		self.clickByXPATH(window_attribute_xpath.format(id=element_id, child=child_xpath))
 
 	def clickInPopupMenu(self, text):
+		time.sleep(SleepSeconds.THREE)
 		self.clickByXPATH(popup_menu_select_xpath % text)
 		time.sleep(SleepSeconds.ONE)
 
@@ -300,10 +304,10 @@ class UITestToolkit(object):
 		# Нажимаем Добавить Автивность
 		self.clickByID('addActivity')
 		printOk("'Add activity' button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FOUR)
 		# Находим поле Типа активности
 		self.fillAttributes("//div[@id='Activity_objectID']", documentTypeID='Встреча')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(SleepSeconds.THREE)
 		# Находим и нажимаем в списке нужный тип активности
 		self.clickInPopupMenu('Встреча')
 		printOk("Choose activity type")
@@ -373,12 +377,16 @@ class UITestToolkit(object):
 		time.sleep(SleepSeconds.TWO)
 
 	def deleteObj(self, obj_name):
+		time.sleep(SleepSeconds.TWO)
 		# Переходим в раздел
 		self.clickTab(obj_name)
+		time.sleep(SleepSeconds.TWO)
 		# Выбираем ссылку из списка
 		self.clickByXPATH(select_row_in_table_xpath)
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем кнопку Удалить
 		self.clickByID('delete')
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем ОК
 		self.clickByXPATH(ok_button_window_xpath)
 		# Спим
@@ -388,11 +396,13 @@ class UITestToolkit(object):
 		print("----------------------------------------", flush=True)
 		print(TextColors.WARNING + "UITestToolkit init START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.driver = webdriver.Firefox()
+		chrome_options = Options()
+		chrome_options.add_argument('--disable-gpu')
+		self.driver = webdriver.Chrome(chrome_options=chrome_options)
 		printOk("Webdriver init")
 		self.driver.maximize_window()
 		printOk("Maximaze window")
-		self.wait = WebDriverWait(self.driver, 150)
+		self.wait = WebDriverWait(self.driver, 120)
 		printOk("WebDriverWait init")
 		self.action = action_chains.ActionChains(self.driver)
 		printOk("ActionChains init")

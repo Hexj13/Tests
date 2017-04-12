@@ -70,6 +70,7 @@ class PaymentPeriodTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_payment_period END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()

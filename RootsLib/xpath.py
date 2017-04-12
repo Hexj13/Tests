@@ -34,7 +34,7 @@ add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[conta
                    "ancestor::div[contains(@style,'display: none')])]"
 #
 ok_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
-#
+#3
 pencil_window_xpath = "//div[@class = 'qx-window']//div[@class = 'qooxdoo-table-cell' and (text()='карандаш')]"
 #
 ok_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \

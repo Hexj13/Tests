@@ -32,7 +32,7 @@ class OpportunitiesTesting(unittest.TestCase):
 		# Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button find&click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
 		print("", flush=True)
 		print("----------------------------------------", flush=True)
 
@@ -41,6 +41,7 @@ class OpportunitiesTesting(unittest.TestCase):
 		print("", flush=True)
 		# Вводим статью бюджета
 		self.toolkit.fillAttributes(documentTypeID=sales_type_name)
+		time.sleep(SleepSeconds.TWO)
 		# Выбираем статью бюджета
 		self.toolkit.clickInPopupMenu(sales_type_name)
 		# Добавляем Тег
@@ -58,6 +59,7 @@ class OpportunitiesTesting(unittest.TestCase):
 		self.toolkit.fillAttributes(percent=50)
 		time.sleep(SleepSeconds.TWO)
 		# Проставляем цену
+		self.toolkit.clearByID('cost', '//input')
 		self.toolkit.fillAttributes(cost=100000)
 		# Комментарий
 		self.toolkit.addComment()
@@ -127,23 +129,28 @@ class OpportunitiesTesting(unittest.TestCase):
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем Договоры
 		self.toolkit.clickTab(name='Договоры')
 		printOk("Contracts button click")
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(SleepSeconds.FIVE)
 		# Находим поле Типа документа и Вводим тип
-		contract_type_name = str(contracts_type_name)
-		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
+		self.toolkit.fillAttributes(documentTypeID=contracts_type_name)
+		time.sleep(SleepSeconds.TWO)
 		# Находим и нажимаем в списке нужный тип документа
-		self.toolkit.clickInPopupMenu(contract_type_name)
+		self.toolkit.clickInPopupMenu(contracts_type_name)
 		printOk("Choose type")
+		time.sleep(SleepSeconds.TWO)
 		# Спим
 		# Проставляем дату документа
 		self.toolkit.clickByID('docDate')
+		time.sleep(SleepSeconds.ONE)
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
+		self.toolkit.clickByID('processID.stateID')
 		# Спим
 		time.sleep(SleepSeconds.FIVE)
 		# Закрываем договор
@@ -168,8 +175,9 @@ class OpportunitiesTesting(unittest.TestCase):
 		printOk("Add button click")
 		time.sleep(SleepSeconds.THREE)
 		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
+		time.sleep(SleepSeconds.ONE)
+		self.toolkit.clickByID('processID.stateID')
 		# Спим
 		time.sleep(SleepSeconds.FIVE)
 		# Закрываем заказ
@@ -220,6 +228,7 @@ class OpportunitiesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_opportunities END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()

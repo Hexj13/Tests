@@ -37,6 +37,7 @@ class ActivitiesTesting(unittest.TestCase):
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
+		time.sleep(SleepSeconds.TWO)
 		# Вводим в поле типа Активности текст
 		activities_type_name_u = str(activities_activity_type_name)
 		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
@@ -155,6 +156,7 @@ class ActivitiesTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 		print("", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()

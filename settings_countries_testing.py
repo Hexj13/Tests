@@ -81,6 +81,7 @@ class CountriesTesting(unittest.TestCase):
 
 	def tearDown(self):
 		self.toolkit.quit()
+		print("----------------------------------------", flush=True)
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True, end="")

@@ -30,20 +30,23 @@ class ComplexTesting(unittest.TestCase):
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
+		time.sleep(SleepSeconds.SEVEN)
 		print("----------------------------------------", flush=True)
 
 		"""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		time.sleep(SleepSeconds.TWO)
 		# Находим поле Типа документа и Вводим тип
 		contract_type_name = str(complex_contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
+		time.sleep(SleepSeconds.TWO)
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu(contract_type_name)
+		time.sleep(SleepSeconds.TWO)
 		printOk("Choose contract type")
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		self.toolkit.clickTab("Общее")
+		self.toolkit.fillAttributes(docDate=TakeDate.tomorrow)
+		time.sleep(SleepSeconds.TWO)
+		self.toolkit.clickByID("processID.stateID")
 		# Ждём пока не появятся комментарии. Служит обозначением, что внутреннее тестирование началось
 		self.toolkit.visibilityOfAnyElem('commentTextSystem')
 		printOk("Wait comment")
@@ -175,6 +178,7 @@ class ComplexTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 		print("", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()
