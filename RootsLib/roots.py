@@ -31,8 +31,7 @@ class UITestToolkit(object):
 	def click_arrow_down(self, value):
 		i = value
 		while i != 0:
-			self.action.send_keys(Keys.ARROW_DOWN)
-			self.action.perform()
+			self.action.send_keys(Keys.ARROW_DOWN).perform()
 			time.sleep(SleepSeconds.ONE)
 			i -= 1
 		time.sleep(SleepSeconds.ONE)
@@ -107,11 +106,31 @@ class UITestToolkit(object):
 	def quit(self):
 		self.driver.quit()
 
+	def delete_into_doc(self):
+		# Удаить договор
+		self.clickByID('deleteb')
+		printOk("Delete document")
+		time.sleep(SleepSeconds.THREE)
+		# Нажимаем Enter
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("ENTER click")
+		time.sleep(SleepSeconds.FIVE)
+
+	def delete_in_table(self):
+		# Удаить договор
+		self.clickByID('delete')
+		printOk("Delete document")
+		time.sleep(SleepSeconds.THREE)
+		# Нажимаем Enter
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("ENTER click")
+		time.sleep(SleepSeconds.FIVE)
+
 	def chooseReferenceInWindow(self, reference_id, text):
 		# Нажимаем на кнопку для выбора договора
 		self.clickByID(reference_id, "//div[@id = 'choose-button']")
 		printOk("Select button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FOUR)
 		# Выбираем договор
 		self.clickByXPATH(reference_obj_xpath.format(text=text))
 		time.sleep(SleepSeconds.ONE)
@@ -137,6 +156,7 @@ class UITestToolkit(object):
 		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']")
 		printOk("Add linkage buton click")
 		if type(customer_group_name) == str:
+			# customer_group_name = customer_group_name.encode().decode('utf-8', 'ignore')
 			customer_group_name = (customer_group_name,)
 		for x in customer_group_name:
 			# Нажимаем customer_group_name
@@ -239,7 +259,7 @@ class UITestToolkit(object):
 		# Нажимаем удалить
 		self.clickByID('delete')
 		# Нажимаем ОК
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(SleepSeconds.TWO)
@@ -252,7 +272,7 @@ class UITestToolkit(object):
 		self.fillAttributes(**kwargs)
 		# Нажимаем ОК
 		time.sleep(SleepSeconds.ONE)
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 
 	def addTag(self, tag_name):
@@ -300,24 +320,65 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(SleepSeconds.TWO)
 
+	def treeClick(self, tree_name):
+		# Нажимаем рефлеш
+		self.clickByID('tree-toolbar', "//div[@class='qx-button-common-border']")
+		time.sleep(SleepSeconds.THREE)
+		# Нажимаем на необходимый классификатор в дереве
+		tree_name = str(tree_name)
+		self.clickByID('tree-virtual', "//span[text()='%s']" % tree_name)
+		time.sleep(SleepSeconds.TWO)
+
 	def addActivity(self):
 		# Нажимаем Добавить Автивность
 		self.clickByID('addActivity')
 		printOk("'Add activity' button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(SleepSeconds.THREE)
 		# Находим поле Типа активности
 		self.fillAttributes("//div[@id='Activity_objectID']", documentTypeID='Встреча')
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(SleepSeconds.TWO)
 		# Находим и нажимаем в списке нужный тип активности
 		self.clickInPopupMenu('Встреча')
 		printOk("Choose activity type")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(SleepSeconds.TWO)
+		# Проставляем дату деактивации
+		self.clickByID('_stripActivities', "//div[@id='deactivateDate']//input")
+		printOk("Click deactivate date")
+		time.sleep(SleepSeconds.ONE)
+		self.fillAttributes("//div[@id='_stripActivities']", deactivateDate=TakeDate.tomorrow)
+		printOk("Fill deactivate date")
+		time.sleep(SleepSeconds.TWO)
+		# Проставляем описание
+		self.clickByID('_stripActivities', "//textarea[@id='subject']")
+		printOk("Click subject")
+		time.sleep(SleepSeconds.ONE)
+		self.fillAttributes("//div[@id='_stripActivities']", subject=test_text)
+		printOk("Fill subject")
+		time.sleep(SleepSeconds.TWO)
+		# Нажимаем кнопку Выбрать
+		self.clickByID("responsibleID", "//div[@id='choose-button']")
+		printOk("Choose button click")
+		time.sleep(SleepSeconds.TWO)
+		# Выбираем ответственного
+		self.clickByXPATH("//div[@class='qx-window']//div[text()='Отдел продаж']")
+		printOk("Choose responsible in table")
+		time.sleep(SleepSeconds.ONE)
+		# Нажимаем Выбрать
+		self.clickByID('choose')
+		printOk("Choose button click (In Table)")
+		time.sleep(SleepSeconds.TWO)
+		# Завершить
+		self.clickByID('_processID_process_panel', "//div[text()='Завершить']")
+		printOk("Finish button click")
+		time.sleep(SleepSeconds.FOUR)
 		# Нажимаем Удалить активность
 		self.clickByID('Activity_objectID', '//div[@id = "delete-button"]')
 		printOk('Delete activity button click')
+		time.sleep(SleepSeconds.THREE)
 		# Нажимаем ОК
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk('OK button button click')
+		time.sleep(SleepSeconds.ONE)
 
 	def addComment(self):
 		# Нажимаем кнопку Добавить Комментарий
@@ -346,7 +407,7 @@ class UITestToolkit(object):
 		# Удаляем комментарий
 		self.clickByXPATH(comment_button_xpath % 'Удалить')
 		printOk("Delete button click")
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		time.sleep(SleepSeconds.TWO)
 
@@ -371,7 +432,7 @@ class UITestToolkit(object):
 		printOk("Add template button click")
 		time.sleep(SleepSeconds.TEN)
 		# Нажимаем Ок
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(SleepSeconds.TWO)
@@ -388,7 +449,7 @@ class UITestToolkit(object):
 		self.clickByID('delete')
 		time.sleep(SleepSeconds.TWO)
 		# Нажимаем ОК
-		self.clickByXPATH(ok_button_window_xpath)
+		self.clickByXPATH(ok_delete_button_window_xpath)
 		# Спим
 		time.sleep(SleepSeconds.TWO)
 
@@ -419,7 +480,10 @@ class UITestToolkit(object):
 
 
 def printOk(text):
-	print(str(text) + " " + "---->" + " " + TextColors.OKGREEN + "OK" + TextColors.ENDC, flush=True)
+	try:
+		print(str(text) + " " + "---->" + " " + TextColors.OKGREEN + "OK" + TextColors.ENDC, flush=True)
+	except:
+		pass
 
 
 class TakeDate:

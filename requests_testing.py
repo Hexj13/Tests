@@ -22,6 +22,7 @@ class RequestsTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 
 	def test_requests(self):
+		time.sleep(SleepSeconds.FOUR)
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_requests START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
@@ -30,10 +31,11 @@ class RequestsTesting(unittest.TestCase):
 		# Находим в меню Заявки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Заявки')
 		printOk("Activities button find&click")
+		time.sleep(SleepSeconds.TWO)
 		# Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button find&click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FOUR)
 		print("", flush=True)
 		print("----------------------------------------", flush=True)
 
@@ -43,6 +45,7 @@ class RequestsTesting(unittest.TestCase):
 		# Находим поле Типа документа и Вводим тип
 		contract_type_name = str(contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID='Запрос справки')
+		time.sleep(SleepSeconds.TWO)
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu('Запрос справки')
 		printOk("Choose type")
@@ -51,10 +54,12 @@ class RequestsTesting(unittest.TestCase):
 		self.toolkit.addTag('Срочно')
 		# Вводим дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
+		time.sleep(SleepSeconds.TWO)
 		# Описание
 		self.toolkit.fillAttributes(subject=test_text)
 		# Комментарий
 		self.toolkit.addComment()
+		time.sleep(SleepSeconds.TWO)
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -106,12 +111,7 @@ class RequestsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Удаить договор
-		self.toolkit.clickByID('deleteb')
-		printOk("Delete document")
-		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("ENTER click")
-		time.sleep(SleepSeconds.FIVE)
+		self.toolkit.delete_into_doc()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -124,7 +124,9 @@ class RequestsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'RequestsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'RequestsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

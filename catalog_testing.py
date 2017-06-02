@@ -34,13 +34,12 @@ class CatalogTesting(unittest.TestCase):
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Settings button click")
-		self.toolkit.click_arrow_down(1)
+		time.sleep(SleepSeconds.TWO)
+		self.toolkit.click_arrow_down(9)
 		# Переходим в Товары и услуги
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("Products button click")
 		time.sleep(SleepSeconds.THREE)
-		# Листаем вниз
-		self.toolkit.click_arrow_down(3)
 		# Переходим в Классификатор
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Классификатор')
 		printOk("Classificator button click")
@@ -160,12 +159,12 @@ class CatalogTesting(unittest.TestCase):
 		# Удаляем Ед.продажи
 		self.toolkit.clickByID('salesQuantity', "//div[@id='delete-button']")
 		printOk("Delete button click")
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Удаляем Штрих-код
 		self.toolkit.clickByID('barcodes', "//div[@id='delete-button']")
 		printOk("Delete button click")
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# ОК
 		self.toolkit.clickByID('okb')
@@ -231,7 +230,7 @@ class CatalogTesting(unittest.TestCase):
 		printOk("Choose price-list")
 		self.toolkit.clickByID('delete')
 		printOk("Delete button click")
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK window button click")
 		#
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
@@ -240,25 +239,24 @@ class CatalogTesting(unittest.TestCase):
 		printOk('Choose')
 		self.toolkit.clickByID('delete')
 		printOk('Delete button click')
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk('OK button click')
 		#
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Каталог')
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Settings button click")
+		# Листаем вниз
+		self.toolkit.click_arrow_down(9)
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("Products button click")
-		time.sleep(SleepSeconds.THREE)
-		self.toolkit.click_arrow_down(3)
+		time.sleep(SleepSeconds.TWO)
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Классификатор')
 		printOk("Classificator button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FOUR)
 		self.toolkit.clickByXPATH(cell_in_table_xpath % classificator_name_text)
 		printOk("Choose")
-		self.toolkit.clickByID('delete')
-		printOk("Delete button click")
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("OK button click")
+		time.sleep(SleepSeconds.TWO)
+		self.toolkit.delete_in_table()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete Links END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -271,7 +269,9 @@ class CatalogTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'CatalogTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'CatalogTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

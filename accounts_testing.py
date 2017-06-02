@@ -53,6 +53,9 @@ class AccountsTesting(unittest.TestCase):
 		printOk("Enter Site")
 		# Проставляем  phone
 		self.toolkit.fillAttributes(phone=phone_text)
+		# time.sleep(SleepSeconds.FIVE)
+		# self.toolkit.driver.find_element_by_id('photo').send_keys(os.getcwd() + r"C:\Users\Operator\Pictures\1378.jpg")
+		# time.sleep(60)
 		# Проставляем дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
 		printOk("Enter deactivate date")
@@ -88,6 +91,7 @@ class AccountsTesting(unittest.TestCase):
 		printOk("OK button click")
 		# Спим
 		time.sleep(SleepSeconds.TWO)
+		#
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -326,7 +330,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByID('delete')
 		printOk("Delete click")
 		# Нажимаем ОК
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(SleepSeconds.TWO)
@@ -340,7 +344,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByID('delete')
 		printOk("Delete click")
 		# Нажимаем ОК
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(SleepSeconds.TWO)
@@ -352,12 +356,7 @@ class AccountsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Удаить договор
-		self.toolkit.clickByID('deleteb')
-		printOk("Delete document")
-		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("ENTER click")
-		time.sleep(SleepSeconds.FIVE)
+		self.toolkit.delete_into_doc()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -370,7 +369,9 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'AccountsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'AccountsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

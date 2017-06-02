@@ -78,9 +78,11 @@ class OpportunitiesTesting(unittest.TestCase):
 		# Нажимаем Участники
 		self.toolkit.clickTab('Участники')
 		printOk("Members button click")
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем Добавить
 		self.toolkit.clickByXPATH(add_button_xpath)
 		printOk("Add button click")
+		time.sleep(SleepSeconds.TWO)
 		# Нажимаем Инициатор
 		self.toolkit.clickByXPATH(qx_menu_menu_select_xpath % 'Инициатор')
 		# Нажимаем Сотрудник
@@ -109,6 +111,8 @@ class OpportunitiesTesting(unittest.TestCase):
 		self.toolkit.clickByID('createSpecification')
 		printOk("Add specification button click")
 		time.sleep(SleepSeconds.TWO)
+		# Выбираем в деревьях ВСЕ
+		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
 		self.toolkit.clickByXPATH(pencil_window_xpath)
 		self.toolkit.clickByID('choose')
@@ -216,12 +220,7 @@ class OpportunitiesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Удаить договор
-		self.toolkit.clickByID('deleteb')
-		printOk("Delete document")
-		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("ENTER click")
-		time.sleep(SleepSeconds.FIVE)
+		self.toolkit.delete_into_doc()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -234,7 +233,9 @@ class OpportunitiesTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'OpportunitiesTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'OpportunitiesTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

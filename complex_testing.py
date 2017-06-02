@@ -23,10 +23,11 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_complex START" + TextColors.ENDC, flush=True)
 		# Проваливаемся на сайт
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
 		# Переходим в Договоры
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
 		printOk("Contracts button click")
+		time.sleep(SleepSeconds.THREE)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
@@ -154,7 +155,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(delete_contragent_button_xpath)
 		printOk("Delete contragent")
 		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		print("", flush=True)
 		print(TextColors.WARNING + "CONTRACTS END" + TextColors.ENDC, flush=True)
@@ -168,7 +169,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.clickByID('deleteb')
 		printOk("Delete document")
 		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("ENTER click")
 		time.sleep(SleepSeconds.FIVE)
 		print("", flush=True)
@@ -184,7 +185,9 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ComplexTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'ComplexTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

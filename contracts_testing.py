@@ -56,7 +56,7 @@ class ContractsTesting(unittest.TestCase):
 		self.toolkit.action.send_keys(Keys.ENTER)
 		time.sleep(SleepSeconds.ONE)
 		self.toolkit.fillAttributes(subject=test_text)
-		time.sleep(SleepSeconds.FIVE)
+		time.sleep(SleepSeconds.FOUR)
 		# Добавляем тег
 		self.toolkit.addTag('FAIL')
 		# Проверяем на отсутвие shadow
@@ -66,8 +66,9 @@ class ContractsTesting(unittest.TestCase):
 		# Комментарий
 		time.sleep(SleepSeconds.ONE)
 		self.toolkit.addComment()
-		# Проставляем Описание
-		# self.toolkit.fillAttributes(subject=comment_text)
+		# Отправляем на согласование
+		self.toolkit.clickByID('_processID_process_panel', "//div[text()='Отправить на согласование']")
+		time.sleep(SleepSeconds.THREE)
 		# Стрингуем Подписанта
 		signer_position_name_u = str(signer_position_name)
 		signer_name_u = str(signer_name)
@@ -108,7 +109,7 @@ class ContractsTesting(unittest.TestCase):
 		time.sleep(SleepSeconds.FOUR)
 		# Вводим Переодичность
 		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name)
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(SleepSeconds.ONE)
 		self.toolkit.clickInPopupMenu(payment_period_name)
 		printOk("Choose payment period")
 		time.sleep(SleepSeconds.ONE)
@@ -145,7 +146,9 @@ class ContractsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('createSpecification')
 		printOk("Add specification button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(SleepSeconds.FIVE)
+		# Выбираем в деревьях ВСЕ
+		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
 		self.toolkit.clickByXPATH(pencil_window_xpath)
 		self.toolkit.clickByID('choose')
@@ -247,7 +250,7 @@ class ContractsTesting(unittest.TestCase):
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(SleepSeconds.SIX)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.tomorrow)
 		time.sleep(SleepSeconds.TWO)
@@ -302,12 +305,7 @@ class ContractsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Удаить договор
-		self.toolkit.clickByID('deleteb')
-		printOk("Delete document")
-		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("ENTER click")
-		time.sleep(SleepSeconds.FIVE)
+		self.toolkit.delete_into_doc()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -320,7 +318,9 @@ class ContractsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

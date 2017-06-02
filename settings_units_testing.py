@@ -55,7 +55,7 @@ class UnitsTesting(unittest.TestCase):
 		# Enter attributes
 		self.toolkit.fillAttributes(comment='Test comment')
 		# Click OK
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		# Sleep
 		time.sleep(SleepSeconds.THREE)
 		self.toolkit.clickByID('filter')
@@ -65,13 +65,8 @@ class UnitsTesting(unittest.TestCase):
 		# Choose object
 		self.toolkit.clickByXPATH(cell_in_table_xpath % name)
 		printOk('Choose object')
-		# Click Delete button
-		self.toolkit.clickByID('delete')
-		printOk('Click delete')
-		# Click OK
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk('Click OK')
-		time.sleep(SleepSeconds.THREE)
+		# Delete
+		self.toolkit.delete_in_table()
 		print("", flush=True)
 		print(TextColors.WARNING + "test_units END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -82,7 +77,9 @@ class UnitsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'UnitsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'UnitsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':

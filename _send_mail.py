@@ -15,7 +15,7 @@ mydict = {
 	'[94m': '<font color="blue">',
 	'[92m': '<font color="green">',
 	'[93m': '<font color="red">',
-	'[91m': '<font color="fuchsia">',
+	'[91m': '<font color="blue">',
 	'[0m': '</font>',
 	'[1m': '<font face="cursive">',
 	'[4m': '<font face="cursive">'}
@@ -25,15 +25,15 @@ you = 'vl@flexbby.com'
 
 err_msq_text = '<h3>' + 'Error message :' + '</h3>' + '<br>'
 log_msq_text = '<h3>' + 'Log message :' + '</h3>' + '<br>'
-pattern_name_text = '<h4>' + 'Pattern name :' + '</h4>' + '<br>'
+pattern_name_text = '<h4>' + 'Pattern name: ' + '</h4>'
 success_name_text = '<h4>' + 'Success Testing! ' + TakeDate.today + '</h4>' + '<br>'
-end_text = '<br>' + '===================FINISH REPORT==================='
+end_text = '<br>' + '===================FINISH REPORT===================' + '<br>'
 start_text = '===================START REPORT===================' + '<br>'
 
 msg = MIMEMultipart()
 msg['From'] = me
 msg['To'] = you
-msg['Subject'] = 'Test Result ' + TakeDate.today
+msg['Subject'] = 'Test Report' + TakeDate.today
 
 # SMTP-сервер
 server = "smtp.gmail.com"

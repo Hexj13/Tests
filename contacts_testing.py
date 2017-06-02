@@ -341,12 +341,7 @@ class ContactsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Удаить договор
-		self.toolkit.clickByID('deleteb')
-		printOk("Delete document")
-		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_button_window_xpath)
-		printOk("ENTER click")
-		time.sleep(SleepSeconds.FIVE)
+		self.toolkit.delete_into_doc()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -359,7 +354,9 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContactsTesting' FINISH" + TextColors.ENDC, flush=True, end="")
+		print(TextColors.HEADER + "Test 'ContactsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+		print("", flush=True)
 
 
 if __name__ == '__main__':
