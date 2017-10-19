@@ -1,7 +1,7 @@
-# coding=utf-8
+﻿# coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,16 +25,16 @@ class ContractsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_contracts START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Переходим в Договоры
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
 		printOk("ORDERS button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.SIX)
+		time.sleep(6)
 		print("----------------------------------------", flush=True)
 
 		"""ОБЩЕЕ"""
@@ -44,46 +44,46 @@ class ContractsTesting(unittest.TestCase):
 		contract_type_name = str(contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
 		# Находим и нажимаем в списке нужный тип документа
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		self.toolkit.clickInPopupMenu(contract_type_name)
 		printOk("Choose type")
-		time.sleep(SleepSeconds.FIVE)
+		time.sleep(5)
 		# Проставляем дату документа
 		self.toolkit.clickByID('docDate')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.action.send_keys(Keys.ENTER)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.fillAttributes(subject=test_text)
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Добавляем тег
 		self.toolkit.addTag('FAIL')
 		# Проверяем на отсутвие shadow
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
 		# Комментарий
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.addComment()
 		# Отправляем на согласование
 		self.toolkit.clickByID('_processID_process_panel', "//div[text()='Отправить на согласование']")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Стрингуем Подписанта
 		signer_position_name_u = str(signer_position_name)
 		signer_name_u = str(signer_name)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим подписанта
 		self.toolkit.fillAttributes(signerID=signer_position_name_u)
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Выбираем подписанта
 		self.toolkit.clickInPopupMenu(signer_name_u)
 		printOk("Choose signer")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Добавляем Связь
 		self.toolkit.addLinkage(("Заказчик", 'Юр. лицо'), 'Флексби Солюшнс')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -91,7 +91,7 @@ class ContractsTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.toolkit.addMembers('Инициатор', 'Согласователь')
+		self.toolkit.addMembersAndDelete('Инициатор', 'Согласователь')
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -99,40 +99,40 @@ class ContractsTesting(unittest.TestCase):
 		"""ГРАФИК ПЛАТЕЖЕЙ"""
 		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Нажимаем График Платежей
 		self.toolkit.clickTab('График платежей')
 		printOk("Payment schedule button click")
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Вводим Переодичность
 		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.clickInPopupMenu(payment_period_name)
 		printOk("Choose payment period")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Статью бюджета
 		self.toolkit.fillAttributes(planTypeID=payment_plan_name)
 		self.toolkit.clickInPopupMenu(payment_plan_name)
 		printOk("Enter payment plan")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.clickByID('cost')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Итого
 		self.toolkit.clearByID('cost', '//input')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		#
 		self.toolkit.fillAttributes(cost=payment_cost_name)
 		#
 		self.toolkit.fillAttributes(comment=test_text)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем ОК
 		self.toolkit.clickByXPATH(ok_id_window_button_xpath)
 		printOk("OK button click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		print("", flush=True)
 		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -146,7 +146,7 @@ class ContractsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('createSpecification')
 		printOk("Add specification button click")
-		time.sleep(SleepSeconds.FIVE)
+		time.sleep(5)
 		# Выбираем в деревьях ВСЕ
 		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
@@ -156,7 +156,7 @@ class ContractsTesting(unittest.TestCase):
 		# Закрываем окно
 		self.toolkit.clickByID('close')
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Close window")
 		#
 		print("", flush=True)
@@ -166,22 +166,7 @@ class ContractsTesting(unittest.TestCase):
 		"""СЧЕТА"""
 		print(TextColors.WARNING + "INVOICES PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Счета
-		self.toolkit.clickTab('Счета')
-		printOk("Invoices button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		# Спим
-		time.sleep(SleepSeconds.THREE)
-		# Закрываем счёт
-		self.toolkit.clickByID('okb')
-		printOk("Invoices close")
-		# Спим
-		time.sleep(SleepSeconds.FOUR)
+		self.toolkit.addSimpleInvoice()
 		print("", flush=True)
 		print(TextColors.WARNING + "INVOICES PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -189,24 +174,7 @@ class ContractsTesting(unittest.TestCase):
 		"""ЗАКАЗЫ"""
 		print(TextColors.WARNING + "ORDER START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Заказы
-		self.toolkit.clickTab(name='Заказы')
-		printOk("Orders button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Проставляем дату документа
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		# Спим
-		time.sleep(SleepSeconds.FIVE)
-		# Закрываем заказ
-		self.toolkit.clickByID('okb')
-		printOk("Close order")
-		time.sleep(SleepSeconds.FOUR)
+		self.toolkit.addSimpleOrder()
 		print("", flush=True)
 		print(TextColors.WARNING + "ORDER END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -214,27 +182,7 @@ class ContractsTesting(unittest.TestCase):
 		"""АКТИВНОСТИ"""
 		print(TextColors.WARNING + "ACTIVITY START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Нажимаем Активности
-		self.toolkit.clickTab('Активности')
-		printOk("Activities button click")
-		time.sleep(SleepSeconds.TWO)
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		# Спим
-		time.sleep(SleepSeconds.TWO)
-		# Вводим тип Активности
-		activities_type_name_u = str(activities_activity_type_name)
-		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
-		time.sleep(SleepSeconds.THREE)
-		# Выбираем тип Активности
-		self.toolkit.clickInPopupMenu(activities_type_name_u)
-		printOk("Choose activity type")
-		time.sleep(SleepSeconds.FIVE)
-		# Нажимаем OK
-		self.toolkit.clickByID('okb')
-		printOk("OK button click")
-		time.sleep(SleepSeconds.FOUR)
+		self.toolkit.addSimpleActivity()
 		print("", flush=True)
 		print(TextColors.WARNING + "ACTIVITY END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -245,22 +193,22 @@ class ContractsTesting(unittest.TestCase):
 		# Нажимаем Доп. соглашения
 		self.toolkit.clickTab('Доп. соглашения')
 		printOk("Activities button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.SIX)
+		time.sleep(6)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.tomorrow)
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Проставляем дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем OK
 		self.toolkit.clickByID('okb')
 		printOk("OK button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "SUPPLEMENT END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -283,19 +231,19 @@ class ContractsTesting(unittest.TestCase):
 		printOk("Shadow NO")
 		# Удаляем Счета
 		self.toolkit.deleteObj('Счета')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Delete invoices")
 		# Удаляем Заказы
 		self.toolkit.deleteObj('Заказы')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Delete orders")
 		# Удаляем Активности
 		self.toolkit.deleteObj('Активности')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Delete activity")
 		# Удаляем Доп. соглашения
 		self.toolkit.deleteObj('Доп. соглашения')
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		printOk("Delete supplement")
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)

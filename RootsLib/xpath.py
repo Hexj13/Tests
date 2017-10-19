@@ -1,15 +1,13 @@
 # coding=utf-8
-
-
 #
-comment_button_xpath = "//div[@id='Comment_objectID' and not(ancestor::div[contains(@style," \
-                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@id='visiblePart']//a[text()='%s']"
+comment_action_button_xpath = "//div[@class='qx-menu-border' and not(ancestor::div[contains(@style," \
+                              "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text()='%s']"
 #
 menu_button_xpath = "//div[@class='qx-mainmenu']//div[text()= '%s']"
 #
-to_matching_button_xpath = "//div[@class='qx-button-common-border' and not(ancestor::div[contains(@style," \
-                           "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
-                           "'Отправить на согласование' ] "
+to_state_button_xpath = "//div[@class='qx-button-common-border' and not(ancestor::div[contains(@style," \
+                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
+                        "'%s']"
 #
 add_button_element_xpath = ".//div[.='Добавить' and not(ancestor::div[contains(@style,'display:none')])and not(" \
                            "ancestor::div[contains(@style,'display: none')])] "
@@ -35,17 +33,21 @@ add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[conta
 #
 ok_delete_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
 #
-pencil_window_xpath = "//div[@class = 'qx-window']//div[@class = 'qooxdoo-table-cell' and (text()='карандаш')]"
+pencil_window_xpath = "//div[@class = 'qx-window']//div[@class = 'qooxdoo-table-cell' and (text()='Карандаш обычный')]"
 #
 ok_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \
                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 test_group_button_xpath = "//div[text() = 'Тест-группа']"
 #
-delegation_button_xpath = "//div[contains(text(), 'Делегировать')]"
-#
 group_button_xpath = "//div[text()='Группа' and not(ancestor::div[contains(@style,'display:none')])and not(" \
                      "ancestor::div[contains(@style,'display: none')])]"
+#
+employee_button_xpath = "//div[text()='Сотрудник' and not(ancestor::div[contains(@style,'display:none')])and not(" \
+                        "ancestor::div[contains(@style,'display: none')])]"
+#
+delegation_button_xpath = "//div[@class='qx-menu-border' and not(div[contains(@style,'display:none')])and not(" \
+                          "div[contains(@style,'display: none')])]//parent::div[contains(text(), 'Делегировать')]"
 #
 delete_contragent_button_xpath = "//div[@class = 'qx-strip-dialog-container-underline' and not(ancestor::div[" \
                                  "contains(@style,'display: none')])][1]//div[@id = 'delete-button']"
@@ -89,8 +91,8 @@ popup_menu_select_xpath = "//div[@class='qx-popup' and not(contains(@style," \
 select_row_in_table_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
-qx_menu_menu_select_xpath = "//div[@class='qx-menu-border' and not(ancestor::div[contains(@style," \
-                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text(" \
+qx_menu_menu_select_xpath = "//div[@class='qx-menu-border' and not(div[contains(@style," \
+                            "'display:none')])and not(div[contains(@style,'display: none')])]//div[text(" \
                             ")='%s'] "
 #
 delegation_group_xpath = "//div[text()='Логистика' and not(ancestor::div[contains(@style," \
@@ -112,5 +114,3 @@ reference_xpath = "//div[@class='qx-window'and not(div[contains(@style, 'display
 #
 dialog_attribute_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//*[@id = '{id}']"
-
-

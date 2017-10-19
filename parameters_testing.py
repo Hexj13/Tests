@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,16 +25,16 @@ class ParametersTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_parameters START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Переходим в Договоры
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
 		printOk("Contracts button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("----------------------------------------", flush=True)
 		# Находим поле Типа документа и Вводим тип
 		contract_type_name = str(contracts_type_name)
@@ -42,27 +42,27 @@ class ParametersTesting(unittest.TestCase):
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu('Тестирование параметров')
 		printOk("Choose type")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.clickByID('docNum')
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Заполняем параметр
 		self.toolkit.fillParameter('Дата', '11.11.2014')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Заполняем параметр
 		self.toolkit.fillParameter('Дробное число', '3,14')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Заполняем параметр
 		self.toolkit.fillParameter('Строка', 'Test string')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Заполняем параметр
 		self.toolkit.fillParameter('Текст', 'Test text')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Заполняем параметр
 		self.toolkit.fillParameter('Целое число', '10')
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		print("----------------------------------------", flush=True)
 		self.toolkit.delete_into_doc()
 		print("----------------------------------------", flush=True)

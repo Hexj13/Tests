@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,7 +25,7 @@ class CatalogTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_catalog START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("----------------------------------------", flush=True)
 
 		"""НАСТРЙОКИ КЛАССИФИКАТОРА"""
@@ -34,21 +34,21 @@ class CatalogTesting(unittest.TestCase):
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Settings button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		self.toolkit.click_arrow_down(9)
 		# Переходим в Товары и услуги
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("Products button click")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Переходим в Классификатор
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Классификатор')
 		printOk("Classificator button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Проставляем Название
 		self.toolkit.fillAttributes("//div[@class='qx-window']", name=classificator_name_text)
 		# Описание
@@ -58,30 +58,30 @@ class CatalogTesting(unittest.TestCase):
 		# Сохраняем
 		self.toolkit.clickByID('saveb')
 		printOk("SAVE button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем Добавить Классификацию
 		self.toolkit.clickByID('classification', add_button_xpath)
 		printOk("Add classification button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Выбираем из списка
 		self.toolkit.clickByXPATH(reference_xpath % 'TestParam')
 		printOk("Choose")
 		# Нажимаем Выбрать
 		self.toolkit.clickByID('choose')
 		printOk("Choose button click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Нажимаем ESC
 		self.toolkit.action.send_keys(Keys.ESCAPE).perform()
 		printOk("ESC button click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Нажимаем ОК
 		self.toolkit.clickByID('okb', "", "//div[@class='qx-window']")
 		printOk("OK button click (in window)")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Закрываем выпадающее меню справа
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("Close PRODUCT menu")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Закрываем выпадающее меню справа
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Close SETTINGS menu")
@@ -99,11 +99,11 @@ class CatalogTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("PRODUCT button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Проставляем:
 		# Код товара
 		self.toolkit.fillAttributes(code='0000x1')
@@ -113,7 +113,7 @@ class CatalogTesting(unittest.TestCase):
 		self.toolkit.fillAttributes(productCode='0001x01')
 		# Дату деактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		time.sleep(SleepSeconds.FIVE)
+		time.sleep(5)
 		# Классификатор
 		self.toolkit.chooseReferenceInWindow('hierarchyID', classificator_name_text)
 		# Описание
@@ -180,11 +180,11 @@ class CatalogTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Прайс-листы')
 		printOk("PRICE-lists button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Проставляем:
 		# Название
 		self.toolkit.fillAttributes(name=price_name_text)
@@ -195,7 +195,7 @@ class CatalogTesting(unittest.TestCase):
 		# Нажимаем РЕДАКТИРОВАТЬ
 		self.toolkit.clickByXPATH(edit_file_button_xpath)
 		printOk("Edit button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажмаем Добавить
 		self.toolkit.clickByXPATH(add_button_element_xpath)
 		printOk("Add button click")
@@ -214,7 +214,7 @@ class CatalogTesting(unittest.TestCase):
 		# Нажимаем Закрыть в окне
 		self.toolkit.clickByXPATH(close_window_button_xpath)
 		printOk("Close window button button click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# ОК
 		self.toolkit.clickByID('okb')
 		printOk("OK button click")
@@ -249,13 +249,13 @@ class CatalogTesting(unittest.TestCase):
 		self.toolkit.click_arrow_down(9)
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Товары и услуги')
 		printOk("Products button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Классификатор')
 		printOk("Classificator button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		self.toolkit.clickByXPATH(cell_in_table_xpath % classificator_name_text)
 		printOk("Choose")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		self.toolkit.delete_in_table()
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete Links END" + TextColors.ENDC, flush=True)

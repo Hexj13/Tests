@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,7 +25,7 @@ class NumeratorsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_numerators START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Settings button click")
@@ -36,11 +36,11 @@ class NumeratorsTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Нумераторы')
 		printOk("Countries button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("----------------------------------------", flush=True)
 		# set Name
 		name = 'Test numerator'
@@ -55,11 +55,11 @@ class NumeratorsTesting(unittest.TestCase):
 		# Click OK
 		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		# Sleep
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		self.toolkit.clickByID('filter')
 		printOk("Filter click")
 		self.toolkit.sendKeysByXPATH("//div[@class='qx-popup']//input", name)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Choose object
 		self.toolkit.clickByXPATH(cell_in_table_xpath % name)
 		printOk('Choose object')

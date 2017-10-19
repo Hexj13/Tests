@@ -46,19 +46,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .idea
-contacts_content_config.py
-complex_content_config.py
-accounts_content_config.py
-activities_content_config.py
 *.log
-content.py
 *.pyc
-Screenshots/
-RootsLib/__pycache__/
-__pycache__/
+rootsLib/content.py
 
-Runners and settings/Флешки настрйоки/System Volume Information/
-
-Test POST Server/readme\.txt
-
-Simple_Post_Server/readme\.txt

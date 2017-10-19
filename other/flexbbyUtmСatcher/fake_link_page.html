@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Starter Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  	<!-- Optional theme -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  	<!-- Latest compiled and minified JavaScript -->
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./sourcebuster-js-master/dist/sourcebuster.min.js"></script>    
+    <script src="./jquery-cookie-master/src/jquery.cookie.js"></script>
+    <script type="text/javascript">
+      sbjs.init({
+        domain: {
+          host: 'localhost:8000',
+          isolate: true
+        }
+      });
+    </script>
+    <script type="text/javascript">
+      $.cookie.json = true;
+      var visit_list = {
+        typ:sbjs.get.current.typ, // тип трафика/ возможные значения: `utm`, `organic`, `referral`, `typein`
+        src:sbjs.get.current.src, // источник (utm_source)
+        mdm:sbjs.get.current.mdm, // канал (utm_medium)
+        cmp:sbjs.get.current.cmp, // кампания (utm_campaign)
+        cnt:sbjs.get.current.cnt, // контент (utm_content)
+        trm:sbjs.get.current.trm, // ключевое слово (utm_term)
+        fd:sbjs.get.current_add.fd, // дата и время визита `yyyy-mm-dd hh:mm:ss`
+        ep:sbjs.get.current_add.ep, // точка входа
+        rf:sbjs.get.current_add.rf, // реферер
+        pgs:sbjs.get.session.pgs, // сколько страниц сайта посмотрел посетитель
+        cpg:sbjs.get.session.cpg, // URL текущей страницы посетителя
+        vst:sbjs.get.udata.vst, // сколько раз пользователь посещал сайт
+        uip:sbjs.get.udata.uip, // текущий ip-адрес
+        uag:sbjs.get.udata.uag // текущий браузер
+      }
+      add_arr_local(visit_list)
+      arr_local = read_arr_local()
+      console.log(arr_local)
+      // запись елемента массива в local   
+      function add_arr_local(obj){           
+        var arr = read_arr_local();//получаем текущее состояние массива
+        arr.push(obj); //добавляем элемент в конец
+        var str = JSON.stringify(arr);//конвертируем в строку                    
+        localStorage.setItem('arr',str);//записываем массив в local
+      }
+      function read_arr_local(){
+        var dataArr=localStorage.getItem('arr');//считываем данные из local   
+        //если массив небы обнаружен, иницилизируем его
+        if(!dataArr){
+          dataArr = init_arr_local();
+        //возвращаем инициализированный пустой маасив
+        }  
+        //возвращаем полученный массив
+        return JSON.parse (dataArr);
+      }
+      function init_arr_local(){           
+        var str = JSON.stringify([]);//конвертируем в строку                    
+        localStorage.setItem('arr',str);//записываем массив в local 
+        return str;
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Flexbby UTM Catcher <span class="glyphicon glyphicon-magnet" aria-hidden="true"></span></a>
+          <a href="index.html"><button type="button" class="btn btn-success" style="margin-top: 10px">Return</button></a>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

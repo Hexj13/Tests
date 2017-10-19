@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -22,20 +22,20 @@ class RequestsTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 
 	def test_requests(self):
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_requests START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Проваливаемся на сайт
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Находим в меню Заявки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Заявки')
 		printOk("Activities button find&click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button find&click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("", flush=True)
 		print("----------------------------------------", flush=True)
 
@@ -45,21 +45,21 @@ class RequestsTesting(unittest.TestCase):
 		# Находим поле Типа документа и Вводим тип
 		contract_type_name = str(contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID='Запрос справки')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu('Запрос справки')
 		printOk("Choose type")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Добавляем Тег
 		self.toolkit.addTag('Срочно')
 		# Вводим дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Описание
 		self.toolkit.fillAttributes(subject=test_text)
 		# Комментарий
 		self.toolkit.addComment()
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -67,7 +67,7 @@ class RequestsTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.toolkit.addMembers()
+		self.toolkit.addMembersAndDelete()
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -75,26 +75,7 @@ class RequestsTesting(unittest.TestCase):
 		"""АКТИВНОСТИ"""
 		print(TextColors.WARNING + "ACTIVITY START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Нажимаем Активности
-		self.toolkit.clickTab('Активности')
-		printOk("Activities button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		# Спим
-		time.sleep(SleepSeconds.TWO)
-		# Вводим тип Активности
-		activities_type_name_u = str(activities_activity_type_name)
-		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
-		time.sleep(SleepSeconds.THREE)
-		# Выбираем тип Активности
-		self.toolkit.clickInPopupMenu(activities_type_name_u)
-		printOk("Choose activity type")
-		time.sleep(SleepSeconds.FIVE)
-		# Нажимаем OK
-		self.toolkit.clickByID('okb')
-		printOk("OK button click")
-		time.sleep(SleepSeconds.TWO)
+		self.toolkit.addSimpleActivity()
 		print("", flush=True)
 		print(TextColors.WARNING + "ACTIVITY END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

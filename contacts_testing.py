@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -24,7 +24,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_contacts START" + TextColors.ENDC, flush=True)
 		# Проваливаемся на сайт
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Находим в меню Физ. лица
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Физ. лица')
 		printOk("Contacts button menu click")
@@ -42,11 +42,11 @@ class ContactsTesting(unittest.TestCase):
 		# Вводим Name
 		name_text_u = str(name_text)
 		self.toolkit.fillAttributes(name=name_text_u)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Surname
 		surname_text_u = str(surname_text)
 		self.toolkit.fillAttributes(surname=surname_text_u)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Patronymic
 		patronymic_text_u = str(patronymic_text)
 		self.toolkit.fillAttributes(patronymic=patronymic_text_u)
@@ -58,7 +58,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.clickByID("gender")
 		gender_text_u = str(gender_text)
 		self.toolkit.clickInPopupMenu(gender_text_u)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		printOk("Choose sex")
 		# Проставляем Описание
 		comment_text_u = str(comment_text)
@@ -78,7 +78,7 @@ class ContactsTesting(unittest.TestCase):
 		# Выбираем Компанию
 		self.toolkit.chooseReferenceInWindow('companyID', 'Флексби Солюшнс')
 		# Выбираем Должность
-		self.toolkit.chooseReferenceInWindow('positionID', 'Генеральный директор')
+		self.toolkit.chooseReferenceInWindow('positionID', 'Отдел разработки')
 		# Нажимаем ОК
 		self.toolkit.clickInWindowByIDKey('okb')
 		printOk("OK button click")
@@ -105,7 +105,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
 		# Добавить Документ
 		self.toolkit.clickByID('ContactPersonDocument_contactPersonID')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Add document button click")
 		"""КОСТЫЛЬ начался"""  # TODO: после исправления баги с полями в физ.лице нужно будет это всё переделать!
 		# Вводим Описание
@@ -133,13 +133,13 @@ class ContactsTesting(unittest.TestCase):
 		# Добавить Адрес
 		self.toolkit.clickByID('Address_objectID')
 		#
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		#
 		self.toolkit.clickByID('streetAddress')
 		adrr_text_u = str(adrr_text)
 		self.toolkit.fillAttributes(streetAddress=adrr_text_u)
 		self.toolkit.clickByID('city')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Выбираем первый выпавший адрес для активации Google Maps
 		self.toolkit.clickByID('proposed_addresses', "//a")
 		printOk("Google Maps activate")
@@ -158,32 +158,7 @@ class ContactsTesting(unittest.TestCase):
 		"""ДОГОРОВЫ"""
 		print(TextColors.WARNING + "CONTRACTS START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Договоры
-		self.toolkit.clickTab(name='Договоры')
-		printOk("Contracts button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Находим поле Типа документа и Вводим тип
-		contract_type_name = str(contracts_type_name)
-		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
-		# Находим и нажимаем в списке нужный тип документа
-		self.toolkit.clickInPopupMenu(contract_type_name)
-		printOk("Choose type")
-		# Спим
-		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		# Спим
-		time.sleep(SleepSeconds.FIVE)
-		# Закрываем договор
-		self.toolkit.clickByID('okb')
-		printOk("Close contract")
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleContract()
 		print("", flush=True)
 		print(TextColors.WARNING + "CONTRACTS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -191,25 +166,7 @@ class ContactsTesting(unittest.TestCase):
 		"""ЗАКАЗЫ"""
 		print(TextColors.WARNING + "ORDER START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Заказы
-		self.toolkit.clickTab(name='Заказы')
-		printOk("Orders button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		# Спим
-		time.sleep(SleepSeconds.FIVE)
-		# Закрываем заказ
-		self.toolkit.clickByID('okb')
-		printOk("Close order")
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleOrder()
 		print("", flush=True)
 		print(TextColors.WARNING + "ORDER END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -217,31 +174,7 @@ class ContactsTesting(unittest.TestCase):
 		"""СЧЕТА"""
 		print(TextColors.WARNING + "INVOICES START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Счета
-		self.toolkit.clickTab(name='Счета')
-		printOk("Invoices button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Находим поле Типа счёта и Вводим тип
-		account_type_name_u = str(account_type_name)
-		self.toolkit.fillAttributes(planTypeID=account_type_name_u)
-		# Находим и нажимаем в списке нужный тип счёта
-		self.toolkit.clickInPopupMenu(account_type_name_u)
-		printOk("Choose document type")
-		# Нажимаем на кнопку для выбора договора
-		self.toolkit.chooseReferenceInWindow('parentID', contract_type_name)
-		# Спим
-		time.sleep(SleepSeconds.THREE)
-		# Закрываем счёт
-		self.toolkit.clickByID('okb')
-		printOk("Invoices close")
-		# Спим
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleInvoiceWithContract()
 		print("", flush=True)
 		print(TextColors.WARNING + "INVOICES END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -258,7 +191,7 @@ class ContactsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Находим поле Типа продажи и Вводим тип
 		sales_type_name_u = str(sales_type_name)
 		self.toolkit.fillAttributes(documentTypeID=sales_type_name_u)
@@ -266,12 +199,12 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.clickInPopupMenu(sales_type_name_u)
 		printOk("Choose contract")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Закрываем продажи
 		self.toolkit.clickByID('okb')
 		printOk("Opportunities close")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		print("", flush=True)
 		print(TextColors.WARNING + "OPPORTUNITIES END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -289,12 +222,12 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Закрываем продажи
 		self.toolkit.clickByID('okb')
 		printOk("Approvals close")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		print("", flush=True)
 		print(TextColors.WARNING + "APPROVALS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -332,7 +265,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.clickTab('Общее')
 		printOk("GO to General")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

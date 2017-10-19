@@ -1,12 +1,13 @@
 # coding: utf-8
 
+import smtplib
 import sys
 import unittest
-import smtplib
-from io import StringIO
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from RootsLib.roots import TakeDate
+from email.mime.text import MIMEText
+from io import StringIO
+
+from rootsLib.roots import TakeDate
 
 pattern_name = '*_testing.py'
 

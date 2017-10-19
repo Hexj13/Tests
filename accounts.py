@@ -1,6 +1,7 @@
 # coding=utf-8
 import unittest
-from RootsLib.roots import *
+
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -24,11 +25,11 @@ class AccountsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_accounts START" + TextColors.ENDC, flush=True)
 		print("")
 		# Проваливаемся на сайт
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Находим в меню Юр. лица
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Юр. лица')
 		printOk("Account button find&click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Добавить
 		self.toolkit.clickByID('new')
 		print("Add button find&click")
@@ -37,7 +38,7 @@ class AccountsTesting(unittest.TestCase):
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Вводим ИНН
 		self.toolkit.fillAttributes(inn=inn)
 		# Нажимаем кнопку
@@ -53,7 +54,7 @@ class AccountsTesting(unittest.TestCase):
 		printOk("Enter Site")
 		# Проставляем  phone
 		self.toolkit.fillAttributes(phone=phone_text)
-		# time.sleep(SleepSeconds.FIVE)
+		# time.sleep(5)
 		# self.toolkit.driver.find_element_by_id('photo').send_keys(os.getcwd() + r"C:\Users\Operator\Pictures\1378.jpg")
 		# time.sleep(60)
 		# Проставляем дату диактивации
@@ -78,19 +79,19 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Декод
 		structure_name_u = str(structure_name)
 		printOk("Structure name decode")
 		# Вводим название Структуры
 		self.toolkit.fillAttributes(name=structure_name_u)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем Ок
 		self.toolkit.clickByID('okb')
 		printOk("OK button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		#
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
@@ -120,7 +121,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByID('proposed_addresses', "//a")
 		printOk("Choose first address to activate Google Maps")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем Добавить вид активности
 		self.toolkit.clickByID('CompanyActivityType_objectID', "//div[text() = 'Добавить']")
 		printOk("Activity type button click")
@@ -145,33 +146,7 @@ class AccountsTesting(unittest.TestCase):
 		"""ДОГОРОВЫ"""
 		print(TextColors.WARNING + "CONTRACTS START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Договоры
-		self.toolkit.clickTab(name='Договоры')
-		printOk("Contracts button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.SEVEN)
-		# Находим поле Типа документа и Вводим тип
-		contract_type_name = str(contracts_type_name)
-		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
-		# Находим и нажимаем в списке нужный тип документа
-		self.toolkit.clickInPopupMenu(contract_type_name)
-		printOk("Choose type")
-		time.sleep(SleepSeconds.FOUR)
-		# Спим
-		# Проставляем дату документа
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		self.toolkit.clickByID('processID.stateID')
-		# Спим
-		time.sleep(SleepSeconds.FIVE)
-		# Закрываем договор
-		self.toolkit.clickByID('okb')
-		printOk("Close contract")
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleContract()
 		print("", flush=True)
 		print(TextColors.WARNING + "CONTRACTS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -179,25 +154,7 @@ class AccountsTesting(unittest.TestCase):
 		"""ЗАКАЗЫ"""
 		print(TextColors.WARNING + "ORDER START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Заказы
-		self.toolkit.clickTab(name='Заказы')
-		printOk("Orders button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
-		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		# Спим
-		time.sleep(SleepSeconds.FIVE)
-		# Закрываем заказ
-		self.toolkit.clickByID('okb')
-		printOk("Close order")
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleOrder()
 		print("", flush=True)
 		print(TextColors.WARNING + "ORDER END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -205,31 +162,7 @@ class AccountsTesting(unittest.TestCase):
 		"""СЧЕТА"""
 		print(TextColors.WARNING + "INVOICES START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Счета
-		self.toolkit.clickTab(name='Счета')
-		printOk("Invoices button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
-		# Находим поле Типа счёта и Вводим тип
-		account_type_name_u = str(account_type_name)
-		self.toolkit.fillAttributes(planTypeID=account_type_name_u)
-		# Находим и нажимаем в списке нужный тип счёта
-		self.toolkit.clickInPopupMenu(account_type_name_u)
-		printOk("Choose document type")
-		# Нажимаем на кнопку для выбора договора
-		self.toolkit.chooseReferenceInWindow('parentID', contract_type_name)
-		# Спим
-		time.sleep(SleepSeconds.THREE)
-		# Закрываем счёт
-		self.toolkit.clickByID('okb')
-		printOk("Invoices close")
-		# Спим
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleInvoiceWithContract()
 		print("", flush=True)
 		print(TextColors.WARNING + "INVOICES END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -246,7 +179,7 @@ class AccountsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Находим поле Типа продажи и Вводим тип
 		sales_type_name_u = str(sales_type_name)
 		self.toolkit.fillAttributes(documentTypeID=sales_type_name_u)
@@ -254,12 +187,12 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickInPopupMenu(sales_type_name_u)
 		printOk("Choose contract")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Закрываем продажи
 		self.toolkit.clickByID('okb')
 		printOk("Opportunities close")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		print("", flush=True)
 		print(TextColors.WARNING + "OPPORTUNITIES END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -277,12 +210,12 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		# Закрываем продажи
 		self.toolkit.clickByID('okb')
 		printOk("Approvals close")
 		# Спим
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		print("", flush=True)
 		print(TextColors.WARNING + "APPROVALS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -301,7 +234,7 @@ class AccountsTesting(unittest.TestCase):
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Удаляем Договор
 		self.toolkit.deleteObj('Договоры')
 		printOk("Delete Contract")
@@ -333,7 +266,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Проходим в Структуру
 		self.toolkit.clickTab('Структура')
 		printOk("GO to Structure")
@@ -347,7 +280,7 @@ class AccountsTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

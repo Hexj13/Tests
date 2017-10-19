@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,12 +25,12 @@ class OrdersTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_orders START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Переходим в Заказы
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Заказы')
 		printOk("ORDERS button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
@@ -39,7 +39,7 @@ class OrdersTesting(unittest.TestCase):
 		"""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		time.sleep(SleepSeconds.FIVE)
+		time.sleep(5)
 		# Проставляем дату документа
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
 		# Добавляем тег
@@ -60,10 +60,10 @@ class OrdersTesting(unittest.TestCase):
 		self.toolkit.clickInPopupMenu(signer_name_u)
 		printOk("Choose signer")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Добавляем Связь
 		self.toolkit.addLinkage(("Заказчик", 'Юр. лицо'), 'Флексби Солюшнс')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -71,7 +71,7 @@ class OrdersTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.toolkit.addMembers()
+		self.toolkit.addMembersAndDelete()
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -85,7 +85,7 @@ class OrdersTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('createSpecification')
 		printOk("Add specification button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Выбираем в деревьях ВСЕ
 		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
@@ -95,7 +95,7 @@ class OrdersTesting(unittest.TestCase):
 		# Закрываем окно
 		self.toolkit.clickByID('close')
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Close window")
 		#
 		print("", flush=True)
@@ -111,33 +111,33 @@ class OrdersTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Вводим Переодичность
 		payment_period_name_u = str(payment_period_name)
 		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name_u)
 		self.toolkit.clickInPopupMenu(payment_period_name_u)
 		printOk("Choose payment period")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Статью бюджета
 		payment_plan_name_u = str(payment_plan_name)
 		self.toolkit.fillAttributes(planTypeID=payment_plan_name_u)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.clickInPopupMenu(payment_plan_name_u)
 		printOk("Enter payment plan")
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Проставляем ставку налога
 		self.toolkit.clickByID('taxClassID', "//div")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		self.toolkit.clickInPopupMenu('НДС 18%')
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Вводим Итого
 		self.toolkit.fillAttributes("//div[@class='qx-window']", "", cost=payment_cost_name)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем ОК
 		self.toolkit.clickByXPATH(ok_id_window_button_xpath)
 		printOk("OK button click")
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		print("", flush=True)
 		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -145,22 +145,7 @@ class OrdersTesting(unittest.TestCase):
 		"""СЧЕТА"""
 		print(TextColors.WARNING + "INVOICES PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Нажимаем Счета
-		self.toolkit.clickTab('Счета')
-		printOk("Invoices button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		# Спим
-		time.sleep(SleepSeconds.THREE)
-		# Закрываем счёт
-		self.toolkit.clickByID('okb')
-		printOk("Invoices close")
-		# Спим
-		time.sleep(SleepSeconds.THREE)
+		self.toolkit.addSimpleInvoice()
 		print("", flush=True)
 		print(TextColors.WARNING + "INVOICES PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -168,26 +153,7 @@ class OrdersTesting(unittest.TestCase):
 		"""АКТИВНОСТИ"""
 		print(TextColors.WARNING + "ACTIVITY PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		activities_type_name_u = str(activities_activity_type_name)
-		# Нажимаем Активности
-		self.toolkit.clickTab('Активности')
-		printOk("Activities button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		# Спим
-		time.sleep(SleepSeconds.TWO)
-		# Вводим тип Активности
-		self.toolkit.fillAttributes(documentTypeID=activities_type_name_u)
-		time.sleep(SleepSeconds.THREE)
-		# Выбираем тип Активности
-		self.toolkit.clickInPopupMenu(activities_type_name_u)
-		printOk("Choose activity type")
-		time.sleep(SleepSeconds.FIVE)
-		# Нажимаем OK
-		self.toolkit.clickByID('okb')
-		time.sleep(SleepSeconds.TWO)
-		printOk("OK button click")
+		self.toolkit.addSimpleActivity()
 		print("", flush=True)
 		print(TextColors.WARNING + "ACTIVITY PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -209,11 +175,11 @@ class OrdersTesting(unittest.TestCase):
 		# Удаляем Счёт
 		self.toolkit.deleteObj('Счета')
 		printOk("Delete Invoices")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		# Удаляем Активность
 		self.toolkit.deleteObj('Активности')
 		printOk("Delete Activity")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -223,6 +189,7 @@ class OrdersTesting(unittest.TestCase):
 		print("", flush=True)
 		# Удаить договор
 		self.toolkit.delete_into_doc()
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

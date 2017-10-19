@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 
-from RootsLib.roots import *
+from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
@@ -25,10 +25,10 @@ class FilesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "test_files START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		printOk("Settings button click")
 		# Переходим в Общее
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Общее')
@@ -38,11 +38,11 @@ class FilesTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Файлы')
 		printOk("Countries button click")
 		# Спим
-		time.sleep(SleepSeconds.TWO)
+		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(SleepSeconds.FOUR)
+		time.sleep(4)
 		print("----------------------------------------", flush=True)
 		# set Name
 		name = 'Test file'
@@ -58,11 +58,11 @@ class FilesTesting(unittest.TestCase):
 		# Click OK
 		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
 		# Sleep
-		time.sleep(SleepSeconds.THREE)
+		time.sleep(3)
 		self.toolkit.clickByID('filter')
 		printOk("Filter click")
 		self.toolkit.sendKeysByXPATH("//div[@class='qx-popup']//input", name)
-		time.sleep(SleepSeconds.ONE)
+		time.sleep(1)
 		# Choose object
 		self.toolkit.clickByXPATH(cell_in_table_xpath % name)
 		printOk('Choose object')
