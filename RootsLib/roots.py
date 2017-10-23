@@ -91,9 +91,11 @@ class UITestToolkit(object):
 			self.sendKeysByXPATH(attribute_xpath.format(child=child_xpath, parent=parent_xpath, id=k), v)
 			printOk("Enter " + k)
 
+	# Выбирает (клик) строку по тексту
 	def selectRowInTable(self, contains_text=''):
 		self.clickByXPATH(attribute_xpath.format(text=contains_text))
 
+	# Очищает поле и вносит данные по id элемента
 	def inputByID(self, element_id, text):
 		search_element = self.driver.find_element_by_id(element_id)
 		printOk("Find element by ID == '" + TextColors.BOLD + element_id + TextColors.ENDC + "'")
@@ -102,23 +104,29 @@ class UITestToolkit(object):
 		search_element.send_keys(text)
 		printOk("Enter text == '" + TextColors.BOLD + text + TextColors.ENDC + "'")
 
+	# Проверяет видимость элемента на стейдже по id элемента
 	def visibilityOfAnyElem(self, docID):
 		self.wait.until(EC.visibility_of_any_elements_located((By.ID, docID)))
 
+	# Находит(делает фокус) ячейку в таблице с текстом
 	def findElement(self, text):
 		self.driver.find_element_by_xpath(cell_in_table_xpath % text).location_once_scrolled_into_view()
 
+	# Очищает поле по id
 	def clearByID(self, element_id, child_xpath='', parent_xpath=''):
 		self.driver.find_element_by_xpath(
 			attribute_xpath.format(parent=parent_xpath, child=child_xpath, id=element_id)).clear()
 
+	# Заглушка для ощибок выводимых системой
 	def waitNoShadow(self):
 		self.wait.until(EC.invisibility_of_element_located((By.ID, 'shadow')))
 		time.sleep(2)
 
+	# Проверяет визибилити элемента. Использовано element_to_be_clickable для проверки не только на визибил но и на вохможность взаимодействия
 	def checkVisibility(self, xpath):
 		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
 
+	# Парсит URL и берёт внутренний id документа
 	def takeDocID(self):
 		url = self.driver.current_url
 		hash_tag = url[url.find('#') + 1:]
@@ -126,9 +134,11 @@ class UITestToolkit(object):
 		obj_id = params['id']
 		return obj_id
 
+	# Закрытие браузера
 	def quit(self):
 		self.driver.quit()
 
+	# Выбор "Ответственного" в окне настроек. Необходимо передавать id поля куда нужно проставить ответсвенного и его ФИО.
 	def chooseReferenceInWindow(self, reference_id, text):
 		# Нажимаем на кнопку для выбора договора
 		self.clickByID(reference_id, "//div[@id = 'choose-button']")
@@ -138,21 +148,24 @@ class UITestToolkit(object):
 		self.clickByID('filter', parent_xpath="//div[@class='qx-window']")
 		printOk("Filter click")
 		time.sleep(1)
-		#
+		# Проставляем значение в поле
 		self.sendKeysByXPATH("//div[@class='qx-popup']//input", text)
 		time.sleep(1)
-		#
+		# Выбираем
 		self.clickByXPATH(reference_obj_xpath.format(text=text))
 		time.sleep(1)
 		self.clickByID('choose')
 		printOk("Choose contract")
 
+	# Логин в систему. Принимает логин и пароль
 	def login(self, login, password):
 		print(TextColors.WARNING + "login START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		time.sleep(1)
+		# Чистим и запоняем логин
 		self.clearByID('login')
 		self.fillAttributes(login=login)
+		# Запоняем пароль
 		self.fillAttributes(password=password)
 		self.clickByID('enter')
 		printOk("Submit button click")
@@ -161,25 +174,33 @@ class UITestToolkit(object):
 		print(TextColors.WARNING + "login FINISH" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
+	# Заполняет поля параметров в документе
 	def fillParameter(self, param_name, input_text):
+		# Находим в столбце с названиями параметров нужный и возвращаем его третьего родителя
 		param_line = self.driver.find_element_by_xpath(
 			"//div[@id='DocumentParameterValue_objectID']//parent::div[@class='qx-table-row']//span[text()='%s']" % param_name
 		).find_element_by_xpath('../../..')
 		printOk("Find target row with name = " + TextColors.HEADER + param_name + TextColors.ENDC)
+		# Находим всю строчку
 		rows = param_line.find_elements_by_xpath('../*')
+		# Добавляем единицу к индексу. Необходимо будет для определения соответвующей строчки напротив строки с названием.
 		indexOfTarget = rows.index(param_line) + 1
 		printOk("Index of target = " + TextColors.HEADER + str(indexOfTarget) + TextColors.ENDC)
 		time.sleep(1)
+		# Находим ячейку значения
 		value_clm = "//div[@id='DocumentParameterValue_objectID']/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[%s]/div[1]" % indexOfTarget  # <---- %s передавать indexOfTarget
 		time.sleep(1)
+		# Клип по ячейке для активации
 		self.clickByXPATH(value_clm)
 		printOk("Click on 'Value' column")
 		time.sleep(1)
+		# Внутри ячейки находим инпут и проставляем значение
 		self.driver.find_element_by_xpath(
 			"//div[@id='DocumentParameterValue_objectID']//div[@class='qx-table-scroller-focus-indicator']//input").send_keys(
 			input_text)
 		printOk('Send keys')
 		time.sleep(2)
+		# Enter
 		self.action.send_keys(Keys.ENTER)
 		printOk('Enter click')
 		# Нажимаем кнопку Добавить Комментарий
@@ -192,7 +213,8 @@ class UITestToolkit(object):
 		printOk("Save button click")
 		time.sleep(1)
 
-	def createSimpleObject(self, **kwargs):
+	# Создаёт новый реквизит в Юр.лицах и заполняет поля через словарь. Использую в addBankAccount
+	def createSimpleBankObject(self, **kwargs):
 		# Нажимаем Добавить
 		self.clickByID('BankAccount_objectID', '//div[@id="new"]')
 		printOk("Add button click")
@@ -203,6 +225,7 @@ class UITestToolkit(object):
 		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK button click")
 
+	# Передаёт ссылку в браузер.
 	def setSite(self, url):
 		self.driver.get(url)
 		print(
@@ -212,6 +235,7 @@ class UITestToolkit(object):
 
 	""""ADD ELEMENT"""
 
+	# Добавляет комметарий в документе
 	def addComment(self):
 		# Нажимаем кнопку Добавить Комментарий
 		self.clickByID('newCommentButton')
@@ -245,6 +269,7 @@ class UITestToolkit(object):
 		printOk("OK button click")
 		time.sleep(2)
 
+	# Добавляет файлы по шаблону в Файлах внутри документа
 	def addTestTemplateInFiles(self, template_name):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -271,6 +296,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(2)
 
+	# Добавляет активность (маленькую) внутри документа
 	def addActivity(self):
 		# Нажимаем Добавить Автивность
 		self.clickByID('addActivity')
@@ -322,6 +348,7 @@ class UITestToolkit(object):
 		printOk('OK button button click')
 		time.sleep(1)
 
+	# Добавляет счёт внутри документа с привязкой договора
 	def addSimpleInvoiceWithContract(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -349,6 +376,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(3)
 
+	# Добавляет счёт внутри документа без привязки договора
 	def addSimpleInvoice(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -367,6 +395,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(3)
 
+	# Добавляет активность в документе
 	def addSimpleActivity(self):
 		# Нажимаем Активности
 		self.clickTab('Активности')
@@ -388,6 +417,7 @@ class UITestToolkit(object):
 		printOk("OK button click")
 		time.sleep(2)
 
+	# Добавляет заказ в документе
 	def addSimpleOrder(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -409,6 +439,7 @@ class UITestToolkit(object):
 		printOk("Close order")
 		time.sleep(3)
 
+	# Добавляет договор в документе
 	def addSimpleContract(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -442,6 +473,7 @@ class UITestToolkit(object):
 		printOk("Close contract")
 		time.sleep(3)
 
+	# Добавляет тестовую папку в Файлах внутри документа
 	def addTestFolderInFiles(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
@@ -472,6 +504,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(2)
 
+	# Добавляет тег в документе
 	def addTag(self, tag_name):
 		# Добавляем тег
 		self.clickByID('addTag')
@@ -487,6 +520,7 @@ class UITestToolkit(object):
 		self.clickByID("delete-button", "", "//div[@class='qx-strip-dialog-container-tag']")
 		printOk("Delete tag")
 
+	# Добавляет участника и удаляет его
 	def addMembersAndDelete(self, first_group_name='Инициатор', second_group_name='Исполнитель'):
 		# Нажимаем Участники
 		self.clickTab('Участники')
@@ -536,6 +570,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(2)
 
+	# Добавляет участника
 	def addMember(self, name, first_group_name='Согласователь', second_group_name='Сотрудник'):
 		# Нажимаем Участники
 		self.clickTab('Участники')
@@ -557,6 +592,7 @@ class UITestToolkit(object):
 		self.clickByID('close')
 		printOk("Close window")
 
+	# Добавляет связь в документе
 	def addLinkage(self, customer_group_name, customer_name):
 		# Нажимаем +
 		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']")
@@ -573,7 +609,7 @@ class UITestToolkit(object):
 		self.clickByID('filter', parent_xpath="//div[@class='qx-window']")
 		printOk("Filter click")
 		time.sleep(1)
-		#
+		# Вводим контрагента
 		self.sendKeysByXPATH("//div[@class='qx-popup']//input", customer_name)
 		time.sleep(1)
 		# Нажимаем на контрагента в таблице
@@ -587,8 +623,9 @@ class UITestToolkit(object):
 
 	# Закрытие таблицы проиходит автоматом
 
+	# Добавляем реквизиты банка в Юр.лицах
 	def addBankAccount(self):
-		self.createSimpleObject(
+		self.createSimpleBankObject(
 			bik='044525225',
 			nameForeign='SBERBANK',
 			inn='7707083893',
@@ -601,6 +638,7 @@ class UITestToolkit(object):
 
 	""""DELETE ELEMENT"""
 
+	# Удаляет документ (внутри документа через кнопку)
 	def delete_into_doc(self):
 		# Удаить договор
 		self.clickByID('deleteb')
@@ -611,6 +649,7 @@ class UITestToolkit(object):
 		printOk("ENTER click")
 		time.sleep(5)
 
+	# Удаляет в таблице в объекте
 	def delete_in_table(self):
 		# Удаить договор
 		self.clickByID('delete')
@@ -621,6 +660,7 @@ class UITestToolkit(object):
 		printOk("ENTER click")
 		time.sleep(5)
 
+	# Удаляет участника
 	def deleteMember(self, cell_name):
 		# Нажимаем Участники
 		self.clickTab('Участники')
@@ -636,6 +676,7 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(2)
 
+	# Удаляет объект во вкладке. Передавать только название вкладки.
 	def deleteObj(self, obj_name):
 		time.sleep(2)
 		# Переходим в раздел
@@ -654,6 +695,7 @@ class UITestToolkit(object):
 
 	""""CLICK"""
 
+	# Клик стрелки вниз
 	def click_arrow_down(self, value):
 		i = value
 		while i != 0:
@@ -662,26 +704,32 @@ class UITestToolkit(object):
 			i -= 1
 		time.sleep(1)
 
+	# Клик по xpath
 	def clickByXPATH(self, xpath):
 		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)),
 		                TextColors.FAIL + "Can't click element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
 		time.sleep(1)
 
+	# Клик по вкладке
 	def clickTab(self, name):
 		time.sleep(2)
 		self.clickByXPATH(tab_xpath.format(name=name))
 
+	# Клик по id элемента
 	def clickByID(self, element_id, child_xpath='', parent_xpath=''):
 		self.clickByXPATH(attribute_xpath.format(id=element_id, child=child_xpath, parent=parent_xpath))
 
+	# Клик в окне по id элемента
 	def clickInWindowByIDKey(self, element_id, child_xpath=''):
 		self.clickByXPATH(window_attribute_xpath.format(id=element_id, child=child_xpath))
 
+	# Клик по элементу в popup
 	def clickInPopupMenu(self, text):
 		time.sleep(3)
 		self.clickByXPATH(popup_menu_select_xpath % text)
 		time.sleep(1)
 
+	# Клик в дереве
 	def treeClick(self, tree_name):
 		# Нажимаем рефлеш
 		self.clickByID('tree-toolbar', "//div[@class='qx-button-common-border']")
