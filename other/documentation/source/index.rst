@@ -1,4 +1,3 @@
-
 .. |Flexbby img| image:: _static/logo.png
 
 Тестирование
@@ -7,7 +6,7 @@
 .. figure:: _static/logo.png
 	:align: right
 
-Данная инструкция направлена на быстрое понимание принципов работы с библитекой **RootLib**,
+Данная инструкция направлена на быстрое понимание принципов работы с библитекой **rootsLib**,
 структуры теста и необходимых инструменов для комфортной работы.
 
 .. note:: Вы можите воспользоваться быстрым Поиском в боковом меню или просто нажать Ctrl+F и ввести искомую информацию.
@@ -36,25 +35,23 @@
 
 .. note:: Если тестируется вложенный объект бокового меню, то имя теста должно содержать префикс с именем родителя.
 
-Структура библиотеки RootsLib
+Структура библиотеки rootsLib
 -----------------------------
 Данная библиотека создана для того, чтобы сэкономить время на разработку новых тестов. Библиотека может подвергаться изменениям после согласования с ведущим тестировщиком.
 
-Библиотека имеет название коренной папки RootsLib.
+Библиотека имеет название коренной папки rootsLib.
 
 Состоит из:
 
-* **roots.py** - файл содержащий классы библиотеки и xpath элементов страницы.
+* **roots.py** - файл содержащий все необходимые классы и функции библиотеки для работы с интерфейсом системы Flexbby.
 * **content.py** - файл содержащий данные (переменные), необходимые для ввода внутри системы (логины, пароли, названия компаний, ИНН, и т.п.)
-* **BSTestRunner.py** - при необходимости генерации html страницы с отчётом теста, можно использвать данный файл. Генерирует Bootstrap/HTML страницу.
+* **xpath.py** - файл содержащий набор селекторов необходимых для работы тестов.
 
-.. warning:: Файл **content.py** содержит данные, позволяющие попасть внутрь системы Flexbby, потому **не должен** попасть в доступ третьим лицам.
+.. warning:: Файл **content.py** содержит данные, позволяющие войти внутрь системы Flexbby, потому **не должен** попасть в доступ третьим лицам.
 
-**RootsLib**. Описание
+**rootsLib**. Описание
 ======================
-Внутри данной библиотеки файл **roots.py** является основным - содержит все необходимые классы, функции, xpath элементов.
-
-.. important:: Все импорты в данном файле используются в тестах. Если какой-либо импорт повторяется в различных тестах, он должен быть перемещён в **roots**.
+Внутри данной библиотеки файл **roots.py** является основным - содержит все необходимые классы и функции.
 
 printOk
 -------
@@ -80,20 +77,6 @@ TakeDate
 
 Дата уже имеет формат "dd.mm.yyyy"
 
-SleepSeconds
-------------
-Данный класс имеет набор переменных [ONE,TWO,...,TEN,TWENTY] для более удобного форматирования таймингов ожидания.
-
-.. code-block:: python
-
-	class SleepSeconds
-
-*Пример:*
-
-.. code-block:: python
-
-	time.sleep(SleepSeconds.TWO)
-
 TextColors
 ----------
 Данный класс используется для подцветки отдельных фраз и слов при выводе в консоль.
@@ -114,7 +97,7 @@ TextColors
 
 **UITestToolkit**
 -----------------
-.. note:: Данный класс содержит основную логику RootsLib.
+.. note:: Данный класс содержит основную логику rootsLib.
 .. code-block:: python
 
 	class UITestToolkit(object)
@@ -155,25 +138,637 @@ _init_
 
 	self.action = action_chains.ActionChains(self.driver)
 
-setSite
-~~~~~~~
-Передаёт URL сайта драйверу.
+addActivity
+~~~~~~~~~~~
+Добавляет "маленькую" активность внутри объекта (применяется в Юр.лицах), после чего заполняет необходимые данные и удаляет её.
 
 .. code-block:: python
 
-	def setSite(self, url):
-		self.driver.get(url)
+	def addActivity()
 
-.. note:: Необходимо передавать полный URL сайта в формате string.
+addBankAccount
+~~~~~~~~~~~~~~
+Функция проставляет значения в разделе "Банковские Реквизиты", используя  **createSimpleObject** и ****kwargs**
 
-visibilityOfAnyElem
+.. code-block:: python
+
+	def addBankAccount(self):
+		self.createSimpleObject(
+			bik='044525225',
+			nameForeign='SBERBANK',
+			inn='7707083893',
+			kpp='773601001',
+			accountNumber='30301810000006000001',
+			personalAccount='30301810000006000002',
+			comment='Test comment',
+			deactivateDate=TakeDate.tomorrow
+		)
+
+addComment
+~~~~~~~~~~
+Выполняет последовательность последующих действий:
+
+* Нажимает кнопку "Добавить комментарий";
+* Вводит первый комментарий;
+* Нажимает кнопку "Сохранить";
+* Нажимает кнопку "Редактировать";
+* Очищает **textarea**, где содержится текст первого комментария;
+* Вводит второй комментарий;
+* Нажимает кнопку "Сохранить";
+* Нажимает кнопку "Удалить";
+* Нажимает "ОК".
+
+.. code-block:: python
+
+	def addComment()
+
+addLinkage
+~~~~~~~~~~
+Данная функция используется для добавления связи в документ внутри системы Flexbby.
+
+.. code-block:: python
+
+	def addLinkage(self, customer_group_name, customer_name):
+		# Нажимаем +
+		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']")
+		printOk("Add linkage buton click")
+		if type(customer_group_name) == str:
+			customer_group_name = (customer_group_name,)
+		for x in customer_group_name:
+			# Нажимаем customer_name
+			self.clickByXPATH(qxmenu_button_xpath % x)
+			printOk("{} click".format(x))
+		# Нажимаем на контрагента в таблице
+		self.clickByXPATH(cell_in_table_xpath % customer_name)
+		printOk("Customer name click")
+		# Нажимаем Выбрать
+		self.clickByID('choose')
+		printOk("Choose button click")
+		time.sleep(SleepSeconds.FOUR)
+		"""Закрытие таблицы проиходит автоматом"""
+
+*Пример вызова:*
+
+.. code-block:: python
+
+	# Добавление контрагента
+	self.toolkit.addLinkage(("Заказчик", "Юр. лицо"), "Флексби Солюшнс")
+
+.. figure:: _static/linkage1.png
+
+.. figure:: _static/linkage2.png
+
+.. figure:: _static/linkage3.png
+
+addMember
+~~~~~~~~~
+Совершает переход во вкладку "Участнки" и добавляет участника в документ.
+Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
+
+.. code-block:: python
+
+	def addMember(self, name, first_group_name='Согласователь', second_group_name='Сотрудник'):
+		# Нажимаем Участники
+		self.clickTab('Участники')
+		printOk("Members button click")
+		# Нажимаем Добавить
+		self.clickByXPATH(add_button_xpath)
+		printOk("Add button click")
+		# Нажимаем на роль
+		self.clickByXPATH(qx_menu_menu_select_xpath % first_group_name)
+		# Нажимаем на тип в роли
+		self.clickByXPATH(qx_menu_menu_select_xpath % second_group_name)
+		printOk("Position button click")
+		# Выбираем участника
+		self.clickByXPATH(reference_xpath % name)
+		self.clickByID('choose')
+		# Нажимаем закрыть окно
+		self.clickByID('close')
+
+addMembersAndDelete
 ~~~~~~~~~~~~~~~~~~~
-Ждёт появления на странице элемента с переданным **id**.
+Совершает переход во вкладку "Участнки" и добавляет участника в документ, после чего удаляет его.
+Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
 
 .. code-block:: python
 
-	def visibilityOfAnyElem(self, docID):
-		self.wait.until(EC.visibility_of_any_elements_located((By.ID, docID)))
+	def addMembersAndDelete(self, first_group_name='Инициатор', second_group_name='Исполнитель'):
+		# Нажимаем Участники
+		self.clickTab('Участники')
+		printOk("Members button click")
+		# Нажимаем Добавить
+		self.clickByXPATH(add_button_xpath)
+		printOk("Add button click")
+		# Нажимаем Инициатор
+		self.clickByXPATH(qx_menu_menu_select_xpath % first_group_name)
+		# Нажимаем Сотрудник
+		self.clickByXPATH(qx_menu_menu_select_xpath % 'Сотрудник')
+		printOk("Position button click")
+		# Выбираем Генерального директора
+		self.clickByXPATH(cell_in_table_xpath % 'Генеральный директор')
+		self.clickByID('choose')
+		printOk("Choose director")
+		# Нажимаем закрыть окно
+		self.clickByID('close')
+		printOk("Close window")
+		# Нажимаем Добавить
+		self.clickByXPATH(add_button_xpath)
+		printOk("Add button click")
+		# Нажимаем Исполнитель
+		self.clickByXPATH(qx_menu_menu_select_xpath % second_group_name)
+		# Нажимаем Группа
+		self.clickByXPATH(qx_menu_menu_select_xpath % 'Группа')
+		printOk("Position button click")
+		# Выбираем Логистика
+		self.clickByXPATH(cell_in_table_xpath % 'Логистика')
+		self.clickByID('choose')
+		printOk("Choose logistic")
+		# Нажимаем закрыть окно
+		self.clickByID('close')
+		printOk("Close window")
+		# Выбираем Логистику
+		self.clickByXPATH(cell_in_table_xpath % second_group_name)
+		printOk("Choose logistic")
+		# Нажимаем удалить
+		self.clickByID('delete')
+		# Нажимаем ОК
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("OK button click")
+
+addSimpleActivity
+~~~~~~~~~~~~~~~~~
+Переходит во вкладку "Активности" и добавляет активность.
+
+.. code-block:: python
+
+	def addSimpleActivity(self):
+		# Нажимаем Активности
+		self.clickTab('Активности')
+		printOk("Activities button click")
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Вводим тип Активности
+		self.fillAttributes(documentTypeID=activities_activity_type_name)
+		# Выбираем тип Активности
+		self.clickInPopupMenu(activities_activity_type_name)
+		printOk("Choose activity type")
+		# Нажимаем OK
+		self.clickByID('okb')
+		printOk("OK button click")
+
+addSimpleContract
+~~~~~~~~~~~~~~~~~
+Переходит во вкладку "Договоры" и добавляет договор.
+
+.. code-block:: python
+
+	def addSimpleContract(self):
+		# Проверяем на отсутвие shadow
+		self.waitNoShadow()
+		printOk("NO shadow")
+		# Нажимаем Договоры
+		self.clickTab(name='Договоры')
+		printOk("Contracts button click")
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Находим поле Типа документа и Вводим тип
+		self.fillAttributes(documentTypeID=contracts_type_name)
+		# Находим и нажимаем в списке нужный тип документа
+		self.clickInPopupMenu(contracts_type_name)
+		printOk("Choose type")
+		# Проставляем дату документа
+		self.clickByID('docDate')
+		self.fillAttributes(docDate=TakeDate.today)
+		self.clickByID('processID.stateID')
+		# Закрываем договор
+		self.clickByID('okb')
+		printOk("Close contract")
+
+addSimpleInvoice
+~~~~~~~~~~~~~~~~
+Добавляет счёт внутри документа без привязки договора внутри счёта.
+
+.. code-block:: python
+
+	def addSimpleInvoice(self):
+		# Проверяем на отсутвие shadow
+		self.waitNoShadow()
+		printOk("NO shadow")
+		# Нажимаем Счета
+		self.clickTab('Счета')
+		printOk("Invoices button click")
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Закрываем счёт
+		self.clickByID('okb')
+		printOk("Invoices close")
+
+addSimpleInvoiceWithContract
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Добавляет счёт внутри документа с привязкой договора внутри счёта.
+
+.. code-block:: python
+
+	def addSimpleInvoiceWithContract(self):
+		# Проверяем на отсутвие shadow
+		self.waitNoShadow()
+		printOk("NO shadow")
+		# Нажимаем Счета
+		self.clickTab(name='Счета')
+		printOk("Invoices button click")
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Находим поле Типа счёта и Вводим тип
+		account_type_name_u = str(account_type_name)
+		self.fillAttributes(planTypeID=account_type_name_u)
+		# Находим и нажимаем в списке нужный тип счёта
+		self.clickInPopupMenu(account_type_name_u)
+		printOk("Choose document type")
+		# Нажимаем на кнопку для выбора договора
+		self.chooseReferenceInWindow('parentID', contracts_type_name)
+		# Закрываем счёт
+		self.clickByID('okb')
+		printOk("Invoices close")
+
+addSimpleOrder
+~~~~~~~~~~~~~~
+Добавляет заказ в документе.
+
+.. code-block:: python
+
+	def addSimpleOrder(self):
+		# Проверяем на отсутвие shadow
+		self.waitNoShadow()
+		printOk("NO shadow")
+		# Нажимаем Заказы
+		self.clickTab(name='Заказы')
+		printOk("Orders button click")
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Проставляем дату документа
+		self.clickByID('docDate')
+		self.fillAttributes(docDate=TakeDate.today)
+		# Закрываем заказ
+		self.clickByID('okb')
+		printOk("Close order")
+
+addTag
+~~~~~~
+Функция кликает по "Добавить тег", добавляет тег с переданным именем, закрывает окно тегов, после чего удаляет добавленный тег.
+
+.. code-block:: python
+
+	def addTag(tag_name)
+
+addTestFolderInFiles
+~~~~~~~~~~~~~~~~~~~~
+Эта функция добавляет папку в разделе "Файлы", предварительно вызвав **waitNoShadow** и выполнив переход в сам раздел.
+
+.. note:: Более подробное описание каждого действия можно прочить в исходном коде.
+
+.. code-block:: python
+
+	def addTestFolderInFiles()
+
+addTestTemplateInFiles
+~~~~~~~~~~~~~~~~~~~~~~
+Добавляет файл по шаблону в разделе "Файлы" внутри документа.
+
+.. code-block:: python
+
+	def addTestTemplateInFiles(self, template_name):
+		# Проверяем на отсутвие shadow
+		self.waitNoShadow()
+		printOk("NO shadow")
+		# Нажимаем Файлы
+		self.clickTab('Файлы')
+		printOk("Files button click")
+		# Нажиаем Добавить
+		self.clickByXPATH(add_file_button_xpath)
+		printOk("Add button click")
+		# Добавить Папку
+		self.clickByXPATH(qxmenu_button_xpath % "По шаблону")
+		printOk("Add template button click")
+		# Click in popup menu
+		self.clickByXPATH(qxmenu_button_xpath % template_name)
+		printOk("Add template button click")
+		# Нажимаем Ок
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("OK button click")
+
+checkVisibility
+~~~~~~~~~~~~~~~
+Ждёт появления элемента на странице.
+
+Необходимо передать точный **xpath** элемента.
+
+.. code-block:: python
+
+	def checkVisibility(self, xpath):
+		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
+
+chooseReferenceInWindow
+~~~~~~~~~~~~~~~~~~~~~~~
+Эта функция позволяет выбрать объект связи в окне, просто передав **id** поля в которое нужно проставить значение и имя объекта в списке.
+
+.. code-block:: python
+
+	def chooseReferenceInWindow(self, reference_id, text):
+		# Нажимаем на кнопку выбора
+		self.clickByID(reference_id, "//div[@id = 'choose-button']")
+		printOk("Select button click")
+		time.sleep(SleepSeconds.TWO)
+		# Выбираем из списка
+		self.clickByXPATH(reference_obj_xpath.format(text=text))
+		self.clickByID('choose')
+		printOk("Choose contract")
+
+.. figure:: _static/chooseReferenceInWindow.png
+
+.. figure:: _static/chooseReferenceInWindow2.png
+
+clearByID
+~~~~~~~~~
+Очищает содержимое элемента (input, textarea).
+Необходимо передать **id** элемента и, если это требуется, **xpath** родителя и ребёнка.
+
+.. code-block:: python
+
+	def clearByID(self, element_id, child_xpath='', parent_xpath=''):
+		self.driver.find_element_by_xpath(
+			attribute_xpath.format(parent=parent_xpath, child=child_xpath, id=element_id)).clear()
+
+click_arrow_down
+~~~~~~~~~~~~~~~~
+Клик стрелки вниз.
+
+.. code-block:: python
+
+	def click_arrow_down(self, value):
+		i = value
+		while i != 0:
+			self.action.send_keys(Keys.ARROW_DOWN).perform()
+			i -= 1
+		time.sleep(1)
+
+clickByID
+~~~~~~~~~
+Клик по элементу через **id**, используя **attribute_xpath**.
+
+Так же можно передать **xpath** родителя или ребёнка.
+
+.. code-block:: python
+
+	def clickByID(self, element_id, child_xpath='', parent_xpath=''):
+		self.clickByXPATH(attribute_xpath.format(id=element_id, child=child_xpath, parent=parent_xpath))
+
+clickByXPATH
+~~~~~~~~~~~~
+Клик по элементу через **xpath**.
+
+.. code-block:: python
+
+	def clickByXPATH(self, xpath):
+		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)), TextColors.FAIL + "Can't click element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
+		time.sleep(SleepSeconds.ONE)
+
+.. note:: В случае ошибки в консоль будет выведен xpath элемента по которому пыталось совершить клик. После каждого клика стоит ожидание в одну секунду для корректной работы тестов.
+
+clickInPopupMenu
+~~~~~~~~~~~~~~~~
+Клик по элементу внутри выпадающего меню (@class = **'qx-popup'**).
+
+.. code-block:: python
+
+	def clickInPopupMenu(self, element_name):
+		self.clickByXPATH(popup_menu_select_xpath % element_name)
+		time.sleep(SleepSeconds.ONE)
+
+.. note:: Передаваемый текст должен полностью совпадать с тем, по которому вы хотите совершить клик.
+
+.. figure:: _static/qx-popup_menu.png
+
+clickInWindowByIDKey
+~~~~~~~~~~~~~~~~~~~~
+Клик по элементу через **id**, используя **window_attribute_xpath**.
+
+По сути эта функция индентична clickByID, но с изменнёным xpath для работы с элементами в окне (@class = 'qx-window').
+
+Можно вызвать и просто clickByID, передав туда xpath окна, как родителя, но для облегчения написания кода, это было вынесено в отдельную функцию.
+
+.. code-block:: python
+
+	def clickInWindowByIDKey(self, element_id, child_xpath=''):
+		self.clickByXPATH(window_attribute_xpath.format(id=element_id, child=child_xpath))
+
+Тут так же можно передать дочерний **xpath**.
+
+*Пример:*
+
+.. code-block:: python
+
+	self.toolkit.clickInWindowByIDKey('choose')
+
+.. figure:: _static/window_button_click.png
+
+clickTab
+~~~~~~~~
+Клик по вкладке в меню объекта. Необходимо передать только имя (текст) вкладки меню.
+
+.. code-block:: python
+
+	def clickTab(self, name):
+		self.clickByXPATH(tab_xpath.format(name=name))
+
+.. figure:: _static/obj_menu_button.png
+
+createSimpleBankObject
+~~~~~~~~~~~~~~~~~~~~~~
+Данная функция нажимает "Добавить" в Банковских рекризитах, заполняет значения и выходит, нажатием **ОК**.
+
+.. note:: Передавть значения в словарь(kwargs) можно на примере addBankAccount.
+
+.. code-block:: python
+
+	def createSimpleObject(self, **kwargs):
+		# Нажимаем Добавить
+		self.clickByID('BankAccount_objectID', '//div[@id="new"]')
+		printOk("Add button click")
+		self.fillAttributes(**kwargs)
+		# Нажимаем ОК
+		time.sleep(SleepSeconds.ONE)
+		self.clickByXPATH(ok_button_window_xpath)
+		printOk("OK button click")
+
+.. figure:: _static/bank_req_button.png
+
+.. figure:: _static/bank_req.png
+
+delete_in_table
+~~~~~~~~~~~~~~~
+Удаляет уже выбранный элемент в таблице.
+
+.. code-block:: python
+
+	def delete_in_table(self):
+		# Удаить договор
+		self.clickByID('delete')
+		printOk("Delete document")
+		# Нажимаем ОК
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("ОК click")
+
+delete_into_doc
+~~~~~~~~~~~~~~~
+Удаляет документ (внутри документа через кнопку).
+
+.. code-block:: python
+
+	def delete_into_doc(self):
+		# Удаить договор
+		self.clickByID('deleteb')
+		printOk("Delete document")
+		# Нажимаем ОК
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("OK click")
+deleteMember
+~~~~~~~~~~~~
+Переходи в раздел "Участники" и удаляет участника в документе.
+
+.. code-block:: python
+
+	def deleteMember(self, cell_name):
+		# Нажимаем Участники
+		self.clickTab('Участники')
+		printOk("Members button click")
+		# Выбираем ячейку с именем
+		self.clickByXPATH(cell_in_table_xpath % cell_name)
+		printOk("Choose logistic")
+		# Нажимаем удалить
+		self.clickByID('delete')
+		# Нажимаем ОК
+		self.clickByXPATH(ok_delete_button_window_xpath)
+		printOk("OK button click")
+
+deleteObj
+~~~~~~~~~
+Удаляет сслыку на объект в преданном разделе.
+
+Достаточно просто передать имя раздела.
+
+Функция сама перейдёт в райздел, найдёт ссылку, нажмёт кнопки "Удалить" и "ОК"
+
+.. code-block:: python
+
+	def deleteObj(obj_name)
+
+.. figure:: _static/delete_obj.png
+
+fillAttributes
+~~~~~~~~~~~~~~
+Заполняет данные в элементы с помощью формируемого словоря ключей (**id** элементов) и значений.
+
+Так же можно передать родительский или дочерний xpath (Используется, когда на странице есть несколько элементов с один **id**).
+
+.. code-block:: python
+	:emphasize-lines: 4
+
+	def fillAttributes(self, parent_xpath='', child_xpath='', **kwargs):
+		for k, v in kwargs.items():
+			self.sendKeysByXPATH(attribute_xpath.format(child=child_xpath, parent=parent_xpath, id=k), v)
+			printOk("Enter " + k)
+
+.. note:: В данной функции уже реализован вывод в консоль с помощью **printOk**.
+
+*Пример вызова:*
+
+.. code-block:: python
+
+	# Проставляем дату документа в элемент с id == docDate
+	self.toolkit.fillAttributes(docDate=TakeDate.today)
+
+fillParameter
+~~~~~~~~~~~~~
+Заполняет параметры в документе. Находит ячейку с именем параметра, после чего делает фокус на соответствующую для ввода данных (поиск необходимой ячейки реализован через прародителя из за особенной структуры тиблицы параметров в системе Flexbby.
+
+.. code-block:: python
+
+	def fillParameter(self, param_name, input_text):
+		# Находим в столбце с названиями параметров нужный и возвращаем его третьего родителя
+		param_line = self.driver.find_element_by_xpath(
+			"//div[@id='DocumentParameterValue_objectID']//parent::div[@class='qx-table-row']//span[text()='%s']" % param_name
+		).find_element_by_xpath('../../..')
+		printOk("Find target row with name = " + TextColors.HEADER + param_name + TextColors.ENDC)
+		# Находим всю строчку
+		rows = param_line.find_elements_by_xpath('../*')
+		# Добавляем единицу к индексу. Необходимо будет для определения соответвующей строчки напротив строки с названием.
+		indexOfTarget = rows.index(param_line) + 1
+		printOk("Index of target = " + TextColors.HEADER + str(indexOfTarget) + TextColors.ENDC)
+		# Находим ячейку значения
+		value_clm = "//div[@id='DocumentParameterValue_objectID']/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[%s]/div[1]" % indexOfTarget  # <---- %s передавать indexOfTarget
+		# Клип по ячейке для активации
+		self.clickByXPATH(value_clm)
+		printOk("Click on 'Value' column")
+		# Внутри ячейки находим инпут и проставляем значение
+		self.driver.find_element_by_xpath(
+			"//div[@id='DocumentParameterValue_objectID']//div[@class='qx-table-scroller-focus-indicator']//input").send_keys(
+			input_text)
+		printOk('Send keys')
+		# Enter
+		self.action.send_keys(Keys.ENTER)
+		printOk('Enter click')
+		# Нажимаем кнопку Добавить Комментарий
+		self.clickByID('newCommentButton')
+		printOk("Add Comment button click")
+		# Вводим первый комментарий
+		self.fillAttributes(commentInput='Параметр ' + param_name + ' был заполнен')
+		# Нажимаем Сохранить
+		self.clickByID('saveComment')
+		printOk("Save button click")
+
+findElement
+~~~~~~~~~~~
+Находит(делает фокус) ячейку в таблице с текстом.
+
+.. code-block:: python
+
+	def findElement(self, text):
+		self.driver.find_element_by_xpath(cell_in_table_xpath % text).location_once_scrolled_into_view()
+
+inputByID
+~~~~~~~~~
+Очищает поле и вносит данные по id элемента
+
+.. code-block:: python
+
+	def inputByID(self, element_id, text):
+		search_element = self.driver.find_element_by_id(element_id)
+		printOk("Find element by ID == '" + TextColors.BOLD + element_id + TextColors.ENDC + "'")
+		search_element.clear()
+		printOk("Clear")
+		search_element.send_keys(text)
+		printOk("Enter text == '" + TextColors.BOLD + text + TextColors.ENDC + "'")
+
+login
+~~~~~
+Используется для входа в систему. Заполняет login, password и клик по кнопке "Вход".
+
+.. code-block:: python
+
+	def login(self, login, password)
+
+quit
+~~~~
+Закрывает браузер.
+
+.. code-block:: python
+
+	def quit(self)
 
 sendKeysByXPATH
 ~~~~~~~~~~~~~~~
@@ -243,110 +838,51 @@ sendKeysByXPATH
 	else:
 		print(TextColors.FAIL + 'Error to find element' + TextColors.ENDC)
 
-fillAttributes
-~~~~~~~~~~~~~~
-Заполняет данные в элементы с помощью формируемого словоря ключей (**id** элементов) и значений.
-
-Так же можно передать родительский или дочерний xpath (Используется, когда на странице есть несколько элементов с один **id**).
-
-.. code-block:: python
-	:emphasize-lines: 4
-
-	def fillAttributes(self, parent_xpath='', child_xpath='', **kwargs):
-		for k, v in kwargs.items():
-			self.sendKeysByXPATH(attribute_xpath.format(child=child_xpath, parent=parent_xpath, id=k), v)
-			printOk("Enter " + k)
-
-.. note:: В данной функции уже реализован вывод в консоль с помощью **printOk**.
-
-*Пример вызова:*
+setSite
+~~~~~~~
+Передаёт URL сайта драйверу.
 
 .. code-block:: python
 
-	# Проставляем дату документа в элемент с id == docDate
-	self.toolkit.fillAttributes(docDate=TakeDate.today)
+	def setSite(self, url):
+		self.driver.get(url)
 
-clickByXPATH
-~~~~~~~~~~~~
-Клик по элементу через **xpath**.
+.. note:: Необходимо передавать полный URL сайта в формате string.
 
-.. code-block:: python
-
-	def clickByXPATH(self, xpath):
-		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)), TextColors.FAIL + "Can't click element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
-		time.sleep(SleepSeconds.ONE)
-
-.. note:: В случае ошибки в консоль будет выведен xpath элемента по которому пыталось совершить клик. После каждого клика стоит ожидание в одну секунду для корректной работы тестов.
-
-clickTab
-~~~~~~~~
-Клик по вкладке в меню объекта. Необходимо передать только имя (текст) вкладки меню.
-
-.. code-block:: python
-
-	def clickTab(self, name):
-		self.clickByXPATH(tab_xpath.format(name=name))
-
-.. figure:: _static/obj_menu_button.png
-
-clickByID
+takeDocID
 ~~~~~~~~~
-Клик по элементу через **id**, используя **attribute_xpath**.
-
-Так же можно передать **xpath** родителя или ребёнка.
+Данная функция находит в URL **id** документа в системе Flexbby.
 
 .. code-block:: python
 
-	def clickByID(self, element_id, child_xpath='', parent_xpath=''):
-		self.clickByXPATH(attribute_xpath.format(id=element_id, child=child_xpath, parent=parent_xpath))
+	def takeDocID(self):
+		url = self.driver.current_url
+		hash_tag = url[url.find('#') + 1:]
+		params = dict(x.split('=') for x in hash_tag.split('&'))
+		obj_id = params['id']
+		return obj_id
 
-clickInWindowByIDKey
-~~~~~~~~~~~~~~~~~~~~
-Клик по элементу через **id**, используя **window_attribute_xpath**.
-
-По сути эта функция индентична clickByID, но с изменнёным xpath для работы с элементами в окне (@class = 'qx-window').
-
-Можно вызвать и просто clickByID, передав туда xpath окна, как родителя, но для облегчения написания кода, это было вынесено в отдельную функцию.
-
-.. code-block:: python
-
-	def clickInWindowByIDKey(self, element_id, child_xpath=''):
-		self.clickByXPATH(window_attribute_xpath.format(id=element_id, child=child_xpath))
-
-Тут так же можно передать дочерний **xpath**.
-
-*Пример:*
-
-.. code-block:: python
-
-	self.toolkit.clickInWindowByIDKey('choose')
-
-.. figure:: _static/window_button_click.png
-
-clickInPopupMenu
-~~~~~~~~~~~~~~~~
-Клик по элементу внутри выпадающего меню (@class = **'qx-popup'**).
-
-.. code-block:: python
-
-	def clickInPopupMenu(self, element_name):
-		self.clickByXPATH(popup_menu_select_xpath % element_name)
-		time.sleep(SleepSeconds.ONE)
-
-.. note:: Передаваемый текст должен полностью совпадать с тем, по которому вы хотите совершить клик.
-
-.. figure:: _static/qx-popup_menu.png
-
-clearByID
+treeClick
 ~~~~~~~~~
-Очищает содержимое элемента (input, textarea).
-Необходимо передать **id** элемента и, если это требуется, **xpath** родителя и ребёнка.
+Клик в дереве (слева таблицы) по тексту.
 
 .. code-block:: python
 
-	def clearByID(self, element_id, child_xpath='', parent_xpath=''):
-		self.driver.find_element_by_xpath(
-			attribute_xpath.format(parent=parent_xpath, child=child_xpath, id=element_id)).clear()
+	def treeClick(self, tree_name):
+		# Нажимаем рефлеш
+		self.clickByID('tree-toolbar', "//div[@class='qx-button-common-border']")
+		# Нажимаем на необходимый классификатор в дереве
+		tree_name = str(tree_name)
+		self.clickByID('tree-virtual', "//span[text()='%s']" % tree_name)
+
+visibilityOfAnyElem
+~~~~~~~~~~~~~~~~~~~
+Ждёт появления на странице элемента с переданным **id**.
+
+.. code-block:: python
+
+	def visibilityOfAnyElem(self, docID):
+		self.wait.until(EC.visibility_of_any_elements_located((By.ID, docID)))
 
 waitNoShadow
 ~~~~~~~~~~~~
@@ -362,219 +898,11 @@ waitNoShadow
 
 .. figure:: _static/shadow_example.png
 
-checkVisibility
-~~~~~~~~~~~~~~~
-Ждёт появления элемента на странице.
-
-Необходимо передать точный **xpath** элемента.
-
-.. code-block:: python
-
-	def checkVisibility(self, xpath):
-		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
-
-takeDocID
-~~~~~~~~~
-Данная функция находит в URL **id** документа в системе Flexbby.
-
-.. code-block:: python
-
-	def takeDocID(self):
-		url = self.driver.current_url
-		hash_tag = url[url.find('#') + 1:]
-		params = dict(x.split('=') for x in hash_tag.split('&'))
-		obj_id = params['id']
-		return obj_id
-
-quit
-~~~~
-Закрывает браузер.
-
-.. code-block:: python
-
-	def quit(self)
-
-chooseReferenceInWindow
-~~~~~~~~~~~~~~~~~~~~~~~
-Эта функция позволяет выбрать объект связи в окне, просто передав **id** поля в которое нужно проставить значение и имя объекта в списке.
-
-.. code-block:: python
-
-	def chooseReferenceInWindow(self, reference_id, text):
-		# Нажимаем на кнопку выбора
-		self.clickByID(reference_id, "//div[@id = 'choose-button']")
-		printOk("Select button click")
-		time.sleep(SleepSeconds.TWO)
-		# Выбираем из списка
-		self.clickByXPATH(reference_obj_xpath.format(text=text))
-		self.clickByID('choose')
-		printOk("Choose contract")
-
-.. figure:: _static/chooseReferenceInWindow.png
-
-.. figure:: _static/chooseReferenceInWindow2.png
-
-login
-~~~~~
-Используется для входа в систему. Заполняет login, password и клик по кнопке "Вход".
-
-.. code-block:: python
-
-	def login(self, login, password)
-
-addLinkage
-~~~~~~~~~~
-Данная функция используется для добавления связи в документ внутри системы Flexbby.
-
-.. code-block:: python
-
-	def addLinkage(self, customer_group_name, customer_name):
-		# Нажимаем +
-		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']")
-		printOk("Add linkage buton click")
-		if type(customer_group_name) == str:
-			customer_group_name = (customer_group_name,)
-		for x in customer_group_name:
-			# Нажимаем customer_name
-			self.clickByXPATH(qxmenu_button_xpath % x)
-			printOk("{} click".format(x))
-		# Нажимаем на контрагента в таблице
-		self.clickByXPATH(cell_in_table_xpath % customer_name)
-		printOk("Customer name click")
-		# Нажимаем Выбрать
-		self.clickByID('choose')
-		printOk("Choose button click")
-		time.sleep(SleepSeconds.FOUR)
-		"""Закрытие таблицы проиходит автоматом"""
-
-*Пример вызова:*
-
-.. code-block:: python
-
-	# Добавление контрагента
-	self.toolkit.addLinkage(("Заказчик", "Юр. лицо"), "Флексби Солюшнс")
-
-.. figure:: _static/linkage1.png
-
-.. figure:: _static/linkage2.png
-
-.. figure:: _static/linkage3.png
-
-addBankAccount
-~~~~~~~~~~~~~~
-Функция проставляет значения в разделе "Банковские Реквизиты", используя  **createSimpleObject** и ****kwargs**
-
-.. code-block:: python
-
-	def addBankAccount(self):
-		self.createSimpleObject(
-			bik='044525225',
-			nameForeign='SBERBANK',
-			inn='7707083893',
-			kpp='773601001',
-			accountNumber='30301810000006000001',
-			personalAccount='30301810000006000002',
-			comment='Test comment',
-			deactivateDate=TakeDate.tomorrow
-		)
-
-createSimpleObject
-~~~~~~~~~~~~~~~~~~
-Данная функция нажимает "Добавить" в Банковских рекризитах, заполняет значения и выходит, нажатием **ОК**.
-
-.. note:: Передавть значения в словарь(kwargs) можно на примере addBankAccount.
-
-.. code-block:: python
-
-	def createSimpleObject(self, **kwargs):
-		# Нажимаем Добавить
-		self.clickByID('BankAccount_objectID', '//div[@id="new"]')
-		printOk("Add button click")
-		self.fillAttributes(**kwargs)
-		# Нажимаем ОК
-		time.sleep(SleepSeconds.ONE)
-		self.clickByXPATH(ok_button_window_xpath)
-		printOk("OK button click")
-
-.. figure:: _static/bank_req_button.png
-
-.. figure:: _static/bank_req.png
-
-addTag
-~~~~~~
-Функция кликает по "Добавить тег", добавляет тег с переданным именем, закрывает окно тегов, после чего удаляет добавленный тег.
-
-.. code-block:: python
-
-	def addTag(tag_name)
-
-addTestFolderInFiles
-~~~~~~~~~~~~~~~~~~~~
-Эта функция добавляет папку в разделе "Файлы", предварительно вызвав **waitNoShadow** и выполнив переход в сам раздел.
-
-.. note:: Более подробное описание каждого действия можно прочить в исходном коде.
-
-.. code-block:: python
-
-	def addTestFolderInFiles()
-
-addActivity
-~~~~~~~~~~~
-Добавляет активность внутри объекта, после чего удаляет её.
-
-.. code-block:: python
-
-	def addActivity()
-
-addComment
-~~~~~~~~~~
-Выполняет последовательность последующих действий:
-
-* Нажимает кнопку "Добавить комментарий";
-* Вводит первый комментарий;
-* Нажимает кнопку "Сохранить";
-* Нажимает кнопку "Редактировать";
-* Очищает **textarea**, где содержится текст первого комментария;
-* Вводит второй комментарий;
-* Нажимает кнопку "Сохранить";
-* Нажимает кнопку "Удалить";
-* Нажимает "ОК".
-
-.. code-block:: python
-
-	def addComment()
-
-addTestTemplateInFiles
-~~~~~~~~~~~~~~~~~~~~~~
-Добавляет файл по шаблону в разделе "Файлы".
-
-Достаточо просто вызвать функцию, передав ей имя шаблона.
-
-Данная функция сама проверит отсутсвие **Shadow** и перейдёт в раздет "Файлы".
-
-.. code-block:: python
-
-	def addTestTemplateInFiles(template_name)
-
-deleteObj
-~~~~~~~~~
-Удаляет сслыку на объект в преданном разделе.
-
-Достаточно просто передать имя раздела.
-
-Функция сама перейдёт в райздел, найдёт ссылку, нажмёт кнопки "Удалить" и "ОК"
-
-.. code-block:: python
-
-	def deleteObj(obj_name)
-
-.. figure:: _static/delete_obj.png
-
 XPATH
 -----
-В вышеприведенных функциях используются различные заготовки xpath элементов.
+В вышеприведенных функциях используются различные селекторы.
 
-Вот самые важные из них:
+Вот самые основные из них:
 
 .. code-block:: python
 
@@ -620,4 +948,4 @@ XPATH
 			"not(ancestor::div[contains(@style," \
 			"'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 
-.. warning:: Любые изменения в проекте RootsLib должны быть задокументированы в данной инструкции.
+.. warning:: Любые изменения в проекте rootsLib должны быть задокументированы в данной инструкции.
