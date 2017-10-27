@@ -63,7 +63,7 @@ printOk
 
 TakeDate
 --------
-Данный класс используется для того, чтобы заполнять проставлять дату в документах.
+Данный класс используется для того, чтобы проставлять дату в документах.
 
 .. code-block:: python
 
@@ -222,8 +222,8 @@ addLinkage
 
 addMember
 ~~~~~~~~~
-Совершает переход во вкладку "Участнки" и добавляет участника в документ.
-Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
+Совершает переход во вкладку "Участники" и добавляет участника в документ.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
 
 .. code-block:: python
 
@@ -247,8 +247,8 @@ addMember
 
 addMembersAndDelete
 ~~~~~~~~~~~~~~~~~~~
-Совершает переход во вкладку "Участнки" и добавляет участника в документ, после чего удаляет его.
-Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
+Совершает переход во вкладку "Участники" и добавляет участника в документ, после чего удаляет его.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).
 
 .. code-block:: python
 
@@ -388,34 +388,34 @@ addSimpleInvoiceWithContract
 		# Находим и нажимаем в списке нужный тип счёта
 		self.clickInPopupMenu(account_type_name_u)
 		printOk("Choose document type")
-		# Нажимаем на кнопку для выбора договора
+		# Нажимаем на кнопку для выбора договора и выбираем необходимый.
 		self.chooseReferenceInWindow('parentID', contracts_type_name)
 		# Закрываем счёт
 		self.clickByID('okb')
 		printOk("Invoices close")
 
-addSimpleOrder
-~~~~~~~~~~~~~~
-Добавляет заказ в документе.
+addSimpleProcurement
+~~~~~~~~~~~~~~~~~~~~
+Добавляет закупку в документе.
 
 .. code-block:: python
 
-	def addSimpleOrder(self):
+	def addSimpleProcurement(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
 		printOk("NO shadow")
-		# Нажимаем Заказы
-		self.clickTab(name='Заказы')
-		printOk("Orders button click")
+		# Нажимаем Закупки
+		self.clickTab(name='Закупки')
+		printOk("Procurement button click")
 		# Нажимаем Добавить
 		self.clickByID('new')
 		printOk("Add button click")
 		# Проставляем дату документа
 		self.clickByID('docDate')
 		self.fillAttributes(docDate=TakeDate.today)
-		# Закрываем заказ
+		# Закрываем Закупки
 		self.clickByID('okb')
-		printOk("Close order")
+		printOk("Close Procurement")
 
 addTag
 ~~~~~~
@@ -636,6 +636,7 @@ delete_into_doc
 		# Нажимаем ОК
 		self.clickByXPATH(ok_delete_button_window_xpath)
 		printOk("OK click")
+		
 deleteMember
 ~~~~~~~~~~~~
 Переходи в раздел "Участники" и удаляет участника в документе.

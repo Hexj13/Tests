@@ -105,7 +105,7 @@
 </div>
 <div class="section" id="takedate">
 <h2>TakeDate<a class="headerlink" href="#takedate" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Данный класс используется для того, чтобы заполнять проставлять дату в документах.</p>
+<p>Данный класс используется для того, чтобы проставлять дату в документах.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TakeDate</span><span class="p">:</span>
 <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
 <span class="n">tomorrow</span> <span class="o">=</span> <span class="n">today</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -250,8 +250,8 @@
 </div>
 <div class="section" id="addmember">
 <h3>addMember<a class="headerlink" href="#addmember" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Совершает переход во вкладку «Участнки» и добавляет участника в документ.
-Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
+<p>Совершает переход во вкладку «Участники» и добавляет участника в документ.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addMember</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">first_group_name</span><span class="o">=</span><span class="s1">&#39;Согласователь&#39;</span><span class="p">,</span> <span class="n">second_group_name</span><span class="o">=</span><span class="s1">&#39;Сотрудник&#39;</span><span class="p">):</span>
         <span class="c1"># Нажимаем Участники</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Участники&#39;</span><span class="p">)</span>
@@ -274,8 +274,8 @@
 </div>
 <div class="section" id="addmembersanddelete">
 <h3>addMembersAndDelete<a class="headerlink" href="#addmembersanddelete" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Совершает переход во вкладку «Участнки» и добавляет участника в документ, после чего удаляет его.
-Принимает обязательные поля такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
+<p>Совершает переход во вкладку «Участники» и добавляет участника в документ, после чего удаляет его.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addMembersAndDelete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_group_name</span><span class="o">=</span><span class="s1">&#39;Инициатор&#39;</span><span class="p">,</span> <span class="n">second_group_name</span><span class="o">=</span><span class="s1">&#39;Исполнитель&#39;</span><span class="p">):</span>
         <span class="c1"># Нажимаем Участники</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Участники&#39;</span><span class="p">)</span>
@@ -408,7 +408,7 @@
         <span class="c1"># Находим и нажимаем в списке нужный тип счёта</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickInPopupMenu</span><span class="p">(</span><span class="n">account_type_name_u</span><span class="p">)</span>
         <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose document type&quot;</span><span class="p">)</span>
-        <span class="c1"># Нажимаем на кнопку для выбора договора</span>
+        <span class="c1"># Нажимаем на кнопку для выбора договора и выбираем необходимый.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chooseReferenceInWindow</span><span class="p">(</span><span class="s1">&#39;parentID&#39;</span><span class="p">,</span> <span class="n">contracts_type_name</span><span class="p">)</span>
         <span class="c1"># Закрываем счёт</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
@@ -416,25 +416,25 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="addsimpleorder">
-<h3>addSimpleOrder<a class="headerlink" href="#addsimpleorder" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Добавляет заказ в документе.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleOrder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="section" id="addsimpleprocurement">
+<h3>addSimpleProcurement<a class="headerlink" href="#addsimpleprocurement" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет закупку в документе.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleProcurement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Проверяем на отсутвие shadow</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
         <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
-        <span class="c1"># Нажимаем Заказы</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Заказы&#39;</span><span class="p">)</span>
-        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Orders button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Закупки</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Закупки&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Procurement button click&quot;</span><span class="p">)</span>
         <span class="c1"># Нажимаем Добавить</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
         <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
         <span class="c1"># Проставляем дату документа</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;docDate&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">docDate</span><span class="o">=</span><span class="n">TakeDate</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
-        <span class="c1"># Закрываем заказ</span>
+        <span class="c1"># Закрываем Закупки</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
-        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close order&quot;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close Procurement&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -965,7 +965,7 @@
 <li><a class="reference internal" href="#addsimplecontract">addSimpleContract</a></li>
 <li><a class="reference internal" href="#addsimpleinvoice">addSimpleInvoice</a></li>
 <li><a class="reference internal" href="#addsimpleinvoicewithcontract">addSimpleInvoiceWithContract</a></li>
-<li><a class="reference internal" href="#addsimpleorder">addSimpleOrder</a></li>
+<li><a class="reference internal" href="#addsimpleprocurement">addSimpleProcurement</a></li>
 <li><a class="reference internal" href="#addtag">addTag</a></li>
 <li><a class="reference internal" href="#addtestfolderinfiles">addTestFolderInFiles</a></li>
 <li><a class="reference internal" href="#addtesttemplateinfiles">addTestTemplateInFiles</a></li>
