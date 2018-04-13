@@ -16,15 +16,13 @@ class ComplexTesting(unittest.TestCase):
 		print("", flush=True)
 		self.toolkit = UITestToolkit()
 		self.toolkit.setSite(site_url)
-		print("", flush=True)
 		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 	def test_complex(self):
 		self.toolkit.login(login_text, password_text)
+		print("", flush=True)
 		print(TextColors.WARNING + "test_complex START" + TextColors.ENDC, flush=True)
-		# Проваливаемся на сайт
-		time.sleep(5)
 		# Переходим в Договоры
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
 		printOk("Contracts button click")
@@ -70,7 +68,7 @@ class ComplexTesting(unittest.TestCase):
 		print(TextColors.WARNING + "FILES START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		self.toolkit.addTestTemplateInFiles('Тест шаблон (1)')
-		time.sleep(2)
+		time.sleep(3)
 		# Закрываем договор
 		self.toolkit.clickByID('okb')
 		printOk("Close contract")
@@ -83,11 +81,11 @@ class ComplexTesting(unittest.TestCase):
 		print(TextColors.WARNING + "BARCODE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Открываем подменю "Штрих-кода"
-		self.toolkit.clickByXPATH(menu_button_xpath % 'Штрих-код')
+		self.toolkit.clickByXPATH(menu_button_xpath % 'Архив')
 		printOk("Barcode button click")
 		# Нажимаем Архив
 		time.sleep(1)
-		self.toolkit.clickByXPATH(menu_button_xpath % 'Архив')
+		self.toolkit.clickByXPATH(menu_button_xpath % 'Работа с папками')
 		printOk("Archive button click")
 		# Находим поле ввода
 		time.sleep(1)
@@ -127,6 +125,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(contracts_table_xpath)
 		self.toolkit.clickByID('view')
 		printOk("Choose and move to contract")
+		time.sleep(5)
 		# Нажимаем кнопку с группой
 		self.toolkit.clickByXPATH(test_group_button_xpath)
 		printOk("Group button click")
@@ -138,7 +137,7 @@ class ComplexTesting(unittest.TestCase):
 		time.sleep(2)
 		printOk("Employer button click")
 		# Выбераем сотрудника
-		self.toolkit.clickByXPATH(delegation_group_xpath)
+		self.toolkit.clickByXPATH(delegation_group_xpath, resetPointerEvents=True)
 		printOk("Choose employer")
 		time.sleep(1)
 		self.toolkit.clickByID('choose')
@@ -156,7 +155,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(delete_contragent_button_xpath)
 		printOk("Delete contragent")
 		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_close_window_button_xpath)
 		printOk("OK button click")
 		print("", flush=True)
 		print(TextColors.WARNING + "CONTRACTS END" + TextColors.ENDC, flush=True)
@@ -170,7 +169,7 @@ class ComplexTesting(unittest.TestCase):
 		self.toolkit.clickByID('deleteb')
 		printOk("Delete document")
 		# Нажимаем Enter
-		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
+		self.toolkit.clickByXPATH(ok_close_window_button_xpath)
 		printOk("ENTER click")
 		time.sleep(5)
 		print("", flush=True)

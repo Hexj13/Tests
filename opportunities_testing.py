@@ -24,8 +24,6 @@ class OpportunitiesTesting(unittest.TestCase):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_opportunities START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проваливаемся на сайт
-		time.sleep(2)
 		# Находим в меню Продажи
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Продажи')
 		printOk("Activities button find&click")
@@ -135,21 +133,21 @@ class OpportunitiesTesting(unittest.TestCase):
 		print(TextColors.WARNING + "CONTRACTS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-		"""ЗАКАЗЫ"""
-		print(TextColors.WARNING + "ORDER START" + TextColors.ENDC, flush=True)
+		"""ЗАКУПКИ"""
+		print(TextColors.WARNING + "Procurement START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.toolkit.addSimpleOrder()
+		self.toolkit.addSimpleProcurement()
 		print("", flush=True)
-		print(TextColors.WARNING + "ORDER END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "Procurement END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""ФАЙЛЫ"""
-		print(TextColors.WARNING + "FILES PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		self.toolkit.addTestFolderInFiles()
-		print("", flush=True)
-		print(TextColors.WARNING + "FILES PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		# print(TextColors.WARNING + "FILES PAGE START" + TextColors.ENDC, flush=True)
+		# print("", flush=True)
+		# self.toolkit.addTestFolderInFiles()
+		# print("", flush=True)
+		# print(TextColors.WARNING + "FILES PAGE END" + TextColors.ENDC, flush=True)
+		# print("----------------------------------------", flush=True)
 
 		"""УДАЛЕНИЕ ССЫЛОК"""
 		print(TextColors.WARNING + "DELETE LINKS START" + TextColors.ENDC, flush=True)
@@ -160,9 +158,9 @@ class OpportunitiesTesting(unittest.TestCase):
 		# Удаляем Договор
 		self.toolkit.deleteObj('Договоры')
 		printOk("Delete Contract")
-		# Удаляем Заказ
-		self.toolkit.deleteObj('Заказы')
-		printOk("Delete Order")
+		# Удаляем Закупки
+		self.toolkit.deleteObj('Закупки')
+		printOk("Delete Procurement")
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

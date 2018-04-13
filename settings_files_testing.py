@@ -24,8 +24,6 @@ class FilesTesting(unittest.TestCase):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_files START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Спим
-		time.sleep(2)
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		time.sleep(2)
@@ -56,7 +54,7 @@ class FilesTesting(unittest.TestCase):
 		# Enter attributes
 		self.toolkit.fillAttributes(comment='Test comment')
 		# Click OK
-		self.toolkit.clickByXPATH(ok_delete_button_window_xpath)
+		self.toolkit.clickByXPATH(okb_id_window_button_xpath)
 		# Sleep
 		time.sleep(3)
 		self.toolkit.clickByID('filter')

@@ -25,18 +25,19 @@ edit_file_button_xpath = "//div[@class = 'qx-button-leading-border-middle' and n
                          "'Редактировать'] "
 #
 add_folder_button_xpath = "//div[@class = 'qx-menu-border' and not(ancestor::div[contains(@style," \
-                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
-                          "'Папку'] "
+                          "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = 'Папку']"
+#
+add_new_folder_button_xpath = "//div[@class = 'qx-menu-border' and not(ancestor::div[contains(@style," \
+                              "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[text() = " \
+                              "'Новая папка'] "
 #
 add_button_xpath = "//div[text() ='Добавить' and not(ancestor::div[contains(@style,'display:none')])and not(" \
                    "ancestor::div[contains(@style,'display: none')])]"
 #
-ok_delete_button_window_xpath = "//div[@class = 'qx-window']//div[contains(text(), 'OK')]"
-#
 pencil_window_xpath = "//div[@class = 'qx-window']//div[@class = 'qooxdoo-table-cell' and (text()='Карандаш обычный')]"
 #
-ok_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \
-                            "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
+okb_id_window_button_xpath = "//div[@class = 'qx-window']//div[@id = 'okb' and not(ancestor::div[contains(@style," \
+                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
 test_group_button_xpath = "//div[text() = 'Тест-группа']"
 #
@@ -66,7 +67,7 @@ window_attribute_xpath = "//div[@class = 'qx-window']//*[@id = '{id}' and not(an
 #
 employee_contragent_add_xpath = "//div[@class = 'qx-menu-border']//div[text() = 'Заказчик']"
 #
-close_window_button_xpath = "//div[@class='qx-window']//div[@id='ok-button']"
+ok_close_window_button_xpath = "//div[@class='qx-window']//div[@id='ok-button']"
 #
 qxmenu_button_xpath = "//div[@class = 'qx-menu-border']//div[text() = '%s']"
 #
@@ -75,18 +76,17 @@ archive_table_include_xpath = ".//div[@class='qooxdoo-table-cell' and (contains(
                               "@style," \
                               "'display:none')])and not(ancestor::div[contains(@style,'display: none')])] "
 #
-selected_tag_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                     "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//div[@class = " \
+selected_tag_xpath = "//div[@class = 'qx-window' and not(div[contains(@style," \
+                     "'display:none')])and not(div[contains(@style,'display: none')])]//div[@class = " \
                      "'qooxdoo-table-cell']//span[text() = '%s'] "
 #
 employee_table_xpath = "//parent::div[@class = 'qooxdoo-table-cell' and not(ancestor::div[contains(@style," \
                        "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
 #
-company_window_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                       "'display:none')])and not(ancestor::div[contains(@style,'display: none')])][2]"
+company_window_xpath = "//div[@class='qx-window']//div[@class='qx-button-common-border']"
 #
 popup_menu_select_xpath = "//div[@class='qx-popup' and not(contains(@style," \
-                          "'display:none'))and not(contains(@style,'display: none'))]//div[text()='%s']"
+                          "'display:none'))and not(contains(@style,'display: none'))]//parent::div[text()='%s']"
 #
 select_row_in_table_xpath = "//div[@class = 'qx-table-row' and not(ancestor::div[contains(@style," \
                             "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]"
@@ -112,5 +112,4 @@ reference_obj_xpath = "//div[@class='qx-window'and not(div[contains(@style, 'dis
 #
 reference_xpath = "//div[@class='qx-window'and not(div[contains(@style, 'display:none')])and not(div[contains(@style,'display: none')])]//div[@class = 'qooxdoo-table-cell' and(text()='%s')]"
 #
-dialog_attribute_xpath = "//div[@class = 'qx-window' and not(ancestor::div[contains(@style," \
-                         "'display:none')])and not(ancestor::div[contains(@style,'display: none')])]//*[@id = '{id}']"
+file_dir_button = "//child::div[@id='FileDirectory_objectID_viewThumbnailButton']"

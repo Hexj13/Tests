@@ -22,12 +22,9 @@ class RequestsTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 
 	def test_requests(self):
-		time.sleep(4)
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_requests START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Проваливаемся на сайт
-		time.sleep(2)
 		# Находим в меню Заявки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Заявки')
 		printOk("Activities button find&click")
@@ -54,7 +51,10 @@ class RequestsTesting(unittest.TestCase):
 		self.toolkit.addTag('Срочно')
 		# Вводим дату диактивации
 		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		time.sleep(2)
+		time.sleep(1)
+		self.toolkit.action.send_keys(Keys.ENTER)
+		self.toolkit.action.perform()
+		time.sleep(1)
 		# Описание
 		self.toolkit.fillAttributes(subject=test_text)
 		# Комментарий

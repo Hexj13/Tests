@@ -23,8 +23,6 @@ class ActivitiesTesting(unittest.TestCase):
 	def test_activities(self):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_activities START" + TextColors.ENDC, flush=True)
-		# Проваливаемся на сайт
-		time.sleep(2)
 		# Находим в меню Активности
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Активности')
 		printOk("Activities button find&click")
@@ -44,12 +42,12 @@ class ActivitiesTesting(unittest.TestCase):
 		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu(activities_type_name_u)
 		printOk("Choose activity type")
-		# Проставляем дату диактивации
-		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		# Вводим Описание
-		self.toolkit.fillAttributes(subject=test_text)
-		# Комментарий
-		self.toolkit.addComment()
+		# # Проставляем дату диактивации
+		# self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
+		# # Вводим Описание
+		# self.toolkit.fillAttributes(subject=test_text)
+		# # Комментарий
+		# self.toolkit.addComment()
 		# Выбор Ответственного
 		self.toolkit.chooseReferenceInWindow('responsibleID', 'Прокофьев Андрей Викторович')
 		time.sleep(1)
@@ -66,26 +64,7 @@ class ActivitiesTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Нажимаем Участники
-		self.toolkit.clickTab('Участники')
-		printOk("Members button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByXPATH(add_button_xpath)
-		printOk("Add button click")
-		# Нажимаем Инициатор
-		self.toolkit.clickByXPATH(qx_menu_menu_select_xpath % 'Инициатор')
-		# Нажимаем Должность
-		self.toolkit.clickByXPATH(qx_menu_menu_select_xpath % 'Сотрудник')
-		printOk("Position button click")
-		# Выбираем Генерального директора
-		self.toolkit.clickByXPATH(cell_in_table_xpath % 'Генеральный директор')
-		self.toolkit.clickByID('choose')
-		printOk("Choose director")
-		# Нажимаем закрыть окно
-		self.toolkit.clickByID('close')
-		printOk("Close window")
-		# Спим
-		time.sleep(2)
+		self.toolkit.addMember(name='Генеральный директор', first_group_name='Инициатор')
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)

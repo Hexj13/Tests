@@ -534,7 +534,7 @@ clickByXPATH
 .. code-block:: python
 
 	def clickByXPATH(self, xpath):
-		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)), TextColors.FAIL + "Can't click element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
+		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)), TextColors.FAIL + "Can't click on element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
 		time.sleep(SleepSeconds.ONE)
 
 .. note:: В случае ошибки в консоль будет выведен xpath элемента по которому пыталось совершить клик. После каждого клика стоит ожидание в одну секунду для корректной работы тестов.

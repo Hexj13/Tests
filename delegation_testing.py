@@ -23,8 +23,6 @@ class DelegationTesting(unittest.TestCase):
 	def test_delegation(self):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_delegation START" + TextColors.ENDC, flush=True)
-		# Проваливаемся на сайт
-		time.sleep(5)
 		# Переходим в Договоры
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
 		printOk("Contracts button click")
@@ -48,7 +46,12 @@ class DelegationTesting(unittest.TestCase):
 		printOk("Choose contract type")
 		self.toolkit.fillAttributes(docDate=TakeDate.tomorrow)
 		time.sleep(2)
+		self.toolkit.action.send_keys(Keys.ENTER)
+		self.toolkit.action.perform()
+		time.sleep(1)
 		self.toolkit.clickByID("processID.stateID")
+		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
+		print("", flush=True)
 
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
@@ -74,19 +77,21 @@ class DelegationTesting(unittest.TestCase):
 		#
 		def delegatingToDirector():
 			# Нажимаем на сотрудника
-			self.toolkit.clickByID('_processID_process_panel', "//div[@class='qx-button-box']//div[contains(text(), "
-			                                                   "'Тестовый Сотрудник')]")
+			self.toolkit.clickByID('_processID_process_panel',
+			                       child_xpath="//div[@class='qx-button-box']//div[contains(text(), "
+			                                   "'Тестовый С.')]", resetPointerEvents=True)
 			printOk('Choose Test employee')
 			time.sleep(2)
 			#
-			self.toolkit.action.send_keys(Keys.ARROW_RIGHT).perform()
+			self.toolkit.action.send_keys(Keys.ARROW_RIGHT)
+			self.toolkit.action.perform()
 			time.sleep(2)
 			# Нажимаем Сотрудник
 			self.toolkit.clickByXPATH(employee_button_xpath)
 			printOk('Click "Employee"')
 			time.sleep(2)
 			# Выбираем директора
-			self.toolkit.clickByXPATH(cell_in_table_xpath % sale_director)
+			self.toolkit.clickByXPATH(cell_in_table_xpath % sale_director, resetPointerEvents=True)
 			printOk('Choose person in table')
 			time.sleep(2)
 			# Нажимаем выбрать
@@ -110,10 +115,12 @@ class DelegationTesting(unittest.TestCase):
 		self.toolkit.clickByID('filter')
 		printOk("Filter click")
 		#
-		self.toolkit.sendKeysByXPATH("//div[@class='qx-popup']//input", sale_director)
+		self.toolkit.sendKeysByXPATH("//div[@class='qx-popup']//input", "Чёсов")
+		printOk("Send director name")
 		time.sleep(3)
 		# Choose object
-		self.toolkit.clickByID('processMembers', "//div[@class='qooxdoo-table-cell']")
+		self.toolkit.clickByID('processMembers', resetPointerEvents=True,
+		                       child_xpath="//div[@class='qooxdoo-table-cell']")
 		printOk('Choose object')
 		# Delete
 		self.toolkit.delete_in_table()

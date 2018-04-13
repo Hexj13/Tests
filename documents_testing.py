@@ -23,8 +23,6 @@ class DocumentsTesting(unittest.TestCase):
 	def test_documents(self):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_documents START" + TextColors.ENDC, flush=True)
-		# Проваливаемся на сайт
-		time.sleep(2)
 		# Находим в меню Счета
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Документы')
 		printOk("Documents button find&click")

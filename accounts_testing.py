@@ -5,9 +5,9 @@ from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
-class ContactsTesting(unittest.TestCase):
+class AccountsTesting(unittest.TestCase):
 	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'ContactsTesting' START" + TextColors.ENDC, flush=True)
+	print(TextColors.HEADER + "Test 'AccountsTesting' START" + TextColors.ENDC, flush=True)
 	print("----------------------------------------", flush=True)
 	print("----------------------------------------", flush=True)
 
@@ -20,129 +20,117 @@ class ContactsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-	def test_contacts(self):
+	def test_accounts(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_contacts START" + TextColors.ENDC, flush=True)
-		# Находим в меню Физ. лица
-		self.toolkit.clickByXPATH(menu_button_xpath % 'Физ. лица')
-		printOk("Contacts button menu click")
+		print(TextColors.WARNING + "test_accounts START" + TextColors.ENDC, flush=True)
+		print("")
+		# Находим в меню Юр. лица
+		self.toolkit.clickByXPATH(menu_button_xpath % 'Юр. лица')
+		printOk("Account button find&click")
+		time.sleep(1)
 		# Добавить
 		self.toolkit.clickByID('new')
-		printOk("Add button click")
+		print("Add button find&click")
 		print("----------------------------------------", flush=True)
 
 		""""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
+		time.sleep(6)
+		# Вводим ИНН
+		self.toolkit.fillAttributes(inn=inn)
+		# Нажимаем кнопку
+		self.toolkit.clickByID('getCompanyData')
+		printOk("'Get data' button find&click")
+		# Выбираем компанию
+		self.toolkit.clickByXPATH(company_window_xpath)
+		printOk("Choose company")
+		# Проставляем email
+		self.toolkit.fillAttributes(email=email_text)
+		# Проставляем site
+		self.toolkit.fillAttributes(url='www.mcdonalds.com')
+		printOk("Enter Site")
+		# Проставляем  phone
+		self.toolkit.fillAttributes(phone=phone_text)
+		# time.sleep(5)
+		# self.toolkit.driver.find_element_by_id('photo').send_keys(os.getcwd() + r"C:\Users\Operator\Pictures\1378.jpg")
+		# time.sleep(60)
+		# Проставляем дату диактивации
+		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
+		printOk("Enter deactivate date")
+		# Проставляем комментарий
+		self.toolkit.fillAttributes(comment=comment_text)
+		# Добавляем тег
+		self.toolkit.addTag(account_tag_name)
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
-		# Вводим Name
-		name_text_u = str(name_text)
-		self.toolkit.fillAttributes(name=name_text_u)
-		time.sleep(1)
-		# Вводим Surname
-		surname_text_u = str(surname_text)
-		self.toolkit.fillAttributes(surname=surname_text_u)
-		time.sleep(1)
-		# Вводим Patronymic
-		patronymic_text_u = str(patronymic_text)
-		self.toolkit.fillAttributes(patronymic=patronymic_text_u)
-		# Вводим Phone
-		self.toolkit.fillAttributes(phone=phone_text)
-		# Вводим Email
-		self.toolkit.fillAttributes(email=email_text)
-		# Выбираем пол
-		self.toolkit.clickByID("gender")
-		gender_text_u = str(gender_text)
-		self.toolkit.clickInPopupMenu(gender_text_u)
-		time.sleep(1)
-		printOk("Choose sex")
-		# Проставляем Описание
-		comment_text_u = str(comment_text)
-		self.toolkit.fillAttributes(comment=comment_text_u)
-		# Добавляем тег
-		self.toolkit.addTag(contact_tag_name)
 		# Комментарий
 		self.toolkit.addComment()
-		# Добавляем и удаляем активность
+		# Добавляем Автивность и удаляем
 		self.toolkit.addActivity()
-		# Нажимаем Должности
-		self.toolkit.clickTab('Должности')
-		printOk("'Position' button click")
+		# TODO : Добавление парамов в ОБЩЕМ
+		# Нажимаем Структура
+		self.toolkit.clickTab("Структура")
+		printOk("Structure button click")
 		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
-		printOk("'Add' button click")
-		# Выбираем Компанию
-		self.toolkit.chooseReferenceInWindow('companyID', 'Флексби Солюшнс')
-		# Выбираем Должность
-		self.toolkit.chooseReferenceInWindow('positionID', 'Отдел разработки')
-		# Нажимаем ОК
-		self.toolkit.clickInWindowByIDKey('okb')
+		printOk("Add button click")
+		# Спим
+		time.sleep(1)
+		# Декод
+		structure_name_u = str(structure_name)
+		printOk("Structure name decode")
+		# Вводим название Структуры
+		self.toolkit.fillAttributes(name=structure_name_u)
+		# Спим
+		time.sleep(1)
+		# Нажимаем Ок
+		self.toolkit.clickByID('okb')
 		printOk("OK button click")
+		# Спим
+		time.sleep(1)
+		#
 		print("", flush=True)
 		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-		"""ДОПОЛНИТЕЛЬНО"""
-		print(TextColors.WARNING + "ADDITIONALLY START" + TextColors.ENDC, flush=True)
+		""""РЕКВИЗИТЫ"""
+		print(TextColors.WARNING + "REQUISITES START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
-		# Нажимаем Дополнительно
-		self.toolkit.clickTab(name='Дополнительно')
-		printOk("Additionally button click")
-		# Вводим День Рождения
-		self.toolkit.fillAttributes(birthday=TakeDate.tomorrow)
-		# Вводим ИНН
-		self.toolkit.fillAttributes(inn=inn_text)
-		# Вводим СНИЛС
-		self.toolkit.fillAttributes(snils=snils_text)
-		# Вводим Диактивацию
-		self.toolkit.fillAttributes(deactivateDate=TakeDate.tomorrow)
-		# Добавить Документ
-		self.toolkit.clickByID('ContactPersonDocument_contactPersonID')
-		time.sleep(2)
-		printOk("Add document button click")
-		"""КОСТЫЛЬ начался"""  # TODO: после исправления баги с полями в физ.лице нужно будет это всё переделать!
-		# Вводим Описание
-		self.toolkit.clickByID('comment')
-		self.toolkit.fillAttributes(comment=comment_text_u)
-		# Вводим Серию
-		self.toolkit.clickByID('series')
-		self.toolkit.fillAttributes(series=series_text)
-		# Вводим Номер
-		self.toolkit.clickByID('number')
-		self.toolkit.fillAttributes(number=number_text)
-		# Вводим дату выдачи паспорта
-		self.toolkit.clickByID('deliveryDate')
-		self.toolkit.fillAttributes(deliveryDate=TakeDate.today)
-		# Вводим дату истечения паспорта
-		self.toolkit.clickByID('expired')
-		self.toolkit.fillAttributes(expired=TakeDate.tomorrow)
-		# Вводим Кто Выдал
-		self.toolkit.clickByID('issuer')
-		self.toolkit.fillAttributes(issuer=issuer_text)
-		# Вводим Номер Кто Выдал
-		self.toolkit.clickByID('issuerCode')
-		self.toolkit.fillAttributes(issuerCode=issuerCode_text)
-		"""КОСТЫЛЬ закончился"""
-		# Добавить Адрес
-		self.toolkit.clickByID('Address_objectID')
-		#
-		time.sleep(1)
-		#
+		# Нажимаем Реквизиты
+		self.toolkit.clickTab('Реквизиты')
+		printOk("Requisites button click")
+		# Вводим ОКПО
+		self.toolkit.fillAttributes(okpo=okpo_text)
+		# Вводим Сокращённое имя
+		self.toolkit.fillAttributes(foreignLegalShortName=foreign_short_name_text)
+		# Вводим Полное имя
+		self.toolkit.fillAttributes(foreignLegalName=foreign_name_text)
+		# Клик по адресу
 		self.toolkit.clickByID('streetAddress')
-		adrr_text_u = str(adrr_text)
-		self.toolkit.fillAttributes(streetAddress=adrr_text_u)
+		# Клик по городу, чтобы снять фокус и сгенерилась ссылка Google Maps
 		self.toolkit.clickByID('city')
-		time.sleep(1)
+		printOk("Press ENTER on address")
 		# Выбираем первый выпавший адрес для активации Google Maps
 		self.toolkit.clickByID('proposed_addresses', "//a")
-		printOk("Google Maps activate")
+		printOk("Choose first address to activate Google Maps")
+		# Спим
+		time.sleep(1)
+		# Нажимаем Добавить вид активности
+		self.toolkit.clickByID('CompanyActivityType_objectID', "//div[text() = 'Добавить']")
+		printOk("Activity type button click")
+		# Вводим код активности
+		self.toolkit.fillAttributes(code=activity_code)
+		# Вводим имя активности
+		self.toolkit.fillAttributes(name=activity_name_text)
+		# Вводим коммент
+		self.toolkit.fillAttributes(comment=comment_text)
 		print("", flush=True)
-		print(TextColors.WARNING + "ADDITIONALLY END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "REQUISITES END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""БАНКОВСКИЕ РЕКВИЗИТЫ"""
@@ -162,11 +150,11 @@ class ContactsTesting(unittest.TestCase):
 		print("----------------------------------------", flush=True)
 
 		"""Закупки"""
-		print(TextColors.WARNING + "Procurement START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "ORDER START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		self.toolkit.addSimpleProcurement()
 		print("", flush=True)
-		print(TextColors.WARNING + "Procurement END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "ORDER END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""СЧЕТА"""
@@ -244,10 +232,11 @@ class ContactsTesting(unittest.TestCase):
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
+		time.sleep(1)
 		# Удаляем Договор
 		self.toolkit.deleteObj('Договоры')
 		printOk("Delete Contract")
-		# Удаляем Заказ
+		# Удаляем Закупки
 		self.toolkit.deleteObj('Закупки')
 		printOk("Delete Procurement")
 		# Удаляем Счёт
@@ -262,8 +251,34 @@ class ContactsTesting(unittest.TestCase):
 		# Прохоим в Общее
 		self.toolkit.clickTab('Общее')
 		printOk("GO to General")
+		# Проходим в Сотрудники
+		self.toolkit.clickTab('Сотрудники')
+		printOk("GO to employees")
+		# Выбираем сотрудника ссылающегося на док
+		self.toolkit.clickByXPATH(employee_table_xpath, resetPointerEvents=True)
+		printOk("Choose employees")
+		# Нажимаем Удалить
+		self.toolkit.clickByID('delete')
+		printOk("Delete click")
+		# Нажимаем ОК
+		self.toolkit.clickByXPATH(ok_close_window_button_xpath)
+		printOk("OK button click")
 		# Спим
-		time.sleep(2)
+		time.sleep(1)
+		# Проходим в Структуру
+		self.toolkit.clickTab('Структура')
+		printOk("GO to Structure")
+		# Выбираем структуру ссылающегося на док
+		self.toolkit.clickByXPATH(employee_table_xpath,resetPointerEvents=True)
+		printOk("Choose Structure")
+		# Нажимаем Удалить
+		self.toolkit.clickByID('delete')
+		printOk("Delete click")
+		# Нажимаем ОК
+		self.toolkit.clickByXPATH(ok_close_window_button_xpath)
+		printOk("OK button click")
+		# Спим
+		time.sleep(1)
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -276,7 +291,7 @@ class ContactsTesting(unittest.TestCase):
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_contacts END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_accounts END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -285,7 +300,7 @@ class ContactsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContactsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'AccountsTesting' FINISH" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print("", flush=True)
 

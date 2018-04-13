@@ -1,13 +1,13 @@
-﻿# coding=utf-8
+# coding=utf-8
 import unittest
 
 from rootsLib.roots import *
 
 
 # noinspection PyUnusedLocal
-class ContractsTesting(unittest.TestCase):
+class OrdersTesting(unittest.TestCase):
 	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'ContractsTesting' START" + TextColors.ENDC, flush=True)
+	print(TextColors.HEADER + "Test 'ProcurementTesting' START" + TextColors.ENDC, flush=True)
 	print("----------------------------------------", flush=True)
 	print("----------------------------------------", flush=True)
 
@@ -20,61 +20,42 @@ class ContractsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-	def test_contracts(self):
+	def test_procurement(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_contracts START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_procurement START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Переходим в Договоры
-		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
-		printOk("ORDERS button click")
+		# Переходим в Закупки
+		self.toolkit.clickByXPATH(menu_button_xpath % 'Закупки')
+		printOk("Procurement button click")
 		# Спим
 		time.sleep(2)
 		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
 		printOk("Add button click")
-		time.sleep(6)
 		print("----------------------------------------", flush=True)
 
 		"""ОБЩЕЕ"""
 		print(TextColors.WARNING + "GENERAL PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Находим поле Типа документа и Вводим тип
-		contract_type_name = str(contracts_type_name)
-		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
-		# Находим и нажимаем в списке нужный тип документа
-		time.sleep(2)
-		self.toolkit.clickInPopupMenu(contract_type_name)
-		printOk("Choose type")
 		time.sleep(5)
 		# Проставляем дату документа
-		self.toolkit.clickByID('docDate')
-		time.sleep(1)
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		time.sleep(1)
-		self.toolkit.action.send_keys(Keys.ENTER)
+		self.toolkit.action.send_keys(Keys.RETURN)
 		self.toolkit.action.perform()
-		time.sleep(1)
-		self.toolkit.fillAttributes(subject=test_text)
-		time.sleep(4)
 		# Добавляем тег
-		self.toolkit.addTag('FAIL')
+		self.toolkit.addTag(procurement_tag_name)
 		# Проверяем на отсутвие shadow
-		time.sleep(1)
 		self.toolkit.waitNoShadow()
 		printOk("NO shadow")
 		# Комментарий
-		time.sleep(1)
 		self.toolkit.addComment()
-		# Отправляем на согласование
-		self.toolkit.clickByID('_processID_process_panel', "//div[text()='Отправить на согласование']")
-		time.sleep(3)
+		# Проставляем Описание
+		self.toolkit.fillAttributes(subject=comment_text)
 		# Стрингуем Подписанта
 		signer_position_name_u = str(signer_position_name)
 		signer_name_u = str(signer_name)
-		time.sleep(1)
 		# Вводим подписанта
 		self.toolkit.fillAttributes(signerID=signer_position_name_u)
-		time.sleep(2)
 		# Выбираем подписанта
 		self.toolkit.clickInPopupMenu(signer_name_u)
 		printOk("Choose signer")
@@ -90,50 +71,9 @@ class ContractsTesting(unittest.TestCase):
 		"""УЧАСТНИКИ"""
 		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		self.toolkit.addMembersAndDelete('Инициатор', 'Согласователь')
+		self.toolkit.addMembersAndDelete()
 		print("", flush=True)
 		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-
-		"""ГРАФИК ПЛАТЕЖЕЙ"""
-		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		time.sleep(1)
-		# Нажимаем График Платежей
-		self.toolkit.clickTab('График платежей')
-		printOk("Payment schedule button click")
-		# Нажимаем Добавить
-		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(4)
-		# Вводим Переодичность
-		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name)
-		time.sleep(1)
-		self.toolkit.clickInPopupMenu(payment_period_name)
-		printOk("Choose payment period")
-		time.sleep(1)
-		# Вводим Статью бюджета
-		self.toolkit.fillAttributes(planTypeID=payment_plan_name)
-		self.toolkit.clickInPopupMenu(payment_plan_name)
-		printOk("Enter payment plan")
-		time.sleep(1)
-		self.toolkit.clickByID('cost')
-		time.sleep(1)
-		# Вводим Итого
-		self.toolkit.clearByID('cost', '//input')
-		time.sleep(1)
-		#
-		self.toolkit.fillAttributes(cost=payment_cost_name)
-		#
-		self.toolkit.fillAttributes(comment=test_text)
-		# Спим
-		time.sleep(2)
-		# Нажимаем ОК
-		self.toolkit.clickByXPATH(okb_id_window_button_xpath)
-		printOk("OK button click")
-		time.sleep(1)
-		print("", flush=True)
-		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""СПЕЦИФИКАЦИЯ"""
@@ -145,13 +85,13 @@ class ContractsTesting(unittest.TestCase):
 		# Нажимаем Добавить
 		self.toolkit.clickByID('createSpecification')
 		printOk("Add specification button click")
-		time.sleep(5)
+		time.sleep(2)
 		# Выбираем в деревьях ВСЕ
 		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
-		self.toolkit.clickByXPATH(pencil_window_xpath, resetPointerEvents=True)
+		self.toolkit.clickByXPATH(pencil_window_xpath)
 		self.toolkit.clickByID('choose')
-		printOk("Choose button click")
+		printOk("Choose pencil")
 		# Закрываем окно
 		self.toolkit.clickByID('close')
 		# Спим
@@ -162,6 +102,48 @@ class ContractsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "SPECIFICATION PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
+		"""ГРАФИК ПЛАТЕЖЕЙ"""
+		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE START" + TextColors.ENDC, flush=True)
+		print("", flush=True)
+		# Нажимаем График Платежей
+		self.toolkit.clickTab('График платежей')
+		printOk("Payment schedule button click")
+		# Нажимаем Добавить
+		self.toolkit.clickByID('new')
+		printOk("Add button click")
+		time.sleep(2)
+		# Вводим Переодичность
+		payment_period_name_u = str(payment_period_name)
+		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name_u)
+		self.toolkit.clickInPopupMenu(payment_period_name_u)
+		printOk("Choose payment period")
+		time.sleep(1)
+		# Вводим Статью бюджета
+		payment_plan_name_u = str(payment_plan_name)
+		self.toolkit.fillAttributes(planTypeID=payment_plan_name_u)
+		time.sleep(1)
+		self.toolkit.clickInPopupMenu(payment_plan_name_u)
+		printOk("Enter payment plan")
+		time.sleep(2)
+		# Проставляем ставку налога
+		self.toolkit.clickByID('taxClassID', "//div")
+		time.sleep(1)
+		self.toolkit.clickInPopupMenu('НДС 18%')
+		time.sleep(1)
+		# Вводим Итого
+		self.toolkit.fillAttributes("//div[@class='qx-window']", "", cost=payment_cost_name)
+		time.sleep(1)
+		self.toolkit.action.send_keys(Keys.RETURN)
+		self.toolkit.action.perform()
+		time.sleep(1)
+		# Нажимаем ОК
+		self.toolkit.clickByXPATH(okb_id_window_button_xpath)
+		printOk("OK button click")
+		time.sleep(1)
+		print("", flush=True)
+		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE END" + TextColors.ENDC, flush=True)
+		print("----------------------------------------", flush=True)
+
 		"""СЧЕТА"""
 		print(TextColors.WARNING + "INVOICES PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
@@ -170,62 +152,36 @@ class ContractsTesting(unittest.TestCase):
 		print(TextColors.WARNING + "INVOICES PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
-		# """ЗАКУПКИ"""
-		# print(TextColors.WARNING + "Procurement START" + TextColors.ENDC, flush=True)
-		# print("", flush=True)
-		# self.toolkit.addSimpleProcurement()
-		# print("", flush=True)
-		# print(TextColors.WARNING + "Procurement END" + TextColors.ENDC, flush=True)
-		# print("----------------------------------------", flush=True)
-
 		"""АКТИВНОСТИ"""
-		print(TextColors.WARNING + "ACTIVITY START" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "ACTIVITY PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
 		self.toolkit.addSimpleActivity()
 		print("", flush=True)
-		print(TextColors.WARNING + "ACTIVITY END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-
-		"""ДОП.СОГЛАШЕНИЯ"""
-		print(TextColors.WARNING + "SUPPLEMENT START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		self.toolkit.addSupplement()
-		print("", flush=True)
-		print(TextColors.WARNING + "SUPPLEMENT END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "ACTIVITY PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""ФАЙЛЫ"""
 		print(TextColors.WARNING + "FILES PAGE START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Добавляем Папку
 		self.toolkit.addTestFolderInFiles()
-		# Добавляем Шаблон
-		# self.toolkit.addTestTemplateInFiles('')
 		print("", flush=True)
 		print(TextColors.WARNING + "FILES PAGE END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 
 		"""УДАЛЕНИЕ ССЫЛОК"""
 		print(TextColors.WARNING + "DELETE LINKS START" + TextColors.ENDC, flush=True)
+		print("", flush=True)
 		# Проверяем на отсутвие shadow
 		self.toolkit.waitNoShadow()
-		printOk("Shadow NO")
-		# Удаляем Счета
+		printOk("NO shadow")
+		# Удаляем Счёт
 		self.toolkit.deleteObj('Счета')
-		time.sleep(2)
-		printOk("Delete invoices")
-		# Удаляем Закупки
-		# self.toolkit.deleteObj('Закупки')
-		# time.sleep(2)
-		# printOk("Delete Procurement")
-		# Удаляем Активности
-		self.toolkit.deleteObj('Активности')
-		time.sleep(2)
-		printOk("Delete activity")
-		# Удаляем Доп. соглашения
-		self.toolkit.deleteObj('Доп. соглашения')
+		printOk("Delete Invoices")
 		time.sleep(4)
-		printOk("Delete supplement")
+		# Удаляем Активность
+		self.toolkit.deleteObj('Активности')
+		printOk("Delete Activity")
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -233,12 +189,13 @@ class ContractsTesting(unittest.TestCase):
 		"""Delete&Close"""
 		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Удаить договор
+		# Удаить закупку
 		self.toolkit.delete_into_doc()
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_contracts END" + TextColors.ENDC, flush=True)
+		print(TextColors.WARNING + "test_procurement END" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -247,7 +204,7 @@ class ContractsTesting(unittest.TestCase):
 		self.toolkit.quit()
 		print("Browser closed", flush=True)
 		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True)
+		print(TextColors.HEADER + "Test 'ProcurementTesting' FINISH" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
 		print("", flush=True)
 

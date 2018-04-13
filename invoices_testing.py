@@ -23,8 +23,6 @@ class InvoicesTesting(unittest.TestCase):
 	def test_invoices(self):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_invoices START" + TextColors.ENDC, flush=True)
-		# Проваливаемся на сайт
-		time.sleep(2)
 		# Находим в меню Счета
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Счета')
 		printOk("Activities button find&click")
@@ -88,7 +86,7 @@ class InvoicesTesting(unittest.TestCase):
 		# Выбираем в деревьях ВСЕ
 		self.toolkit.treeClick('Все')
 		# Нажимаем карандаш через Enter
-		self.toolkit.clickByXPATH(pencil_window_xpath)
+		self.toolkit.clickByXPATH(pencil_window_xpath, resetPointerEvents=True)
 		self.toolkit.clickByID('choose')
 		printOk("Choose pencil from Enter")
 		# Закрываем окно
@@ -111,7 +109,7 @@ class InvoicesTesting(unittest.TestCase):
 		self.toolkit.clickByXPATH(add_button_xpath)
 		printOk("Add button click")
 		# Нажимаем ОК
-		self.toolkit.clickByXPATH(ok_id_window_button_xpath)
+		self.toolkit.clickByXPATH(okb_id_window_button_xpath)
 		# Спим
 		time.sleep(2)
 		print("", flush=True)

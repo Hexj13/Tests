@@ -24,8 +24,6 @@ class RelationsTesting(unittest.TestCase):
 		self.toolkit.login(login_text, password_text)
 		print(TextColors.WARNING + "test_relations START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		# Спим
-		time.sleep(2)
 		# Переходим в Настройки
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
 		printOk("Settings button click")
@@ -59,8 +57,8 @@ class RelationsTesting(unittest.TestCase):
 		printOk("Add company from table")
 		time.sleep(2)
 		# Выбираем ячейку в таблице
-		self.toolkit.chooseReferenceInWindow('baseTableID', 'AddressType')
-		printOk("Add address type from table")
+		self.toolkit.chooseReferenceInWindow('baseTableID', 'CompanyTree')
+		printOk("Add CompanyTree from table")
 		time.sleep(2)
 		#
 		self.toolkit.clickByID('nameForeignID')
@@ -124,7 +122,7 @@ class RelationsTesting(unittest.TestCase):
 		#
 		self.toolkit.clickByXPATH(
 			"//div[@class='qooxdoo-table-cell' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_group_text)
+			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_group_text, resetPointerEvents=True)
 		#
 		self.toolkit.clickByID('delete')
 		#
@@ -135,7 +133,7 @@ class RelationsTesting(unittest.TestCase):
 		#
 		self.toolkit.clickByXPATH(
 			"//div[@class='qooxdoo-table-cell' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_role_text)
+			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_role_text, resetPointerEvents=True)
 		#
 		self.toolkit.clickByID('delete')
 		#

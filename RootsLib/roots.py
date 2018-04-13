@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 import time
+import re
 
 from rootsLib.content import *
 from rootsLib.xpath import *
@@ -48,9 +49,23 @@ class UITestToolkit(object):
 		print("----------------------------------------", flush=True)
 		print(TextColors.WARNING + "UITestToolkit init START" + TextColors.ENDC, flush=True)
 		print("", flush=True)
-		chrome_options = Options()
-		chrome_options.add_argument('--disable-gpu')
-		self.driver = webdriver.Chrome(chrome_options=chrome_options)
+		print(TextColors.BOLD + "Test start at: " + TextColors.ENDC + TextColors.OKBLUE + time.ctime() + TextColors.ENDC,
+		      flush=True)
+		# ---------Flags---------
+		# chrome_options = Options()
+		# chrome_options.add_argument("--start-maximized");
+		# chrome_options.add_argument("--disable-infobars");
+		# chrome_options.add_argument("--disable-extensions");
+		# chrome_options.add_argument("--disable-gpu");
+		# chrome_options.add_argument("--test-type");
+		# print(TextColors.BOLD + "Start with flags = " + str(chrome_options._arguments)+ TextColors.ENDC)
+		#
+		# ---------For Linux start---------
+		# chrome_options.binary_location = '/usr/bin/chromium-browser'
+		#
+		# ---------Choose browser---------
+		self.driver = webdriver.Chrome()
+		# self.driver = webdriver.Firefox()
 		printOk("Webdriver init")
 		# Разворачиваем
 		self.driver.maximize_window()
@@ -137,13 +152,15 @@ class UITestToolkit(object):
 	# Закрытие браузера
 	def quit(self):
 		self.driver.quit()
+		print(TextColors.BOLD + "Quit at: " + TextColors.ENDC + TextColors.OKBLUE + time.ctime() + TextColors.ENDC,
+		      flush=True)
 
 	# Выбор "Ответственного" в окне настроек. Необходимо передавать id поля куда нужно проставить ответсвенного и его ФИО.
 	def chooseReferenceInWindow(self, reference_id, text):
 		# Нажимаем на кнопку для выбора договора
 		self.clickByID(reference_id, "//div[@id = 'choose-button']")
 		printOk("Select button click")
-		time.sleep(4)
+		time.sleep(2)
 		# Выбираем объект
 		self.clickByID('filter', parent_xpath="//div[@class='qx-window']")
 		printOk("Filter click")
@@ -151,8 +168,11 @@ class UITestToolkit(object):
 		# Проставляем значение в поле
 		self.sendKeysByXPATH("//div[@class='qx-popup']//input", text)
 		time.sleep(1)
+		self.clickByXPATH("//div[@class='qx-popup']//div[@class='qx-button-leading-border']//div[text()='OK']",
+		                  resetPointerEvents=True)
+		time.sleep(1)
 		# Выбираем
-		self.clickByXPATH(reference_obj_xpath.format(text=text))
+		self.clickByXPATH(reference_obj_xpath.format(text=text), resetPointerEvents=True)
 		time.sleep(1)
 		self.clickByID('choose')
 		printOk("Choose contract")
@@ -169,7 +189,7 @@ class UITestToolkit(object):
 		self.fillAttributes(password=password)
 		self.clickByID('enter')
 		printOk("Submit button click")
-		time.sleep(8)
+		time.sleep(4)
 		print("", flush=True)
 		print(TextColors.WARNING + "login FINISH" + TextColors.ENDC, flush=True)
 		print("----------------------------------------", flush=True)
@@ -203,7 +223,7 @@ class UITestToolkit(object):
 		# Enter
 		self.action.send_keys(Keys.ENTER)
 		printOk('Enter click')
-		# Нажимаем кнопку Добавить Комментарий
+		# Нажимаем кнопку Добавить  Комментарий
 		self.clickByID('newCommentButton')
 		printOk("Add Comment button click")
 		# Вводим первый комментарий
@@ -222,7 +242,7 @@ class UITestToolkit(object):
 		self.fillAttributes(**kwargs)
 		# Нажимаем ОК
 		time.sleep(1)
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(okb_id_window_button_xpath)
 		printOk("OK button click")
 
 	# Передаёт ссылку в браузер.
@@ -265,7 +285,7 @@ class UITestToolkit(object):
 		self.clickByID('moreActions')
 		self.clickByXPATH(comment_action_button_xpath % 'Удалить')
 		printOk("Delete button click")
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		printOk("OK button click")
 		time.sleep(2)
 
@@ -289,9 +309,9 @@ class UITestToolkit(object):
 		# Click in popup menu
 		self.clickByXPATH(qxmenu_button_xpath % template_name)
 		printOk("Add template button click")
-		time.sleep(10)
+		time.sleep(15)
 		# Нажимаем Ок
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(2)
@@ -310,21 +330,21 @@ class UITestToolkit(object):
 		printOk("Choose activity type")
 		time.sleep(2)
 		# Проставляем дату деактивации
-		self.clickByID('_stripActivities', "//div[@id='deactivateDate']//input")
+		self.clickByID('_stripActivities', child_xpath="//div[@id='deactivateDate']//input")
 		printOk("Click deactivate date")
 		time.sleep(1)
 		self.fillAttributes("//div[@id='_stripActivities']", deactivateDate=TakeDate.tomorrow)
 		printOk("Fill deactivate date")
 		time.sleep(2)
 		# Проставляем описание
-		self.clickByID('_stripActivities', "//textarea[@id='subject']")
+		self.clickByID('_stripActivities', child_xpath="//textarea[@id='subject']")
 		printOk("Click subject")
 		time.sleep(1)
 		self.fillAttributes("//div[@id='_stripActivities']", subject=test_text)
 		printOk("Fill subject")
 		time.sleep(2)
 		# Нажимаем кнопку Выбрать
-		self.clickByID("responsibleID", "//div[@id='choose-button']")
+		self.clickByID("responsibleID", child_xpath="//div[@id='choose-button']")
 		printOk("Choose button click")
 		time.sleep(2)
 		# Выбираем ответственного
@@ -336,15 +356,15 @@ class UITestToolkit(object):
 		printOk("Choose button click (In Table)")
 		time.sleep(2)
 		# Завершить
-		self.clickByID('_processID_process_panel', "//div[text()='Завершить']")
+		self.clickByID('_processID_process_panel', child_xpath="//div[text()='Завершить']")
 		printOk("Finish button click")
 		time.sleep(4)
 		# Нажимаем Удалить активность
-		self.clickByID('Activity_objectID', '//div[@id = "delete-button"]')
+		self.clickByID('Activity_objectID', child_xpath='//div[@id = "delete-button"]')
 		printOk('Delete activity button click')
 		time.sleep(3)
 		# Нажимаем ОК
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		printOk('OK button button click')
 		time.sleep(1)
 
@@ -417,14 +437,14 @@ class UITestToolkit(object):
 		printOk("OK button click")
 		time.sleep(2)
 
-	# Добавляет заказ в документе
-	def addSimpleOrder(self):
+	# Добавляет Закупки в документе
+	def addSimpleProcurement(self):
 		# Проверяем на отсутвие shadow
 		self.waitNoShadow()
 		printOk("NO shadow")
-		# Нажимаем Заказы
-		self.clickTab(name='Заказы')
-		printOk("Orders button click")
+		# Нажимаем Закупки
+		self.clickTab(name='Закупки')
+		printOk("Procurement button click")
 		# Нажимаем Добавить
 		self.clickByID('new')
 		printOk("Add button click")
@@ -432,11 +452,12 @@ class UITestToolkit(object):
 		# Проставляем дату документа
 		self.clickByID('docDate')
 		self.fillAttributes(docDate=TakeDate.today)
-		# Спим
-		time.sleep(5)
-		# Закрываем заказ
+		time.sleep(1)
+		self.fillAttributes(subject=test_text)
+		time.sleep(3)
+		# Закрываем Закупки
 		self.clickByID('okb')
-		printOk("Close order")
+		printOk("Close Procurement")
 		time.sleep(3)
 
 	# Добавляет договор в документе
@@ -452,22 +473,20 @@ class UITestToolkit(object):
 		# Нажимаем Добавить
 		self.clickByID('new')
 		printOk("Add button click")
-		time.sleep(5)
+		time.sleep(10)
 		# Находим поле Типа документа и Вводим тип
-		self.fillAttributes(documentTypeID=contracts_type_name)
+		self.fillAttributes(documentTypeID=str(contracts_type_name))
 		time.sleep(2)
 		# Находим и нажимаем в списке нужный тип документа
-		self.clickInPopupMenu(contracts_type_name)
+		self.clickInPopupMenu(str(contracts_type_name))
 		printOk("Choose type")
 		time.sleep(2)
-		# Спим
 		# Проставляем дату документа
 		self.clickByID('docDate')
-		time.sleep(1)
 		self.fillAttributes(docDate=TakeDate.today)
-		self.clickByID('processID.stateID')
-		# Спим
-		time.sleep(5)
+		time.sleep(1)
+		self.clickByID('subject')
+		time.sleep(3)
 		# Закрываем договор
 		self.clickByID('okb')
 		printOk("Close contract")
@@ -481,27 +500,31 @@ class UITestToolkit(object):
 		# Нажимаем Файлы
 		self.clickTab('Файлы')
 		printOk("Files button click")
+		time.sleep(4)
+		# choose view
+		self.clickByXPATH(file_dir_button)
 		time.sleep(2)
 		# Нажиаем Добавить
 		self.clickByXPATH(add_file_button_xpath)
 		printOk("Add button click")
-		time.sleep(1)
+		time.sleep(2)
 		# Добавить Папку
 		self.clickByXPATH(add_folder_button_xpath)
 		printOk("Add folder button click")
-		# Спим
-		time.sleep(2)
+		time.sleep(3)
+		# Добавить новую папку
+		self.clickByXPATH(add_new_folder_button_xpath)
+		printOk("Add new folder button click")
+		time.sleep(3)
 		# Стрингуем название
 		folder_test_name_u = str(folder_test_name)
 		# Вводим название Папки
 		self.fillAttributes("//div[@class='qx-window']", name=folder_test_name_u)
 		printOk("Enter folder name")
-		# Спим
 		time.sleep(2)
 		# Нажимаем Ок
-		self.clickByXPATH(ok_id_window_button_xpath)
+		self.clickByXPATH(okb_id_window_button_xpath)
 		printOk("OK button click")
-		# Спим
 		time.sleep(2)
 
 	# Добавляет тег в документе
@@ -509,38 +532,22 @@ class UITestToolkit(object):
 		# Добавляем тег
 		self.clickByID('addTag')
 		printOk("Add Tag button click")
+		time.sleep(2)
 		# Выбираем тег
-		self.clickByXPATH(selected_tag_xpath % tag_name)
+		self.clickByXPATH(selected_tag_xpath % tag_name, resetPointerEvents=True)
 		self.clickByID('choose')
 		printOk("Choose tag")
 		# Закрываем окно с тегами
 		self.clickByID('close')
 		time.sleep(2)
 		printOk("Close tag window")
-		self.clickByID("delete-button", "", "//div[@class='qx-strip-dialog-container-tag']")
+		self.clickByID("delete-button", "", "//div[@class='qx-strip-dialog-container-tag']", resetPointerEvents=False)
 		printOk("Delete tag")
 
 	# Добавляет участника и удаляет его
+
 	def addMembersAndDelete(self, first_group_name='Инициатор', second_group_name='Исполнитель'):
-		# Нажимаем Участники
-		self.clickTab('Участники')
-		printOk("Members button click")
-		# Нажимаем Добавить
-		self.clickByXPATH(add_button_xpath)
-		printOk("Add button click")
-		# Нажимаем Инициатор
-		self.clickByXPATH(qx_menu_menu_select_xpath % first_group_name)
-		# Нажимаем Должность
-		self.clickByXPATH(qx_menu_menu_select_xpath % 'Сотрудник')
-		printOk("Position button click")
-		# Выбираем Генерального директора
-		self.clickByXPATH(cell_in_table_xpath % 'Генеральный директор')
-		self.clickByID('choose')
-		printOk("Choose director")
-		# Нажимаем закрыть окно
-		self.clickByID('close')
-		printOk("Close window")
-		# Спим
+		self.addMember(name="Генеральный директор", first_group_name=first_group_name, second_group_name='Сотрудник')
 		time.sleep(2)
 		# Нажимаем Добавить
 		self.clickByXPATH(add_button_xpath)
@@ -560,12 +567,12 @@ class UITestToolkit(object):
 		# Спим
 		time.sleep(2)
 		# Выбираем Логистику
-		self.clickByXPATH(cell_in_table_xpath % second_group_name)
+		self.clickByXPATH(cell_in_table_xpath % second_group_name, resetPointerEvents=True)
 		printOk("Choose logistic")
 		# Нажимаем удалить
 		self.clickByID('delete')
 		# Нажимаем ОК
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(2)
@@ -584,25 +591,50 @@ class UITestToolkit(object):
 		self.clickByXPATH(qx_menu_menu_select_xpath % second_group_name)
 		printOk("Position button click")
 		time.sleep(3)
-		# Выбираем Генерального директора
-		self.clickByXPATH(reference_xpath % name)
+		# Выбираем участника
+		self.clickByXPATH(reference_xpath % name, resetPointerEvents=True)
 		self.clickByID('choose')
 		printOk("Choose person")
 		# Нажимаем закрыть окно
 		self.clickByID('close')
 		printOk("Close window")
 
+	# Добавляет доп.соглашение
+	def addSupplement(self):
+		# Нажимаем Доп. соглашения
+		self.clickTab('Доп. соглашения')
+		printOk("Activities button click")
+		time.sleep(2)
+		# Нажимаем Добавить
+		self.clickByID('new')
+		printOk("Add button click")
+		# Спим
+		time.sleep(4)
+		# Проставляем дату документа
+		self.fillAttributes(docDate=TakeDate.tomorrow)
+		time.sleep(1)
+		# Проставляем дату диактивации
+		self.fillAttributes(deactivateDate=TakeDate.tomorrow)
+		time.sleep(1)
+		# Клив в Описание
+		self.clickByID('subject')
+		time.sleep(1)
+		# Нажимаем OK
+		self.clickByID('okb')
+		printOk("OK button click")
+		time.sleep(4)
+
 	# Добавляет связь в документе
 	def addLinkage(self, customer_group_name, customer_name):
 		# Нажимаем +
-		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']")
+		self.clickByID("linkageID_linkages", "//div[@id = 'linkageID_selectButton']", resetPointerEvents=False)
 		printOk("Add linkage button click")
 		if type(customer_group_name) == str:
 			# customer_group_name = customer_group_name.encode().decode('utf-8', 'ignore')
 			customer_group_name = (customer_group_name,)
 		for x in customer_group_name:
 			# Нажимаем customer_group_name
-			self.clickByXPATH(qxmenu_button_xpath % x)
+			self.clickByXPATH(qxmenu_button_xpath % x, resetPointerEvents=True)
 			printOk("{} click".format(x))
 			time.sleep(1)
 		# Выбираем объект
@@ -613,7 +645,7 @@ class UITestToolkit(object):
 		self.sendKeysByXPATH("//div[@class='qx-popup']//input", customer_name)
 		time.sleep(1)
 		# Нажимаем на контрагента в таблице
-		self.clickByXPATH(cell_in_table_xpath % customer_name)
+		self.clickByXPATH(cell_in_table_xpath % customer_name, resetPointerEvents=True)
 		printOk("Customer name click")
 		time.sleep(3)
 		# Нажимаем Выбрать
@@ -632,7 +664,6 @@ class UITestToolkit(object):
 			kpp='773601001',
 			accountNumber='30301810000006000001',
 			personalAccount='30301810000006000002',
-			comment='Test comment',
 			deactivateDate=TakeDate.tomorrow
 		)
 
@@ -640,13 +671,13 @@ class UITestToolkit(object):
 
 	# Удаляет документ (внутри документа через кнопку)
 	def delete_into_doc(self):
-		# Удаить договор
+		# Удалить договор
 		self.clickByID('deleteb')
 		printOk("Delete document")
 		time.sleep(3)
-		# Нажимаем Enter
-		self.clickByXPATH(ok_delete_button_window_xpath)
-		printOk("ENTER click")
+		# Нажимаем OK
+		self.clickByXPATH(ok_close_window_button_xpath)
+		printOk("OK click")
 		time.sleep(5)
 
 	# Удаляет в таблице в объекте
@@ -655,9 +686,9 @@ class UITestToolkit(object):
 		self.clickByID('delete')
 		printOk("Delete document")
 		time.sleep(3)
-		# Нажимаем Enter
-		self.clickByXPATH(ok_delete_button_window_xpath)
-		printOk("ENTER click")
+		# Нажимаем ОК
+		self.clickByXPATH(ok_close_window_button_xpath)
+		printOk("ОК click")
 		time.sleep(5)
 
 	# Удаляет участника
@@ -671,7 +702,7 @@ class UITestToolkit(object):
 		# Нажимаем удалить
 		self.clickByID('delete')
 		# Нажимаем ОК
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		printOk("OK button click")
 		# Спим
 		time.sleep(2)
@@ -683,13 +714,13 @@ class UITestToolkit(object):
 		self.clickTab(obj_name)
 		time.sleep(2)
 		# Выбираем ссылку из списка
-		self.clickByXPATH(select_row_in_table_xpath)
+		self.clickByXPATH(select_row_in_table_xpath, resetPointerEvents=True)
 		time.sleep(2)
 		# Нажимаем кнопку Удалить
 		self.clickByID('delete')
 		time.sleep(2)
 		# Нажимаем ОК
-		self.clickByXPATH(ok_delete_button_window_xpath)
+		self.clickByXPATH(ok_close_window_button_xpath)
 		# Спим
 		time.sleep(4)
 
@@ -704,20 +735,87 @@ class UITestToolkit(object):
 			i -= 1
 		time.sleep(1)
 
+	def urlify(self, s):
+		# Remove all non-word characters (everything except numbers and letters)
+		s = re.sub(r"[^\w\s]", '', s)
+		# Replace all runs of whitespace with a single dash
+		s = re.sub(r"\s+", '-', s)
+		return s
+
 	# Клик по xpath
-	def clickByXPATH(self, xpath):
-		self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)),
-		                TextColors.FAIL + "Can't click element = " + TextColors.WARNING + xpath + TextColors.ENDC).click()
+	def clickByXPATH(self, xpath, resetPointerEvents=False):
+		# Подцветка элемента перед кликом
+		# Находим элемент
+		element = self.wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
+		if resetPointerEvents:
+			self.driver.execute_script("""
+				var element = arguments[0];
+				for(var i = 0; i < 3; ++i) {
+					element.style.pointerEvents = 'auto';
+					element = element.parentNode;
+				}
+			""", element)
+		# Сохраняем старый стиль
+		color = self.driver.execute_script("arguments[0].style.backgroundColor", element)
+		# Пишем красный в стиль
+		self.driver.execute_script("arguments[0].style.backgroundColor = '#FF4747'", element)
 		time.sleep(1)
+		# Возвращаем старый стиль
+		self.driver.execute_script("arguments[0].style.backgroundColor = arguments[1]", element, color)
+		try:
+			# Основной клик через driver
+			element.click()
+			time.sleep(1)
+		except Exception:
+			# Клик через ActionChains
+			try:
+				element = self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
+				#
+				# ---------------------JS script click---------------------
+				# self.driver.execute_script("""
+				# 	var triggerMouseEvent = function(node, eventType) {
+				# 	    var clickEvent = document.createEvent ('MouseEvents');
+				# 	    clickEvent.initEvent (eventType, true, true);
+				# 	    clickEvent.pointerId = 1;
+				# 	    clickEvent.isPrimary = true;
+				# 	    clickEvent.getPointerType = function() { return 'touch'; };
+				# 	    node.dispatchEvent (clickEvent);
+				# 	}
+				#     triggerMouseEvent(arguments[0], "mousedown");
+				#     triggerMouseEvent(arguments[0], "mouseup");
+				# """, element)
+				#
+
+				self.action.move_to_element(element)
+				self.action.click()
+				self.action.perform()
+			except:
+				print(TextColors.FAIL + "Can't click on element = " + TextColors.WARNING + xpath + TextColors.ENDC)
+
+				# Дата сейчас
+				def datetime_now(prefix):
+					symbols = str(datetime.datetime.now())
+					return prefix + "-" + "".join(symbols)
+
+				# Формирование имени для скриншота
+				screen_name = self.urlify(datetime_now('screen')) + '.png'
+				# Сохранение скриншота
+				self.driver.save_screenshot(
+					'C:/Users/Operator/Desktop/DFCRM/tests/other/screenshots/%s' % screen_name)
+				print(TextColors.FAIL + "Screenshot saved" + TextColors.ENDC)
+				# Выход
+				quit()
 
 	# Клик по вкладке
+
 	def clickTab(self, name):
 		time.sleep(2)
 		self.clickByXPATH(tab_xpath.format(name=name))
 
 	# Клик по id элемента
-	def clickByID(self, element_id, child_xpath='', parent_xpath=''):
-		self.clickByXPATH(attribute_xpath.format(id=element_id, child=child_xpath, parent=parent_xpath))
+	def clickByID(self, element_id, child_xpath='', parent_xpath='', resetPointerEvents=False):
+		self.clickByXPATH(attribute_xpath.format(id=element_id, child=child_xpath, parent=parent_xpath),
+		                  resetPointerEvents=resetPointerEvents)
 
 	# Клик в окне по id элемента
 	def clickInWindowByIDKey(self, element_id, child_xpath=''):
@@ -726,15 +824,15 @@ class UITestToolkit(object):
 	# Клик по элементу в popup
 	def clickInPopupMenu(self, text):
 		time.sleep(3)
-		self.clickByXPATH(popup_menu_select_xpath % text)
+		self.clickByXPATH(popup_menu_select_xpath % text, resetPointerEvents=True)
 		time.sleep(1)
 
 	# Клик в дереве
 	def treeClick(self, tree_name):
 		# Нажимаем рефлеш
-		self.clickByID('tree-toolbar', "//div[@class='qx-button-common-border']")
+		self.clickByID('tree-toolbar', child_xpath="//div[@class='qx-button-common-border']", resetPointerEvents=True)
 		time.sleep(3)
 		# Нажимаем на необходимый классификатор в дереве
 		tree_name = str(tree_name)
-		self.clickByID('tree-virtual', "//span[text()='%s']" % tree_name)
+		self.clickByID('tree-virtual', child_xpath="//span[text()='%s']" % tree_name, resetPointerEvents=True)
 		time.sleep(2)
