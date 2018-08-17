@@ -1,0 +1,1048 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Тестирование &#8212; Документация Flexbby Testing 1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>Тестирование<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="figure align-right">
+<img alt="_images/logo.png" src="_images/logo.png" />
+</div>
+<p>Данная инструкция направлена на быстрое понимание принципов работы с библитекой <strong>rootsLib</strong>,
+структуры теста и необходимых инструменов для комфортной работы.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Вы можите воспользоваться быстрым Поиском в боковом меню или просто нажать Ctrl+F и ввести искомую информацию.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>Структура<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="id3">
+<h2>Инструменты<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для тестирования платфомы <strong>Flexbby</strong> используется связка Python 3 + Selenium.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wombat.org.ua/AByteOfPython/toc.html#">Документация Python 3 на русском языке</a></li>
+<li><a class="reference external" href="http://selenium2.ru/docs.html">Документация Selenium на русском языке</a></li>
+<li><a class="reference external" href="https://www.jetbrains.com/pycharm/">PyCharm является наиболее удобной средой разработки тестов</a></li>
+<li><a class="reference external" href="http://onedev.net/post/458">Примеры написания XPATH и его базовый синтаксис</a></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>Структура тестов<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Имя теста должно содержать всю необходимую информацию:</p>
+<ul class="simple">
+<li>Имя тестируемого объекта.</li>
+<li>Если имя теста состоит из нескольких слов, то они должны быль заделены знаком «_».</li>
+<li>Суфикс _testing.py в конце имени теста.</li>
+<li>Имя теста не должно содержать знаков верхнего регистра.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Если тестируется вложенный объект бокового меню, то имя теста должно содержать префикс с именем родителя.</p>
+</div>
+</div>
+<div class="section" id="rootslib">
+<h2>Структура библиотеки rootsLib<a class="headerlink" href="#rootslib" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Данная библиотека создана для того, чтобы сэкономить время на разработку новых тестов. Библиотека может подвергаться изменениям после согласования с ведущим тестировщиком.</p>
+<p>Библиотека имеет название коренной папки rootsLib.</p>
+<p>Состоит из:</p>
+<ul class="simple">
+<li><strong>roots.py</strong> - файл содержащий все необходимые классы и функции библиотеки для работы с интерфейсом системы Flexbby.</li>
+<li><strong>content.py</strong> - файл содержащий данные (переменные), необходимые для ввода внутри системы (логины, пароли, названия компаний, ИНН, и т.п.)</li>
+<li><strong>xpath.py</strong> - файл содержащий набор селекторов необходимых для работы тестов.</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Предупреждение</p>
+<p class="last">Файл <strong>content.py</strong> содержит данные, позволяющие войти внутрь системы Flexbby, потому <strong>не должен</strong> попасть в доступ третьим лицам.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h1><strong>rootsLib</strong>. Описание<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Внутри данной библиотеки файл <strong>roots.py</strong> является основным - содержит все необходимые классы и функции.</p>
+<div class="section" id="printok">
+<h2>printOk<a class="headerlink" href="#printok" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Данная функция выводид переданный текст в консоль в определённом формате. Используется после каждого действия в тесте, чтобы выводить отчёт успешно выполненного действия.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">printOk</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="takedate">
+<h2>TakeDate<a class="headerlink" href="#takedate" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Данный класс используется для того, чтобы проставлять дату в документах.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TakeDate</span><span class="p">:</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+<span class="n">tomorrow</span> <span class="o">=</span> <span class="n">today</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">.%m.%Y&quot;</span><span class="p">)</span>
+<span class="n">tomorrow</span> <span class="o">=</span> <span class="n">tomorrow</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">.%m.%Y&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Например:</em> «Дата деактивации» и др.</p>
+<p>Дата уже имеет формат «dd.mm.yyyy»</p>
+</div>
+<div class="section" id="textcolors">
+<h2>TextColors<a class="headerlink" href="#textcolors" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Данный класс используется для подцветки отдельных фраз и слов при выводе в консоль.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TextColors</span><span class="p">:</span>
+<span class="n">HEADER</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[95m&#39;</span>
+<span class="n">OKBLUE</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[94m&#39;</span>
+<span class="n">OKGREEN</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[92m&#39;</span>
+<span class="n">WARNING</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[93m&#39;</span>
+<span class="n">FAIL</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[91m&#39;</span>
+<span class="n">ENDC</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span>
+<span class="n">BOLD</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[1m&#39;</span>
+<span class="n">UNDERLINE</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[4m&#39;</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="http://misc.flogisoft.com/bash/tip_colors_and_formatting">Инструкцию по использованию и дополнительные ASCII цвета можно найти тут</a></p>
+</div>
+<div class="section" id="uitesttoolkit">
+<h2><strong>UITestToolkit</strong><a class="headerlink" href="#uitesttoolkit" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Данный класс содержит основную логику rootsLib.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UITestToolkit</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="init">
+<h3>_init_<a class="headerlink" href="#init" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action_chains</span><span class="o">.</span><span class="n">ActionChains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Инициализирует webdriver.
+Именно тут определяется в каком браузере будет выполняться тестирование.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Разворачивает окно браузер на весь экран.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Устанавливает значение WebDriverWait, который отвечает за ожидание при рабоет с элементами на странице.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Инициализирует ActionChains, которая отвечает за симуляцию клавиатуры и мыши.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action_chains</span><span class="o">.</span><span class="n">ActionChains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addactivity">
+<h3>addActivity<a class="headerlink" href="#addactivity" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет «маленькую» активность внутри объекта (применяется в Юр.лицах), после чего заполняет необходимые данные и удаляет её.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addActivity</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addbankaccount">
+<h3>addBankAccount<a class="headerlink" href="#addbankaccount" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Функция проставляет значения в разделе «Банковские Реквизиты», используя  <strong>createSimpleObject</strong> и <strong>**kwargs</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addBankAccount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createSimpleObject</span><span class="p">(</span>
+                <span class="n">bik</span><span class="o">=</span><span class="s1">&#39;044525225&#39;</span><span class="p">,</span>
+                <span class="n">nameForeign</span><span class="o">=</span><span class="s1">&#39;SBERBANK&#39;</span><span class="p">,</span>
+                <span class="n">inn</span><span class="o">=</span><span class="s1">&#39;7707083893&#39;</span><span class="p">,</span>
+                <span class="n">kpp</span><span class="o">=</span><span class="s1">&#39;773601001&#39;</span><span class="p">,</span>
+                <span class="n">accountNumber</span><span class="o">=</span><span class="s1">&#39;30301810000006000001&#39;</span><span class="p">,</span>
+                <span class="n">personalAccount</span><span class="o">=</span><span class="s1">&#39;30301810000006000002&#39;</span><span class="p">,</span>
+                <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;Test comment&#39;</span><span class="p">,</span>
+                <span class="n">deactivateDate</span><span class="o">=</span><span class="n">TakeDate</span><span class="o">.</span><span class="n">tomorrow</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addcomment">
+<h3>addComment<a class="headerlink" href="#addcomment" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выполняет последовательность последующих действий:</p>
+<ul class="simple">
+<li>Нажимает кнопку «Добавить комментарий»;</li>
+<li>Вводит первый комментарий;</li>
+<li>Нажимает кнопку «Сохранить»;</li>
+<li>Нажимает кнопку «Редактировать»;</li>
+<li>Очищает <strong>textarea</strong>, где содержится текст первого комментария;</li>
+<li>Вводит второй комментарий;</li>
+<li>Нажимает кнопку «Сохранить»;</li>
+<li>Нажимает кнопку «Удалить»;</li>
+<li>Нажимает «ОК».</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addComment</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addlinkage">
+<h3>addLinkage<a class="headerlink" href="#addlinkage" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная функция используется для добавления связи в документ внутри системы Flexbby.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addLinkage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_group_name</span><span class="p">,</span> <span class="n">customer_name</span><span class="p">):</span>
+        <span class="c1"># Нажимаем +</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s2">&quot;linkageID_linkages&quot;</span><span class="p">,</span> <span class="s2">&quot;//div[@id = &#39;linkageID_selectButton&#39;]&quot;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add linkage buton click&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">customer_group_name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">customer_group_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">customer_group_name</span><span class="p">,)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">customer_group_name</span><span class="p">:</span>
+                <span class="c1"># Нажимаем customer_name</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qxmenu_button_xpath</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
+                <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;{} click&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Нажимаем на контрагента в таблице</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="n">customer_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Customer name click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Выбрать</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose button click&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">FOUR</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Закрытие таблицы проиходит автоматом&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p><em>Пример вызова:</em></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Добавление контрагента</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">toolkit</span><span class="o">.</span><span class="n">addLinkage</span><span class="p">((</span><span class="s2">&quot;Заказчик&quot;</span><span class="p">,</span> <span class="s2">&quot;Юр. лицо&quot;</span><span class="p">),</span> <span class="s2">&quot;Флексби Солюшнс&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/linkage1.png" src="_images/linkage1.png" />
+</div>
+<div class="figure">
+<img alt="_images/linkage2.png" src="_images/linkage2.png" />
+</div>
+<div class="figure">
+<img alt="_images/linkage3.png" src="_images/linkage3.png" />
+</div>
+</div>
+<div class="section" id="addmember">
+<h3>addMember<a class="headerlink" href="#addmember" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Совершает переход во вкладку «Участники» и добавляет участника в документ.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addMember</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">first_group_name</span><span class="o">=</span><span class="s1">&#39;Согласователь&#39;</span><span class="p">,</span> <span class="n">second_group_name</span><span class="o">=</span><span class="s1">&#39;Сотрудник&#39;</span><span class="p">):</span>
+        <span class="c1"># Нажимаем Участники</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Участники&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Members button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">add_button_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем на роль</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="n">first_group_name</span><span class="p">)</span>
+        <span class="c1"># Нажимаем на тип в роли</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="n">second_group_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Position button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Выбираем участника</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">reference_xpath</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем закрыть окно</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addmembersanddelete">
+<h3>addMembersAndDelete<a class="headerlink" href="#addmembersanddelete" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Совершает переход во вкладку «Участники» и добавляет участника в документ, после чего удаляет его.
+Принимает обязательные параметры, такие как: ФИО участника в системе, название роли в документе, название типа в роли (сотрудник, группа, пользователь, и т.д.).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addMembersAndDelete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_group_name</span><span class="o">=</span><span class="s1">&#39;Инициатор&#39;</span><span class="p">,</span> <span class="n">second_group_name</span><span class="o">=</span><span class="s1">&#39;Исполнитель&#39;</span><span class="p">):</span>
+        <span class="c1"># Нажимаем Участники</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Участники&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Members button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">add_button_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Инициатор</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="n">first_group_name</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Сотрудник</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="s1">&#39;Сотрудник&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Position button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Выбираем Генерального директора</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="s1">&#39;Генеральный директор&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose director&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем закрыть окно</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close window&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">add_button_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Исполнитель</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="n">second_group_name</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Группа</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">%</span> <span class="s1">&#39;Группа&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Position button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Выбираем Логистика</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="s1">&#39;Логистика&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose logistic&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем закрыть окно</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close window&quot;</span><span class="p">)</span>
+        <span class="c1"># Выбираем Логистику</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="n">second_group_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose logistic&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем удалить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем ОК</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_delete_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addsimpleactivity">
+<h3>addSimpleActivity<a class="headerlink" href="#addsimpleactivity" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Переходит во вкладку «Активности» и добавляет активность.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleActivity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Нажимаем Активности</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Активности&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Activities button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Вводим тип Активности</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">documentTypeID</span><span class="o">=</span><span class="n">activities_activity_type_name</span><span class="p">)</span>
+        <span class="c1"># Выбираем тип Активности</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickInPopupMenu</span><span class="p">(</span><span class="n">activities_activity_type_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose activity type&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем OK</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addsimplecontract">
+<h3>addSimpleContract<a class="headerlink" href="#addsimplecontract" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Переходит во вкладку «Договоры» и добавляет договор.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleContract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Проверяем на отсутвие shadow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Договоры</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Договоры&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Contracts button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Находим поле Типа документа и Вводим тип</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">documentTypeID</span><span class="o">=</span><span class="n">contracts_type_name</span><span class="p">)</span>
+        <span class="c1"># Находим и нажимаем в списке нужный тип документа</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickInPopupMenu</span><span class="p">(</span><span class="n">contracts_type_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose type&quot;</span><span class="p">)</span>
+        <span class="c1"># Проставляем дату документа</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;docDate&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">docDate</span><span class="o">=</span><span class="n">TakeDate</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;processID.stateID&#39;</span><span class="p">)</span>
+        <span class="c1"># Закрываем договор</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close contract&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addsimpleinvoice">
+<h3>addSimpleInvoice<a class="headerlink" href="#addsimpleinvoice" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет счёт внутри документа без привязки договора внутри счёта.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleInvoice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Проверяем на отсутвие shadow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Счета</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Счета&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Invoices button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Закрываем счёт</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Invoices close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addsimpleinvoicewithcontract">
+<h3>addSimpleInvoiceWithContract<a class="headerlink" href="#addsimpleinvoicewithcontract" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет счёт внутри документа с привязкой договора внутри счёта.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleInvoiceWithContract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Проверяем на отсутвие shadow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Счета</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Счета&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Invoices button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Находим поле Типа счёта и Вводим тип</span>
+        <span class="n">account_type_name_u</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">account_type_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">planTypeID</span><span class="o">=</span><span class="n">account_type_name_u</span><span class="p">)</span>
+        <span class="c1"># Находим и нажимаем в списке нужный тип счёта</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickInPopupMenu</span><span class="p">(</span><span class="n">account_type_name_u</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose document type&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем на кнопку для выбора договора и выбираем необходимый.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chooseReferenceInWindow</span><span class="p">(</span><span class="s1">&#39;parentID&#39;</span><span class="p">,</span> <span class="n">contracts_type_name</span><span class="p">)</span>
+        <span class="c1"># Закрываем счёт</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Invoices close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addsimpleprocurement">
+<h3>addSimpleProcurement<a class="headerlink" href="#addsimpleprocurement" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет закупку в документе.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addSimpleProcurement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Проверяем на отсутвие shadow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Закупки</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Закупки&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Procurement button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Проставляем дату документа</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;docDate&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">docDate</span><span class="o">=</span><span class="n">TakeDate</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
+        <span class="c1"># Закрываем Закупки</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;okb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Close Procurement&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addtag">
+<h3>addTag<a class="headerlink" href="#addtag" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Функция кликает по «Добавить тег», добавляет тег с переданным именем, закрывает окно тегов, после чего удаляет добавленный тег.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addTag</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addtestfolderinfiles">
+<h3>addTestFolderInFiles<a class="headerlink" href="#addtestfolderinfiles" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Эта функция добавляет папку в разделе «Файлы», предварительно вызвав <strong>waitNoShadow</strong> и выполнив переход в сам раздел.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Более подробное описание каждого действия можно прочить в исходном коде.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addTestFolderInFiles</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addtesttemplateinfiles">
+<h3>addTestTemplateInFiles<a class="headerlink" href="#addtesttemplateinfiles" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Добавляет файл по шаблону в разделе «Файлы» внутри документа.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addTestTemplateInFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">):</span>
+        <span class="c1"># Проверяем на отсутвие shadow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waitNoShadow</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;NO shadow&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Файлы</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Файлы&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Files button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажиаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">add_file_button_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Добавить Папку</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qxmenu_button_xpath</span> <span class="o">%</span> <span class="s2">&quot;По шаблону&quot;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add template button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Click in popup menu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">qxmenu_button_xpath</span> <span class="o">%</span> <span class="n">template_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add template button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Ок</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_delete_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checkvisibility">
+<h3>checkVisibility<a class="headerlink" href="#checkvisibility" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Ждёт появления элемента на странице.</p>
+<p>Необходимо передать точный <strong>xpath</strong> элемента.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">checkVisibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="n">xpath</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="choosereferenceinwindow">
+<h3>chooseReferenceInWindow<a class="headerlink" href="#choosereferenceinwindow" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Эта функция позволяет выбрать объект связи в окне, просто передав <strong>id</strong> поля в которое нужно проставить значение и имя объекта в списке.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">chooseReferenceInWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_id</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># Нажимаем на кнопку выбора</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="n">reference_id</span><span class="p">,</span> <span class="s2">&quot;//div[@id = &#39;choose-button&#39;]&quot;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Select button click&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">TWO</span><span class="p">)</span>
+        <span class="c1"># Выбираем из списка</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">reference_obj_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose contract&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/chooseReferenceInWindow.png" src="_images/chooseReferenceInWindow.png" />
+</div>
+<div class="figure">
+<img alt="_images/chooseReferenceInWindow2.png" src="_images/chooseReferenceInWindow2.png" />
+</div>
+</div>
+<div class="section" id="clearbyid">
+<h3>clearByID<a class="headerlink" href="#clearbyid" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Очищает содержимое элемента (input, textarea).
+Необходимо передать <strong>id</strong> элемента и, если это требуется, <strong>xpath</strong> родителя и ребёнка.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clearByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_id</span><span class="p">,</span> <span class="n">child_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">parent_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span>
+                <span class="n">attribute_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent_xpath</span><span class="p">,</span> <span class="n">child</span><span class="o">=</span><span class="n">child_xpath</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">element_id</span><span class="p">))</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="click-arrow-down">
+<h3>click_arrow_down<a class="headerlink" href="#click-arrow-down" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик стрелки вниз.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">click_arrow_down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">ARROW_DOWN</span><span class="p">)</span><span class="o">.</span><span class="n">perform</span><span class="p">()</span>
+                <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clickbyid">
+<h3>clickByID<a class="headerlink" href="#clickbyid" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик по элементу через <strong>id</strong>, используя <strong>attribute_xpath</strong>.</p>
+<p>Так же можно передать <strong>xpath</strong> родителя или ребёнка.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clickByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_id</span><span class="p">,</span> <span class="n">child_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">parent_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">attribute_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">element_id</span><span class="p">,</span> <span class="n">child</span><span class="o">=</span><span class="n">child_xpath</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent_xpath</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clickbyxpath">
+<h3>clickByXPATH<a class="headerlink" href="#clickbyxpath" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик по элементу через <strong>xpath</strong>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clickByXPATH</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="n">xpath</span><span class="p">)),</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">FAIL</span> <span class="o">+</span> <span class="s2">&quot;Can&#39;t click element = &quot;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">WARNING</span> <span class="o">+</span> <span class="n">xpath</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">ONE</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">В случае ошибки в консоль будет выведен xpath элемента по которому пыталось совершить клик. После каждого клика стоит ожидание в одну секунду для корректной работы тестов.</p>
+</div>
+</div>
+<div class="section" id="clickinpopupmenu">
+<h3>clickInPopupMenu<a class="headerlink" href="#clickinpopupmenu" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик по элементу внутри выпадающего меню (&#64;class = <strong>„qx-popup“</strong>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clickInPopupMenu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">popup_menu_select_xpath</span> <span class="o">%</span> <span class="n">element_name</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">ONE</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Передаваемый текст должен полностью совпадать с тем, по которому вы хотите совершить клик.</p>
+</div>
+<div class="figure">
+<img alt="_images/qx-popup_menu.png" src="_images/qx-popup_menu.png" />
+</div>
+</div>
+<div class="section" id="clickinwindowbyidkey">
+<h3>clickInWindowByIDKey<a class="headerlink" href="#clickinwindowbyidkey" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик по элементу через <strong>id</strong>, используя <strong>window_attribute_xpath</strong>.</p>
+<p>По сути эта функция индентична clickByID, но с изменнёным xpath для работы с элементами в окне (&#64;class = „qx-window“).</p>
+<p>Можно вызвать и просто clickByID, передав туда xpath окна, как родителя, но для облегчения написания кода, это было вынесено в отдельную функцию.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clickInWindowByIDKey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_id</span><span class="p">,</span> <span class="n">child_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">window_attribute_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">element_id</span><span class="p">,</span> <span class="n">child</span><span class="o">=</span><span class="n">child_xpath</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Тут так же можно передать дочерний <strong>xpath</strong>.</p>
+<p><em>Пример:</em></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">toolkit</span><span class="o">.</span><span class="n">clickInWindowByIDKey</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/window_button_click.png" src="_images/window_button_click.png" />
+</div>
+</div>
+<div class="section" id="clicktab">
+<h3>clickTab<a class="headerlink" href="#clicktab" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик по вкладке в меню объекта. Необходимо передать только имя (текст) вкладки меню.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clickTab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">tab_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/obj_menu_button.png" src="_images/obj_menu_button.png" />
+</div>
+</div>
+<div class="section" id="createsimplebankobject">
+<h3>createSimpleBankObject<a class="headerlink" href="#createsimplebankobject" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная функция нажимает «Добавить» в Банковских рекризитах, заполняет значения и выходит, нажатием <strong>ОК</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Передавть значения в словарь(kwargs) можно на примере addBankAccount.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">createSimpleObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Нажимаем Добавить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;BankAccount_objectID&#39;</span><span class="p">,</span> <span class="s1">&#39;//div[@id=&quot;new&quot;]&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add button click&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Нажимаем ОК</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">ONE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/bank_req_button.png" src="_images/bank_req_button.png" />
+</div>
+<div class="figure">
+<img alt="_images/bank_req.png" src="_images/bank_req.png" />
+</div>
+</div>
+<div class="section" id="delete-in-table">
+<h3>delete_in_table<a class="headerlink" href="#delete-in-table" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Удаляет уже выбранный элемент в таблице.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete_in_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Удаить договор</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Delete document&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем ОК</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_delete_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;ОК click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete-into-doc">
+<h3>delete_into_doc<a class="headerlink" href="#delete-into-doc" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Удаляет документ (внутри документа через кнопку).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete_into_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Удаить договор</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;deleteb&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Delete document&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем ОК</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_delete_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deletemember">
+<h3>deleteMember<a class="headerlink" href="#deletemember" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Переходи в раздел «Участники» и удаляет участника в документе.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deleteMember</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_name</span><span class="p">):</span>
+        <span class="c1"># Нажимаем Участники</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickTab</span><span class="p">(</span><span class="s1">&#39;Участники&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Members button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Выбираем ячейку с именем</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="n">cell_name</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Choose logistic&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем удалить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем ОК</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">ok_delete_button_window_xpath</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;OK button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleteobj">
+<h3>deleteObj<a class="headerlink" href="#deleteobj" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Удаляет сслыку на объект в преданном разделе.</p>
+<p>Достаточно просто передать имя раздела.</p>
+<p>Функция сама перейдёт в райздел, найдёт ссылку, нажмёт кнопки «Удалить» и «ОК»</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deleteObj</span><span class="p">(</span><span class="n">obj_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/delete_obj.png" src="_images/delete_obj.png" />
+</div>
+</div>
+<div class="section" id="fillattributes">
+<h3>fillAttributes<a class="headerlink" href="#fillattributes" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Заполняет данные в элементы с помощью формируемого словоря ключей (<strong>id</strong> элементов) и значений.</p>
+<p>Так же можно передать родительский или дочерний xpath (Используется, когда на странице есть несколько элементов с один <strong>id</strong>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fillAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">child_xpath</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sendKeysByXPATH</span><span class="p">(</span><span class="n">attribute_xpath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">child</span><span class="o">=</span><span class="n">child_xpath</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent_xpath</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+<span class="hll">                <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Enter &quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">В данной функции уже реализован вывод в консоль с помощью <strong>printOk</strong>.</p>
+</div>
+<p><em>Пример вызова:</em></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Проставляем дату документа в элемент с id == docDate</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">toolkit</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">docDate</span><span class="o">=</span><span class="n">TakeDate</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fillparameter">
+<h3>fillParameter<a class="headerlink" href="#fillparameter" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Заполняет параметры в документе. Находит ячейку с именем параметра, после чего делает фокус на соответствующую для ввода данных (поиск необходимой ячейки реализован через прародителя из за особенной структуры тиблицы параметров в системе Flexbby.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fillParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">input_text</span><span class="p">):</span>
+        <span class="c1"># Находим в столбце с названиями параметров нужный и возвращаем его третьего родителя</span>
+        <span class="n">param_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span>
+                <span class="s2">&quot;//div[@id=&#39;DocumentParameterValue_objectID&#39;]//parent::div[@class=&#39;qx-table-row&#39;]//span[text()=&#39;</span><span class="si">%s</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="n">param_name</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s1">&#39;../../..&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Find target row with name = &quot;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">+</span> <span class="n">param_name</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span><span class="p">)</span>
+        <span class="c1"># Находим всю строчку</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">param_line</span><span class="o">.</span><span class="n">find_elements_by_xpath</span><span class="p">(</span><span class="s1">&#39;../*&#39;</span><span class="p">)</span>
+        <span class="c1"># Добавляем единицу к индексу. Необходимо будет для определения соответвующей строчки напротив строки с названием.</span>
+        <span class="n">indexOfTarget</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param_line</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Index of target = &quot;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">indexOfTarget</span><span class="p">)</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span><span class="p">)</span>
+        <span class="c1"># Находим ячейку значения</span>
+        <span class="n">value_clm</span> <span class="o">=</span> <span class="s2">&quot;//div[@id=&#39;DocumentParameterValue_objectID&#39;]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[</span><span class="si">%s</span><span class="s2">]/div[1]&quot;</span> <span class="o">%</span> <span class="n">indexOfTarget</span>  <span class="c1"># &lt;---- %s передавать indexOfTarget</span>
+        <span class="c1"># Клип по ячейке для активации</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByXPATH</span><span class="p">(</span><span class="n">value_clm</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Click on &#39;Value&#39; column&quot;</span><span class="p">)</span>
+        <span class="c1"># Внутри ячейки находим инпут и проставляем значение</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span>
+                <span class="s2">&quot;//div[@id=&#39;DocumentParameterValue_objectID&#39;]//div[@class=&#39;qx-table-scroller-focus-indicator&#39;]//input&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span>
+                <span class="n">input_text</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s1">&#39;Send keys&#39;</span><span class="p">)</span>
+        <span class="c1"># Enter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">ENTER</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s1">&#39;Enter click&#39;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем кнопку Добавить Комментарий</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;newCommentButton&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Add Comment button click&quot;</span><span class="p">)</span>
+        <span class="c1"># Вводим первый комментарий</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillAttributes</span><span class="p">(</span><span class="n">commentInput</span><span class="o">=</span><span class="s1">&#39;Параметр &#39;</span> <span class="o">+</span> <span class="n">param_name</span> <span class="o">+</span> <span class="s1">&#39; был заполнен&#39;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем Сохранить</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;saveComment&#39;</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Save button click&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="findelement">
+<h3>findElement<a class="headerlink" href="#findelement" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Находит(делает фокус) ячейку в таблице с текстом.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">findElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="n">cell_in_table_xpath</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">location_once_scrolled_into_view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inputbyid">
+<h3>inputByID<a class="headerlink" href="#inputbyid" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Очищает поле и вносит данные по id элемента</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">inputByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_id</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="n">search_element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="n">element_id</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Find element by ID == &#39;&quot;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">BOLD</span> <span class="o">+</span> <span class="n">element_id</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+        <span class="n">search_element</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Clear&quot;</span><span class="p">)</span>
+        <span class="n">search_element</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">printOk</span><span class="p">(</span><span class="s2">&quot;Enter text == &#39;&quot;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">BOLD</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="login">
+<h3>login<a class="headerlink" href="#login" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для входа в систему. Заполняет login, password и клик по кнопке «Вход».</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quit">
+<h3>quit<a class="headerlink" href="#quit" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Закрывает браузер.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sendkeysbyxpath">
+<h3>sendKeysByXPATH<a class="headerlink" href="#sendkeysbyxpath" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная функция является одной из основных для простановки значений внутри тестирования системы Flexbby.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sendKeysByXPATH</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="n">el</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="n">xpath</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;input&#39;</span><span class="p">:</span>
+                <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;textarea&#39;</span><span class="p">:</span>
+                <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">:</span>
+                <span class="n">el</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;.//input&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">:</span>
+                <span class="n">el</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;.//textarea&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">TextColors</span><span class="o">.</span><span class="n">FAIL</span> <span class="o">+</span> <span class="s1">&#39;Error to find element&#39;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Находит элемент по xpath на странице.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">el</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="n">xpath</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Проставляет значение, если элемент является <strong>input</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;input&#39;</span><span class="p">:</span>
+        <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Проставляет значение, если элемент является <strong>textarea</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;textarea&#39;</span><span class="p">:</span>
+        <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Если переданный элемент является <strong>div</strong>, то проверяет на наличие в нём <strong>input</strong>. Если <strong>input</strong> присутствует, то в него проставится значение.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">:</span>
+        <span class="n">el</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;.//input&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Если переданный элемент является <strong>div</strong>, то проверяет на наличие в нём <strong>textarea</strong>. Если <strong>textarea</strong> присутствует, то в него проставится значение.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">el</span><span class="o">.</span><span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">:</span>
+        <span class="n">el</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;.//textarea&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">el</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Вывод ошибки, ели не обнаружен подходящий элемент.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">TextColors</span><span class="o">.</span><span class="n">FAIL</span> <span class="o">+</span> <span class="s1">&#39;Error to find element&#39;</span> <span class="o">+</span> <span class="n">TextColors</span><span class="o">.</span><span class="n">ENDC</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setsite">
+<h3>setSite<a class="headerlink" href="#setsite" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Передаёт URL сайта драйверу.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setSite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Необходимо передавать полный URL сайта в формате string.</p>
+</div>
+</div>
+<div class="section" id="takedocid">
+<h3>takeDocID<a class="headerlink" href="#takedocid" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная функция находит в URL <strong>id</strong> документа в системе Flexbby.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">takeDocID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">current_url</span>
+        <span class="n">hash_tag</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="n">url</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">hash_tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">))</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj_id</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="treeclick">
+<h3>treeClick<a class="headerlink" href="#treeclick" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Клик в дереве (слева таблицы) по тексту.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">treeClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_name</span><span class="p">):</span>
+        <span class="c1"># Нажимаем рефлеш</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;tree-toolbar&#39;</span><span class="p">,</span> <span class="s2">&quot;//div[@class=&#39;qx-button-common-border&#39;]&quot;</span><span class="p">)</span>
+        <span class="c1"># Нажимаем на необходимый классификатор в дереве</span>
+        <span class="n">tree_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tree_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clickByID</span><span class="p">(</span><span class="s1">&#39;tree-virtual&#39;</span><span class="p">,</span> <span class="s2">&quot;//span[text()=&#39;</span><span class="si">%s</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="n">tree_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visibilityofanyelem">
+<h3>visibilityOfAnyElem<a class="headerlink" href="#visibilityofanyelem" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Ждёт появления на странице элемента с переданным <strong>id</strong>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visibilityOfAnyElem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docID</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">visibility_of_any_elements_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">docID</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="waitnoshadow">
+<h3>waitNoShadow<a class="headerlink" href="#waitnoshadow" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная функция ждёт, пока элемент <strong>shadow</strong> получит состояние <strong>invisibility</strong>.</p>
+<p>Используется после закрытия окна, чтобы убедиться, что другие элементы на основной странице стали доступны.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">waitNoShadow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">invisibility_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s1">&#39;shadow&#39;</span><span class="p">)))</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">SleepSeconds</span><span class="o">.</span><span class="n">TWO</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="_images/shadow_example.png" src="_images/shadow_example.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>XPATH<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В вышеприведенных функциях используются различные селекторы.</p>
+<p>Вот самые основные из них:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">attribute_xpath</span> <span class="o">=</span> <span class="s2">&quot;{parent}//*[@id = &#39;{id}&#39; and not(ancestor::div[contains(@style,&quot;</span> \
+                          <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])and not(div[contains(@style,&quot;</span> \
+                          <span class="s2">&quot;&#39;display:none&#39;)])and not(div[contains(@style,&#39;display: none&#39;)])]{child}&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">window_attribute_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class = &#39;qx-window&#39;]//*[@id = &#39;{id}&#39; and not(ancestor::div[contains(@style,&quot;</span> \
+                                         <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])and not(div[contains(@style,&quot;</span> \
+                                         <span class="s2">&quot;&#39;display:none&#39;)])and not(div[contains(@style,&#39;display: none&#39;)])]{child}&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">popup_menu_select_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class=&#39;qx-popup&#39; and not(contains(@style,&quot;</span> \
+                                          <span class="s2">&quot;&#39;display:none&#39;))and not(contains(@style,&#39;display: none&#39;))]//div[text()=&#39;</span><span class="si">%s</span><span class="s2">&#39;]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">qx_menu_menu_select_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class=&#39;qx-menu-border&#39; and not(ancestor::div[contains(@style,&quot;</span> \
+                                                <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])]//div[text(&quot;</span> \
+                                                <span class="s2">&quot;)=&#39;</span><span class="si">%s</span><span class="s2">&#39;]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cell_in_table_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class = &#39;qooxdoo-table-cell&#39; and(text()=&#39;</span><span class="si">%s</span><span class="s2">&#39;) and not(&quot;</span> \
+                                  <span class="s2">&quot;ancestor::div[contains(@style,&quot;</span> \
+                                  <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">reference_obj_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class=&#39;qx-window&#39;and not(div[contains(@style, &#39;display:none&#39;)])and not(div[contains(@style,&#39;display: none&#39;)])]//div[@class = &#39;qooxdoo-table-cell&#39; and(text()=&#39;{text}&#39;)]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dialog_attribute_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class = &#39;qx-window&#39; and not(ancestor::div[contains(@style,&quot;</span> \
+                                         <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])]//*[@id = &#39;{id}&#39;]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">tab_xpath</span> <span class="o">=</span> <span class="s2">&quot;//div[@class = &#39;qx-flexbby-tabview-button-underlined&#39;]//div[contains(text(),&#39;{name}&#39;)and &quot;</span> \
+                <span class="s2">&quot;not(ancestor::div[contains(@style,&quot;</span> \
+                <span class="s2">&quot;&#39;display:none&#39;)])and not(ancestor::div[contains(@style,&#39;display: none&#39;)])]&quot;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Предупреждение</p>
+<p class="last">Любые изменения в проекте rootsLib должны быть задокументированы в данной инструкции.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Тестирование</a></li>
+<li><a class="reference internal" href="#id2">Структура</a><ul>
+<li><a class="reference internal" href="#id3">Инструменты</a></li>
+<li><a class="reference internal" href="#id4">Структура тестов</a></li>
+<li><a class="reference internal" href="#rootslib">Структура библиотеки rootsLib</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5"><strong>rootsLib</strong>. Описание</a><ul>
+<li><a class="reference internal" href="#printok">printOk</a></li>
+<li><a class="reference internal" href="#takedate">TakeDate</a></li>
+<li><a class="reference internal" href="#textcolors">TextColors</a></li>
+<li><a class="reference internal" href="#uitesttoolkit"><strong>UITestToolkit</strong></a><ul>
+<li><a class="reference internal" href="#init">_init_</a></li>
+<li><a class="reference internal" href="#addactivity">addActivity</a></li>
+<li><a class="reference internal" href="#addbankaccount">addBankAccount</a></li>
+<li><a class="reference internal" href="#addcomment">addComment</a></li>
+<li><a class="reference internal" href="#addlinkage">addLinkage</a></li>
+<li><a class="reference internal" href="#addmember">addMember</a></li>
+<li><a class="reference internal" href="#addmembersanddelete">addMembersAndDelete</a></li>
+<li><a class="reference internal" href="#addsimpleactivity">addSimpleActivity</a></li>
+<li><a class="reference internal" href="#addsimplecontract">addSimpleContract</a></li>
+<li><a class="reference internal" href="#addsimpleinvoice">addSimpleInvoice</a></li>
+<li><a class="reference internal" href="#addsimpleinvoicewithcontract">addSimpleInvoiceWithContract</a></li>
+<li><a class="reference internal" href="#addsimpleprocurement">addSimpleProcurement</a></li>
+<li><a class="reference internal" href="#addtag">addTag</a></li>
+<li><a class="reference internal" href="#addtestfolderinfiles">addTestFolderInFiles</a></li>
+<li><a class="reference internal" href="#addtesttemplateinfiles">addTestTemplateInFiles</a></li>
+<li><a class="reference internal" href="#checkvisibility">checkVisibility</a></li>
+<li><a class="reference internal" href="#choosereferenceinwindow">chooseReferenceInWindow</a></li>
+<li><a class="reference internal" href="#clearbyid">clearByID</a></li>
+<li><a class="reference internal" href="#click-arrow-down">click_arrow_down</a></li>
+<li><a class="reference internal" href="#clickbyid">clickByID</a></li>
+<li><a class="reference internal" href="#clickbyxpath">clickByXPATH</a></li>
+<li><a class="reference internal" href="#clickinpopupmenu">clickInPopupMenu</a></li>
+<li><a class="reference internal" href="#clickinwindowbyidkey">clickInWindowByIDKey</a></li>
+<li><a class="reference internal" href="#clicktab">clickTab</a></li>
+<li><a class="reference internal" href="#createsimplebankobject">createSimpleBankObject</a></li>
+<li><a class="reference internal" href="#delete-in-table">delete_in_table</a></li>
+<li><a class="reference internal" href="#delete-into-doc">delete_into_doc</a></li>
+<li><a class="reference internal" href="#deletemember">deleteMember</a></li>
+<li><a class="reference internal" href="#deleteobj">deleteObj</a></li>
+<li><a class="reference internal" href="#fillattributes">fillAttributes</a></li>
+<li><a class="reference internal" href="#fillparameter">fillParameter</a></li>
+<li><a class="reference internal" href="#findelement">findElement</a></li>
+<li><a class="reference internal" href="#inputbyid">inputByID</a></li>
+<li><a class="reference internal" href="#login">login</a></li>
+<li><a class="reference internal" href="#quit">quit</a></li>
+<li><a class="reference internal" href="#sendkeysbyxpath">sendKeysByXPATH</a></li>
+<li><a class="reference internal" href="#setsite">setSite</a></li>
+<li><a class="reference internal" href="#takedocid">takeDocID</a></li>
+<li><a class="reference internal" href="#treeclick">treeClick</a></li>
+<li><a class="reference internal" href="#visibilityofanyelem">visibilityOfAnyElem</a></li>
+<li><a class="reference internal" href="#waitnoshadow">waitNoShadow</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">XPATH</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Vladimir Lapchisnky|HexJ13.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
