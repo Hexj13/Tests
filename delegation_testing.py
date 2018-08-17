@@ -1,165 +1,90 @@
 # coding=utf-8
 import unittest
 
-from rootsLib.roots import *
+from roots.roots import *
 
 
 # noinspection PyUnusedLocal
 class DelegationTesting(unittest.TestCase):
-	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'DelegationTesting' START" + TextColors.ENDC, flush=True)
-	print("----------------------------------------", flush=True)
-	print("----------------------------------------", flush=True)
 
 	def setUp(self):
-		print(TextColors.WARNING + "setUp START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		printTitle(self.__class__.__name__, TextColors.HEADER)
 		self.toolkit = UITestToolkit()
 		self.toolkit.setSite(site_url)
-		print("", flush=True)
-		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
 	def test_delegation(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_delegation START" + TextColors.ENDC, flush=True)
-		# Переходим в Договоры
+		# Click in the sidebar on Contracts
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
-		printOk("Contracts button click")
-		time.sleep(3)
-		# Нажимаем "Добавить"
+		printInfo("Contracts button click")
 		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(7)
-		print("----------------------------------------", flush=True)
+		time.sleep(2)
 
-		"""ОБЩЕЕ"""
-		print(TextColors.WARNING + "GENERAL START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Находим поле Типа документа и Вводим тип
+		"""GENERAL PAGE"""
+		printTitle("GENERAL PAGE START")
 		contract_type_name = str(contracts_type_name)
 		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
-		time.sleep(2)
-		# Находим и нажимаем в списке нужный тип документа
 		self.toolkit.clickInPopupMenu(contract_type_name)
-		time.sleep(2)
-		printOk("Choose contract type")
+		printInfo("Type selected")
 		self.toolkit.fillAttributes(docDate=TakeDate.tomorrow)
-		time.sleep(2)
-		self.toolkit.action.send_keys(Keys.ENTER)
-		self.toolkit.action.perform()
-		time.sleep(1)
+		self.toolkit.action.send_keys(Keys.ENTER).perform()
 		self.toolkit.clickByID("processID.stateID")
-		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		printTitle("GENERAL PAGE END")
 
-		"""УЧАСТНИКИ"""
-		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		test_member = 'Тестовый Сотрудник'
-		delegation_text = 'Делегировать ...'
-		sale_director = 'Чёсов Роман Геннадьевич'
-		employee = str("Сотрудник")
-		# Добавляем согласователя
+		"""MEMBERS PAGE"""
+		printTitle("MEMBERS PAGE START")
 		self.toolkit.addMember(test_member)
-		time.sleep(2)
-		# Добавляем согласователя
 		self.toolkit.addMember(sale_director)
-		time.sleep(2)
-		# Переходим в Общее
+		# Go to the "General" page to delegate authority
 		self.toolkit.clickTab(name='Общее')
-		time.sleep(2)
-		# Отправляем на согласование
 		self.toolkit.clickByID('_processID_process_panel', "//div[text()='Отправить на согласование']")
-		printOk('Send to coordination')
-		time.sleep(10)
+		printInfo('Send to coordination')
+		time.sleep(3.5)
 
-		#
+		# The delegation function
 		def delegatingToDirector():
-			# Нажимаем на сотрудника
 			self.toolkit.clickByID('_processID_process_panel',
-			                       child_xpath="//div[@class='qx-button-box']//div[contains(text(), "
+			                       child_xpath="//div[@class='qx-circle']//div[contains(text(), "
 			                                   "'Тестовый С.')]", resetPointerEvents=True)
-			printOk('Choose Test employee')
-			time.sleep(2)
-			#
+			printInfo('Choose Test employee')
+			time.sleep(1)
 			self.toolkit.action.send_keys(Keys.ARROW_RIGHT)
 			self.toolkit.action.perform()
-			time.sleep(2)
-			# Нажимаем Сотрудник
 			self.toolkit.clickByXPATH(employee_button_xpath)
-			printOk('Click "Employee"')
-			time.sleep(2)
-			# Выбираем директора
+			printInfo('"Employee" clicked')
+			self.toolkit.filterInTable(sale_director)
 			self.toolkit.clickByXPATH(cell_in_table_xpath % sale_director, resetPointerEvents=True)
-			printOk('Choose person in table')
-			time.sleep(2)
-			# Нажимаем выбрать
+			printInfo('Person in table selected')
 			self.toolkit.clickByID('choose')
-			time.sleep(2)
-			printOk("Choose click")
+			printInfo("'Choose' button clicked")
 
-		#
+		# Call the delegation function to check if there is an error /
+		# inside the system (the error should appear in the modal window)
 		delegatingToDirector()
-		# Нажимаем закрыть
 		self.toolkit.clickByID('ok-button')
-		time.sleep(2)
-		printOk("Error close")
-		# Нажимаем закрыть окно
+		printInfo("Error close")
 		self.toolkit.clickByID('close')
-		time.sleep(2)
-		printOk("Close window")
-		# Переходим в Участники
+		printInfo("Close window")
 		self.toolkit.clickTab(name='Участники')
-		# 
-		self.toolkit.clickByID('filter')
-		printOk("Filter click")
-		#
-		self.toolkit.sendKeysByXPATH("//div[@class='qx-popup']//input", "Чёсов")
-		printOk("Send director name")
-		time.sleep(3)
-		# Choose object
 		self.toolkit.clickByID('processMembers', resetPointerEvents=True,
 		                       child_xpath="//div[@class='qooxdoo-table-cell']")
-		printOk('Choose object')
-		# Delete
+		printInfo('Choose object')
 		self.toolkit.delete_in_table()
-		printOk('Click OK')
-		# Переходим в Общее
+		printInfo("'OK' button clicked")
 		self.toolkit.clickTab(name='Общее')
-		time.sleep(2)
+		# Call the delegate function in order to verify the absence of errors within the system.
 		delegatingToDirector()
-		# Нажимаем закрыть окно
 		self.toolkit.clickByID('close')
 		time.sleep(2)
-		printOk("Close window")
-		print("", flush=True)
-		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print("", flush=True)
-		print(TextColors.WARNING + "GENERAL END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printInfo("Close window")
+		printTitle("MEMBERS PAGE END")
 
-		"""Delete&Close"""
-		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Удаить договор
+		"""REMOVE OBJECT CARD & EXIT"""
 		self.toolkit.delete_into_doc()
-		print("", flush=True)
-		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_contracts END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printTitle("SUCCESS", TextColors.OKGREEN)
 
 	def tearDown(self):
 		self.toolkit.quit()
-		print("Browser closed", flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'DelegationTesting' FINISH" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print("", flush=True)
 
 
 if __name__ == '__main__':

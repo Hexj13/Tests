@@ -1,157 +1,93 @@
 # coding=utf-8
 import unittest
 
-from rootsLib.roots import *
+from roots.roots import *
 
 
 # noinspection PyUnusedLocal
 class RelationsTesting(unittest.TestCase):
-	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'RelationsTesting' START" + TextColors.ENDC, flush=True)
-	print("----------------------------------------", flush=True)
-	print("----------------------------------------", flush=True)
 
 	def setUp(self):
-		print(TextColors.WARNING + "setUp START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		printTitle(self.__class__.__name__, TextColors.HEADER)
+
 		self.toolkit = UITestToolkit()
 		self.toolkit.setSite(site_url)
-		print("", flush=True)
-		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
 	def test_relations(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_relations START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Переходим в Настройки
+		# Click in the sidebar on Settings
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Настройки')
-		printOk("Settings button click")
+		printInfo("Settings button click")
 
 		""""ROLES"""
-		print("", flush=True)
-		print(TextColors.WARNING + "ROLE ADDING START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Переходим в Связи
+		printTitle("ROLE ADDING START")
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Связи')
-		printOk("Relations button click")
-		# Переходим в Роли объектов
+		printInfo("Relations button click")
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Роли объектов')
-		printOk("Roles button click")
-		# Нажимаем "Добавить"
+		printInfo("Roles button click")
 		self.toolkit.clickByID('new')
-		printOk("ADD button click")
-		#
-		test_role_text = 'Тестовая роль'
-		# Вводим текст
+		printInfo("ADD button click")
+		time.sleep(2)
 		self.toolkit.fillAttributes(name=test_role_text)
-		# Вводим текст
 		self.toolkit.fillAttributes(tag='Test')
-		# Вводим текст
 		self.toolkit.fillAttributes(comment='Test comment')
-		# Нажимаем "Добавить"
 		self.toolkit.clickByID('new')
-		printOk("Click button ADD")
-		# Выбираем ячейку в таблице
+		printInfo("Click button ADD")
 		self.toolkit.chooseReferenceInWindow('tableID', 'Company')
-		printOk("Add company from table")
-		time.sleep(2)
-		# Выбираем ячейку в таблице
+		printInfo("Add company from table")
 		self.toolkit.chooseReferenceInWindow('baseTableID', 'CompanyTree')
-		printOk("Add CompanyTree from table")
-		time.sleep(2)
-		#
+		printInfo("Add CompanyTree from table")
+		time.sleep(1)
 		self.toolkit.clickByID('nameForeignID')
-		printOk("Click on input")
-		#
+		printInfo("Click on input")
 		self.toolkit.action.send_keys('id').perform()
-		printOk("Send keys in input")
-		time.sleep(2)
-		#
+		printInfo("Send keys in input")
+		time.sleep(1)
 		self.toolkit.clickInPopupMenu('id')
-		printOk("Choose in popup menu")
-		time.sleep(2)
-		#
+		printInfo("Choose in popup menu")
+		time.sleep(1)
 		self.toolkit.clickInWindowByIDKey('okb')
-		printOk("Click OK button")
-		time.sleep(5)
-		print("", flush=True)
-		print(TextColors.WARNING + "ROLE ADDING END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printInfo("Click OK button")
+		time.sleep(3)
+		printTitle("ROLE ADDING END")
 
 		"""GROUPS"""
-		print(TextColors.WARNING + "GROUPS ADDING START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Переходим в Роли объектов
+		printTitle("GROUPS ADDING START")
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Группы')
-		printOk("Go to 'groups' in side-menu")
-		time.sleep(2)
-		# Нажимаем "Добавить"
+		printInfo("Go to 'groups' in side-menu")
 		self.toolkit.clickByID('new')
-		printOk("Click ADD button")
-		time.sleep(2)
-		#
-		test_group_text = 'Тестовая группа'
-		#
+		printInfo("Click ADD button")
+		time.sleep(1)
 		self.toolkit.fillAttributes(name=test_group_text)
-		time.sleep(2)
-		#
 		self.toolkit.clickByXPATH('//div[@id="rolesInGroup"]//div[text()="Добавить"]')
-		time.sleep(2)
-		#
 		self.toolkit.clickByXPATH(
 			"//div[@class='qx-window'and not(ancestor::div[contains(@style,'display:none')])and not(" \
 			"ancestor::div[contains(@style,'display: none')])]//div[@class='qooxdoo-table-cell' and (text()='%s')]" % test_role_text)
-		time.sleep(2)
-		#
 		self.toolkit.clickByID('choose')
-		#
 		self.toolkit.action.send_keys(Keys.ESCAPE).perform()
-		time.sleep(2)
-		#
 		self.toolkit.clickByID('okb')
 		time.sleep(2)
-		print("", flush=True)
-		print(TextColors.WARNING + "GROUPS ADDING END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print("", flush=True)
+		printTitle("GROUPS ADDING END")
 
-		"""УДАЛЕНИЕ ССЫЛОК"""
-		print(TextColors.WARNING + "DELETE OBJ START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		#
+		"""DELETING"""
 		self.toolkit.clickByXPATH(
 			"//div[@class='qooxdoo-table-cell' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_group_text, resetPointerEvents=True)
-		#
+			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_group_text,
+			resetPointerEvents=True)
 		self.toolkit.clickByID('delete')
-		#
 		self.toolkit.clickByID('ok-button')
-		# Переходим в Связи
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Роли объектов')
-		printOk("Relations button click")
-		#
+		printInfo("Relations button click")
 		self.toolkit.clickByXPATH(
 			"//div[@class='qooxdoo-table-cell' and not(ancestor::div[contains(@style,'display:none')])and not(" \
-			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_role_text, resetPointerEvents=True)
-		#
+			"ancestor::div[contains(@style,'display: none')]) and (text()='%s')]" % test_role_text,
+			resetPointerEvents=True)
 		self.toolkit.clickByID('delete')
-		#
 		self.toolkit.clickByID('ok-button')
-		time.sleep(2)
-		print("", flush=True)
-		print(TextColors.WARNING + "DELETE OBJ END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
 	def tearDown(self):
 		self.toolkit.quit()
-		print("Browser closed", flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'RelationsTesting' FINISH" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print("", flush=True)
+		printTitle("SUCCESS", TextColors.OKGREEN)
 
 
 if __name__ == '__main__':

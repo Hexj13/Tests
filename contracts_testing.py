@@ -1,255 +1,109 @@
 ﻿# coding=utf-8
 import unittest
 
-from rootsLib.roots import *
+from roots.roots import *
 
 
 # noinspection PyUnusedLocal
 class ContractsTesting(unittest.TestCase):
-	print("----------------------------------------", flush=True)
-	print(TextColors.HEADER + "Test 'ContractsTesting' START" + TextColors.ENDC, flush=True)
-	print("----------------------------------------", flush=True)
-	print("----------------------------------------", flush=True)
 
 	def setUp(self):
-		print(TextColors.WARNING + "setUp START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		printTitle(self.__class__.__name__, TextColors.HEADER)
 		self.toolkit = UITestToolkit()
 		self.toolkit.setSite(site_url)
-		print("", flush=True)
-		print(TextColors.WARNING + "setUp END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
 	def test_contracts(self):
 		self.toolkit.login(login_text, password_text)
-		print(TextColors.WARNING + "test_contracts START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Переходим в Договоры
+		# Click in the sidebar on Contracts
 		self.toolkit.clickByXPATH(menu_button_xpath % 'Договоры')
-		printOk("ORDERS button click")
-		# Спим
-		time.sleep(2)
-		# Нажимаем "Добавить"
+		printInfo("Contracts button find&click")
 		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(6)
-		print("----------------------------------------", flush=True)
-
-		"""ОБЩЕЕ"""
-		print(TextColors.WARNING + "GENERAL PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Находим поле Типа документа и Вводим тип
-		contract_type_name = str(contracts_type_name)
-		self.toolkit.fillAttributes(documentTypeID=contract_type_name)
-		# Находим и нажимаем в списке нужный тип документа
 		time.sleep(2)
-		self.toolkit.clickInPopupMenu(contract_type_name)
-		printOk("Choose type")
-		time.sleep(5)
-		# Проставляем дату документа
+
+		"""GENERAL PAGE"""
+		printTitle("GENERAL PAGE START")
+		self.toolkit.fillAttributes(documentTypeID=contracts_type_name)
+		self.toolkit.clickInPopupMenu(contracts_type_name)
+		printInfo("Type selected")
+		time.sleep(1)
 		self.toolkit.clickByID('docDate')
-		time.sleep(1)
 		self.toolkit.fillAttributes(docDate=TakeDate.today)
-		time.sleep(1)
-		self.toolkit.action.send_keys(Keys.ENTER)
-		self.toolkit.action.perform()
-		time.sleep(1)
-		self.toolkit.fillAttributes(subject=test_text)
-		time.sleep(4)
-		# Добавляем тег
+		self.toolkit.fillTextarea(subject=test_text)
 		self.toolkit.addTag('FAIL')
-		# Проверяем на отсутвие shadow
-		time.sleep(1)
-		self.toolkit.waitNoShadow()
-		printOk("NO shadow")
-		# Комментарий
-		time.sleep(1)
 		self.toolkit.addComment()
-		# Отправляем на согласование
+		# Send for approval
 		self.toolkit.clickByID('_processID_process_panel', "//div[text()='Отправить на согласование']")
-		time.sleep(3)
-		# Стрингуем Подписанта
-		signer_position_name_u = str(signer_position_name)
-		signer_name_u = str(signer_name)
 		time.sleep(1)
-		# Вводим подписанта
-		self.toolkit.fillAttributes(signerID=signer_position_name_u)
-		time.sleep(2)
-		# Выбираем подписанта
-		self.toolkit.clickInPopupMenu(signer_name_u)
-		printOk("Choose signer")
-		# Спим
-		time.sleep(2)
-		# Добавляем Связь
+		# Select a signer
+		self.toolkit.fillAttributes(signerID=signer_position_name)
+		self.toolkit.clickInPopupMenu(signer_name)
+		printInfo("Choose signer")
+		# Add A Linkage
 		self.toolkit.addLinkage(("Заказчик", 'Юр. лицо'), 'Флексби Солюшнс')
-		time.sleep(2)
-		print("", flush=True)
-		print(TextColors.WARNING + "GENERAL PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printTitle("GENERAL PAGE END")
 
-		"""УЧАСТНИКИ"""
-		print(TextColors.WARNING + "MEMBERS PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		"""MEMBERS"""
 		self.toolkit.addMembersAndDelete('Инициатор', 'Согласователь')
-		print("", flush=True)
-		print(TextColors.WARNING + "MEMBERS PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
-		"""ГРАФИК ПЛАТЕЖЕЙ"""
-		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		time.sleep(1)
-		# Нажимаем График Платежей
+		"""PAYMENT SCHEDULE PAGE"""
+		printTitle("PAYMENT SCHEDULE PAGE START")
 		self.toolkit.clickTab('График платежей')
-		printOk("Payment schedule button click")
-		# Нажимаем Добавить
 		self.toolkit.clickByID('new')
-		printOk("Add button click")
-		time.sleep(4)
-		# Вводим Переодичность
+		printInfo("'Add' button clicked")
+		time.sleep(1)
+		# Select payment period
 		self.toolkit.fillAttributes(paymentPeriodID=payment_period_name)
-		time.sleep(1)
 		self.toolkit.clickInPopupMenu(payment_period_name)
-		printOk("Choose payment period")
-		time.sleep(1)
-		# Вводим Статью бюджета
+		printInfo("Payment period selected")
+		# Select payment plan
 		self.toolkit.fillAttributes(planTypeID=payment_plan_name)
 		self.toolkit.clickInPopupMenu(payment_plan_name)
-		printOk("Enter payment plan")
-		time.sleep(1)
+		printInfo("Enter payment plan")
 		self.toolkit.clickByID('cost')
 		time.sleep(1)
-		# Вводим Итого
 		self.toolkit.clearByID('cost', '//input')
-		time.sleep(1)
-		#
 		self.toolkit.fillAttributes(cost=payment_cost_name)
-		#
 		self.toolkit.fillAttributes(comment=test_text)
-		# Спим
-		time.sleep(2)
-		# Нажимаем ОК
 		self.toolkit.clickByXPATH(okb_id_window_button_xpath)
-		printOk("OK button click")
-		time.sleep(1)
-		print("", flush=True)
-		print(TextColors.WARNING + "PAYMENT SCHEDULE PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printInfo("OK button click")
+		printTitle("PAYMENT SCHEDULE PAGE END")
 
-		"""СПЕЦИФИКАЦИЯ"""
-		print(TextColors.WARNING + "SPECIFICATION PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Нажимаем Спецификация
+		"""SPECIFICATION PAGE START"""
+		printTitle("SPECIFICATION PAGE START")
 		self.toolkit.clickTab('Спецификация')
-		printOk("Specification button click")
-		# Нажимаем Добавить
 		self.toolkit.clickByID('createSpecification')
-		printOk("Add specification button click")
-		time.sleep(5)
-		# Выбираем в деревьях ВСЕ
+		printInfo("Add specification button click")
+		time.sleep(2)
+		# Click in the tree on " All"
 		self.toolkit.treeClick('Все')
-		# Нажимаем карандаш через Enter
+		# Product select
 		self.toolkit.clickByXPATH(pencil_window_xpath, resetPointerEvents=True)
 		self.toolkit.clickByID('choose')
-		printOk("Choose button click")
-		# Закрываем окно
+		printInfo("Choose button click")
 		self.toolkit.clickByID('close')
-		# Спим
-		time.sleep(2)
-		printOk("Close window")
-		#
-		print("", flush=True)
-		print(TextColors.WARNING + "SPECIFICATION PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printInfo("Close window")
+		printTitle("SPECIFICATION PAGE END")
 
-		"""СЧЕТА"""
-		print(TextColors.WARNING + "INVOICES PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
+		"""ADDING OBJECTS"""
+		# Next, we add such objects as: Invoice, Activity, Supplement
 		self.toolkit.addSimpleInvoice()
-		print("", flush=True)
-		print(TextColors.WARNING + "INVOICES PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-
-		# """ЗАКУПКИ"""
-		# print(TextColors.WARNING + "Procurement START" + TextColors.ENDC, flush=True)
-		# print("", flush=True)
-		# self.toolkit.addSimpleProcurement()
-		# print("", flush=True)
-		# print(TextColors.WARNING + "Procurement END" + TextColors.ENDC, flush=True)
-		# print("----------------------------------------", flush=True)
-
-		"""АКТИВНОСТИ"""
-		print(TextColors.WARNING + "ACTIVITY START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
 		self.toolkit.addSimpleActivity()
-		print("", flush=True)
-		print(TextColors.WARNING + "ACTIVITY END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-
-		"""ДОП.СОГЛАШЕНИЯ"""
-		print(TextColors.WARNING + "SUPPLEMENT START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
 		self.toolkit.addSupplement()
-		print("", flush=True)
-		print(TextColors.WARNING + "SUPPLEMENT END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
-		"""ФАЙЛЫ"""
-		print(TextColors.WARNING + "FILES PAGE START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Добавляем Папку
+		"""FILES PAGE"""
 		self.toolkit.addTestFolderInFiles()
-		# Добавляем Шаблон
-		# self.toolkit.addTestTemplateInFiles('')
-		print("", flush=True)
-		print(TextColors.WARNING + "FILES PAGE END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
-		"""УДАЛЕНИЕ ССЫЛОК"""
-		print(TextColors.WARNING + "DELETE LINKS START" + TextColors.ENDC, flush=True)
-		# Проверяем на отсутвие shadow
-		self.toolkit.waitNoShadow()
-		printOk("Shadow NO")
-		# Удаляем Счета
+		"""DELETING OBJECTS"""
 		self.toolkit.deleteObj('Счета')
-		time.sleep(2)
-		printOk("Delete invoices")
-		# Удаляем Закупки
-		# self.toolkit.deleteObj('Закупки')
-		# time.sleep(2)
-		# printOk("Delete Procurement")
-		# Удаляем Активности
 		self.toolkit.deleteObj('Активности')
-		time.sleep(2)
-		printOk("Delete activity")
-		# Удаляем Доп. соглашения
 		self.toolkit.deleteObj('Доп. соглашения')
-		time.sleep(4)
-		printOk("Delete supplement")
-		print("", flush=True)
-		print(TextColors.WARNING + "DELETE LINKS END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
 
-		"""Delete&Close"""
-		print(TextColors.WARNING + "Delete&Close START" + TextColors.ENDC, flush=True)
-		print("", flush=True)
-		# Удаить договор
+		"""REMOVE OBJECT CARD & EXIT"""
 		self.toolkit.delete_into_doc()
-		print("", flush=True)
-		print(TextColors.WARNING + "Delete&Close END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.WARNING + "test_contracts END" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.OKGREEN + "Testing" + " " + TextColors.BOLD + "SUCCESS" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
+		printTitle("SUCCESS", TextColors.OKGREEN)
 
 	def tearDown(self):
 		self.toolkit.quit()
-		print("Browser closed", flush=True)
-		print("----------------------------------------", flush=True)
-		print(TextColors.HEADER + "Test 'ContractsTesting' FINISH" + TextColors.ENDC, flush=True)
-		print("----------------------------------------", flush=True)
-		print("", flush=True)
 
 
 if __name__ == '__main__':
